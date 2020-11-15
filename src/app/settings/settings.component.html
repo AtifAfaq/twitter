@@ -1,0 +1,176 @@
+<div class="row">
+    <div class="col-md-3">
+        <app-side-menu-dynamic></app-side-menu-dynamic>
+    </div>
+    <div class="col-md-9">
+        <div class="row">
+            <div class="col-md-6 p-0 border">
+                <div>
+                    <h3 class="pl-2 pt-2">Settings</h3>
+                </div>
+
+                <div class="top-border" (click)="open('account')">
+                    <p class="pl-2 pt-3" style="font-size: 22px;">Your Account <i
+                            class="fas fa-chevron-right float-right pt-2 pr-2"></i></p>
+
+                </div>
+                <div class="top-border" >
+                    <p class="pl-2 pt-3" style="font-size: 22px;">Security and account access<i
+                            class="fas fa-chevron-right float-right pt-2 pr-2"></i></p>
+
+                </div>
+                <div class="top-border">
+                    <p class="pl-2 pt-3" style="font-size: 22px;">Privacy and safety<i
+                            class="fas fa-chevron-right float-right pt-2 pr-2"></i></p>
+
+                </div>
+
+                <div class="top-border" (click)="open('notification')">
+                    <p class="pl-2 pt-3" style="font-size: 22px;">Notifications<i
+                            class="fas fa-chevron-right float-right pt-2 pr-2"></i></p>
+
+                </div>
+
+                <div class="top-border">
+                    <p class="pl-2 pt-3" style="font-size: 22px;"> Accessibility, display and languages<i
+                            class="fas fa-chevron-right float-right pt-2 pr-2"></i></p>
+
+                </div>
+
+                <div class="top-border bottom-border">
+                    <p class="pl-2 pt-3" style="font-size: 22px;">Additional resources<i class="fas fa-chevron-right float-right pt-2 pr-2
+                        "></i></p>
+
+                </div>
+
+
+
+
+            </div>
+            <div class="col-md-6 p-0 right-border">
+
+                <!-- /////////////////Notifications////////////// -->
+                <div *ngIf="settings=='notification'">
+                    <div>
+                        <h3 class="pl-4 pt-2">Notifications</h3>
+                    </div>
+                    <div class="top-border">
+                        <p class="pl-4" style="font-size: 18px; color:gray;">Select the kinds of notifications you get
+                            about
+                            your
+                            activities, interests, and
+                            recommendations.</p>
+
+                    </div>
+                    <div class="row top-border pl-2">
+                        <div class="col-md-2 mt-4 text-center"><i style="font-size: 25px;" class="fas fa-sort"></i>
+                        </div>
+                        <div class='col-md-9 pt-2'>
+                            <h5 class="mb-0 ">Filters</h5>
+                            <p style="font-size: 18px; color:gray;">Choose the notifications you’d like to see — and
+                                those you
+                                don’t.</p>
+                        </div>
+                        <div class="col-md-1 mt-4">
+                            <i
+                            class="fas fa-chevron-right float-right pr-2"></i>
+                        </div>
+                    </div>
+
+                    <div class="row top-border bottom-border pl-2">
+                        <div class="col-md-2 mt-4 text-center"><i style="font-size: 25px;"
+                                class="fas fa-mobile-alt"></i></div>
+                        <div class='col-md-9 pt-2'>
+                            <h5 class="mb-0 ">Preferences</h5>
+                            <p style="font-size: 18px; color:gray;">Select your preferences by notification type.</p>
+                        </div>
+                        <div class="col-md-1 mt-4">
+                            <i
+                            class="fas fa-chevron-right float-right pr-2"></i>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- /////////////////Your Accounts////////////// -->
+                <div *ngIf="settings=='account'">    
+                    <div>
+                        <h3 class="pl-4 pt-2">Your Account</h3>
+                    </div>
+                    <div class="top-border">
+                        <p class="pl-4" style="font-size: 18px; color:gray;">See information about your account,
+                            download an archive
+                            of your data, or learn about your account deactivation options</p>
+
+                    </div>
+                    <div class="row top-border pl-2">
+                        <div class="col-md-2 mt-4 text-center"><i style="font-size: 25px;" class="far fa-user"></i>
+                        </div>
+                        <div class='col-md-9 pt-2'>
+                            <h5 class="mb-0 ">Account Information</h5>
+                            <p style="font-size: 18px; color:gray;">See your account information like your phone number and email address</p>
+                        </div>
+                        <div class="col-md-1 mt-4">
+                            <i
+                            class="fas fa-chevron-right float-right pr-2"></i>
+                        </div>
+                    </div>
+
+                    <div class="row top-border bottom-border pl-2">
+                        <div class="col-md-2 mt-4 text-center"><i style="font-size: 25px;"
+                                class="fas fa-key"></i></div>
+                        <div class='col-md-9 pt-2'>
+                            <h5 class="mb-0 ">Change your password</h5>
+                            <p style="font-size: 18px; color:gray;">Change your password at any time</p>
+                        </div>
+                        <div class="col-md-1 mt-4">
+                            <i
+                            class="fas fa-chevron-right float-right pr-2"></i>
+                        </div>
+                    </div>
+
+                    <div class="row top-border bottom-border pl-2">
+                        <div class="col-md-2 mt-4 text-center"><i style="font-size: 25px;"
+                                class="fas fa-download"></i></div>
+                        <div class='col-md-9 pt-2'>
+                            <h5 class="mb-0 ">Download an archieve of your data</h5>
+                            <p style="font-size: 18px; color:gray;">Get insights into the type of information stored for your account</p>
+                        </div>
+                        <div class="col-md-1 mt-4">
+                            <i
+                            class="fas fa-chevron-right float-right pr-2"></i>
+                        </div>
+                    </div>
+
+                    <div class="row top-border bottom-border pl-2">
+                        <div class="col-md-2 mt-4 text-center"><i style="font-size: 25px;"
+                                class="fas fa-user-friends"></i></div>
+                        <div class='col-md-9 pt-2'>
+                            <h5 class="mb-0 ">TweetDeck's Team</h5>
+                            <p style="font-size: 18px; color:gray;">Invite anyone to tweet from this account using TweetDeck's Teams.</p>
+                        </div>
+                        <div class="col-md-1 mt-4">
+                            <i
+                            class="fas fa-chevron-right float-right pr-2"></i>
+                        </div>
+                    </div>
+
+                    <div class="row top-border bottom-border pl-2">
+                        <div class="col-md-2 mt-4 text-center"><i style="font-size: 25px;"
+                                class="fas fa-heart-broken"></i></div>
+                        <div class='col-md-9 pt-2'>
+                            <h5 class="mb-0 ">Deactivate your account</h5>
+                            <p style="font-size: 18px; color:gray;">Find out how you can deactivate your account.</p>
+                        </div>
+                        <div class="col-md-1 mt-4">
+                            <i
+                            class="fas fa-chevron-right float-right pr-2"></i>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+
+
+    </div>

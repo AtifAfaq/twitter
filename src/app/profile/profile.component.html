@@ -1,0 +1,361 @@
+<div class="row">
+    <div class="col-md-3">
+        <app-side-menu-dynamic></app-side-menu-dynamic>
+    </div>
+    <div class="col-md-6">
+        <div class="border">
+            <div class="row mt-1">
+
+                <div class="col-md-1">
+                    <img class="icon p-1" id="backIcon" src="/assets/icon/backArrow.png" routerLink="/Home">
+                </div>
+
+                <div class="col-md-11 mt-2 mb">
+                    <h4 class="ml-3 mb-0"><strong>Muhammad Afaq</strong></h4>
+                    <p class="dark-grey ml-3">3 Tweets</p>
+                </div>
+
+                <div class="row content w-100 mb-5">
+                    <div class="col-md-4">
+
+                        <div class="shade" >
+                            <input (change)="onChangeFile($event)" style="visibility: hidden; position: absolute;"
+                                accept="image/*" #file class="form-control modalIcon mr-2 p-1" type="file" name="files">
+                            <i *ngIf="!pictureSelected" class="fas fa-user-alt profile dark-grey"
+                                (click)="file.click()">
+                            </i>
+                            <img *ngIf="pictureSelected image" (click)="file.click()" [src]="imageUrl">
+
+                        </div>
+                        <div class="topMargin">
+                            <h4 class="mb-0">Muhammad Afaq</h4>
+                            <p class="dark-grey m-0">@Muhamma15067078</p>
+                            <p class="dark-grey m-0"><i class="far fa-calendar-alt"></i><span class="ml-2">Joined
+                                    September
+                                    2020</span></p>
+                            <p><strong>1 </strong><span class="mr-2 dark-grey"> Following</span>
+                                <span><strong>0</strong></span><span class="dark-grey">
+                                    Followers</span></p>
+                        </div>
+
+                    </div>
+
+                    <div class="col-md-4"></div>
+                    <div class="col-md-4 text-center setBtn">
+                        <button type="button" class="btn btn-modal" data-dismiss="modal">Set up profile</button>
+                    </div>
+                </div>
+            </div>
+            <div class="row mt-5">
+                <div class="col-md-12 mt-5 pt-5">
+                    <ul class="nav nav-tabs nav-justified" style="position:relative;">
+                        <li class="nav-item">
+                            <a class="nav-link active" data-toggle="tab" href="#home">Tweets</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" data-toggle="tab" href="#menu1">Tweets & replies</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link">Media</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link">Likes</a>
+                        </li>
+                    </ul>
+                </div>
+                <!-- Tab panes -->
+                <div class="tab-content">
+                    <!-- 1st Tab pane -->
+                    <div id="home" class="container tab-pane active"><br>
+                        <app-tweet></app-tweet>
+
+                        <!-- ///////////WHO TO FOLLOW///////////// -->
+                        <div class="background w-100 p-0 pb-2 rounded">
+                            <div class="">
+                                <h3 class="mb-0 ml-3 p-2">Who to follow</h3>
+                                <hr class="mt-0 mb-0" />
+                            </div>
+
+                            <hr class="mt-0 mb-0" />
+                            <div *ngFor="let follow of whoToFollow; index as i">
+                                <div class="d-flex text-center bottom-border">
+                                    <div class="pl-3 text-left mt-3">
+                                        <img class="shade pr-0" src={{follow.img}}>
+                                    </div>
+                                    <div class="p-2 pt-3 pl-4 text-center relative">
+                                        <a class="mb-0 pointer"><strong (mouseenter)="follow.isDisplay=true"
+                                                (mouseleave)="follow.isDisplay=false">{{follow.name}}</strong></a>
+                                        <p>{{follow.username}}</p>
+                                        <!-- ///////////////popup -->
+                                        <div *ngIf="follow.isDisplay" class="popup">
+                                            <img class="tweetProfile mt-2" src="/assets/icon/tweetProfile.jpg">
+                                            <h4 class="mb-0 ">
+                                                <strong>Muhammad Afaq</strong>
+                                            </h4>
+                                            <p class="mt-1 dark-grey mb-0">@Muhammad15067 . Sep 23</p>
+                                            <p><strong>1 </strong><span class="mr-2"> Following</span>
+                                                <span><strong>0</strong></span><span> Followers</span></p>
+                                        </div>
+                                    </div>
+                                    <div class="p-3 ml-auto">
+                                        <button class='btn btn-modal btn-lg'>Follow</button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <hr class="mt-0 mb-0" />
+                            <p class="ml-4 twitter">Show more</p>
+
+                        </div>
+
+                    </div>
+
+
+
+                    <!-- 2nd Tab pane -->
+                    <div id="menu1" class="container tab-pane fade"><br>
+                        <app-tweet></app-tweet>
+
+                        <!-- ///////////WHO TO FOLLOW///////////// -->
+                        <div class="background w-100 p-0 pb-2 rounded">
+                            <div class="">
+                                <h3 class="mb-0 ml-3 p-2">Who to follow</h3>
+                                <hr class="mt-0 mb-0" />
+                            </div>
+
+                            <hr class="mt-0 mb-0" />
+                            <div *ngFor="let follow of whoToFollow; index as i">
+                                <div class="d-flex text-center bottom-border">
+                                    <div class="pl-3 text-left mt-3">
+                                        <img class="shade pr-0" src={{follow.img}}>
+                                    </div>
+                                    <div class="p-2 pt-3 pl-4 text-center relative">
+                                        <a class="mb-0 pointer"><strong (mouseenter)="follow.isDisplay=true"
+                                                (mouseleave)="follow.isDisplay=false">{{follow.name}}</strong></a>
+                                        <p>{{follow.username}}</p>
+                                        <!-- ///////////////popup -->
+                                        <div *ngIf="follow.isDisplay" class="popup">
+                                            <img class="tweetProfile mt-2" src="/assets/icon/tweetProfile.jpg">
+                                            <h4 class="mb-0 ">
+                                                <strong>Muhammad Afaq</strong>
+                                            </h4>
+                                            <p class="mt-1 dark-grey mb-0">@Muhammad15067 . Sep 23</p>
+                                            <p><strong>1 </strong><span class="mr-2"> Following</span>
+                                                <span><strong>0</strong></span><span> Followers</span></p>
+                                        </div>
+                                    </div>
+                                    <div class="p-3 ml-auto">
+                                        <button class='btn btn-modal btn-lg'>Follow</button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <hr class="mt-0 mb-0" />
+                            <p class="ml-4 twitter">Show more</p>
+
+                        </div>
+
+                    </div>
+                    <!-- 3rd Tab pane -->
+                    <div id="menu2" class="container tab-pane fade"><br>
+                        <h3>Menu 2</h3>
+                        <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque
+                            laudantium,
+                            totam rem aperiam.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+    <div class="col-md-3">
+        <app-right-menu></app-right-menu>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+<!-- The Modal -->
+<div class="modal" id="myComment">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+
+            <!-- Modal body -->
+            <div class="modal-body">
+                <div class="row mb-3">
+                    <div class="col-md-1 p-0">
+                        <img class="tweetProfile" src="/assets/icon/tweetProfile.jpg">
+                    </div>
+                    <div class="col-md-11">
+                        <div class="d-flex ">
+                            <h4 class="mb-0">
+                                Muhammad Afaq
+                            </h4>
+                            <p class="mx-1 mt-1 dark-grey mb-0">@Muhammad15067 . Sep 23</p>
+
+                        </div>
+                        <p class="mb-1" style="font-size:16px">Hey, I am sharing this
+                        </p>
+                    </div>
+                    <div class="col-md-1 p-0"></div>
+                    <div class="col-md-11 ">
+                        <p style="font-size: 20px;"><span class="dark-grey">Replying to </span> <span
+                                class="twitter">@muftimenk and
+                                @JuniLuka</span></p>
+                    </div>
+                </div>
+
+
+                <!-- ////////////////// -->
+
+                <div class="d-inline-flex" id="">
+                    <div class="shade"> <i class="fas fa-user-alt profile dark-grey" style="font-size:35px;"></i>
+                    </div>
+
+                    <div class="mt-2 ml-3">
+                        <textarea class="mb-1 dark-grey textareaSize" style="font-size:25px"
+                            placeholder="Tweet your reply"></textarea>
+                    </div>
+                </div>
+            </div>
+
+
+
+            <!-- Modal footer -->
+            <div class="modal-footer">
+                <div class="mr-auto">
+                    <input (change)="onChangeFile($event)" style="visibility: hidden; position: absolute;"
+                        accept="image/*" #file class="form-control modalIcon mr-2 p-1" type="file" name="files"
+                        multiple>
+                    <img class="modalIcon mr-2 p-1" (click)="file.click()" id="modalIcon"
+                        src="/assets/icon/tweet/1.png">
+                    <img class="modalIcon mr-2 p-1" id="modalIcon" src="/assets/icon/tweet/2.png">
+                    <img class="modalIcon mr-2 p-1" id="modalIcon" src="/assets/icon/tweet/3.png">
+                    <img class="modalIcon mr-2 p-1" id="modalIcon" src="/assets/icon/tweet/4.png">
+                    <img class="modalIcon mr-2 p-1" id="modalIcon" src="/assets/icon/tweet/5.png">
+                </div>
+
+                <button type="button" class="btn btn-modal" data-dismiss="modal">Reply</button>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+<!-- The Retweet Modal -->
+<div class="modal" id="retweetModal">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+
+            <!-- Modal body -->
+            <div class="modal-body">
+                <!-- ////////////////// -->
+
+                <div class="row" id="">
+                    <div class="col-md-1 p-0 shade"> <i class="fas fa-user-alt profile dark-grey "
+                            style="font-size:35px;"></i>
+                    </div>
+                    <!-- when retweet with quote -->
+
+                    <!-- <div class="col-md-11 mt-2 ">
+                            <textarea class="mb-1 dark-grey textareaSize" style="font-size:25px"
+                                placeholder="Add a comment"></textarea>
+                                <div class="row mb-3">
+                                        <div class="col-md-12 retweeted">
+                                            <div class="d-flex pl-3">
+                                                <img class="retweetProfile" src="/assets/icon/tweetProfile.jpg">
+                                                <h4 class="mb-0 ml-2">
+                                                    Muhammad Afaq
+                                                </h4>
+                                                <p class="mx-1 mt-1 dark-grey mb-0">@Muhammad15067 . Sep 23</p>
+                                            </div>
+                                            <p class="mb-1 mb-2 pl-3" style="font-size:16px">Do you remember when you joined Twitter? I do!
+                                                #MyTwitterAnniversary
+                                            </p>
+                                            <img class="w-100 retweet-round" src="/assets/icon/5.jpeg">
+                                        </div>
+                                </div>
+                        </div> -->
+
+                    <!-- when retweet with quote & picture -->
+                    <div class="col-md-11 mt-2 ">
+                        <textarea class="mb-1 dark-grey textareaSize" style="font-size:25px"
+                            placeholder="Add a comment"></textarea>
+                        <div class="row mb-3">
+                            <!-- <img  src="/assets/icon/trump.jpeg"> -->
+                            <div class="">
+                                <img class="modalImage roundModalImage mb-2" [src]="imageUrl">
+                                <i (click)="removeImg()" class="fas fa-times mr-3 pointer closeIcon"></i>
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-md-12 retweeted">
+                                <div class="d-flex pl-3">
+                                    <img class="retweetProfile" src="/assets/icon/tweetProfile.jpg">
+                                    <h4 class="mb-0 ml-2">
+                                        Muhammad Afaq
+                                    </h4>
+                                    <p class="mx-1 mt-1 dark-grey mb-0">@Muhammad15067 . Sep 23</p>
+                                </div>
+                                <div class="row mb-2 mt-2">
+                                    <div class="col-md-4">
+                                        <img class="w-100 roundModalImage" src="/assets/icon/5.jpeg">
+                                    </div>
+                                    <div class="col-md-8 p-0">
+                                        <p class="mb-1 mb-2" style="font-size:16px">Do you remember when you
+                                            joined
+                                            Twitter? I do!
+                                            #MyTwitterAnniversary
+                                        </p>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="ml-4" id="iconStyle"><i class="fas fa-globe-americas"
+                    style="font-size:20px;color: var(--twitterColor);"><span class="ml-2">Everyone can
+                        reply</span></i></div>
+
+            <!-- Modal footer -->
+            <div class="modal-footer">
+                <div class="mr-auto">
+                    <input (change)="onChangeFile($event)" style="visibility: hidden; position: absolute;"
+                        accept="image/*" #file class="form-control modalIcon mr-2 p-1" type="file" name="files"
+                        multiple>
+                    <img class="modalIcon mr-2 p-1" id="modalIcon" (click)="file.click()"
+                        src="/assets/icon/tweet/1.png">
+                    <img class="modalIcon mr-2 p-1" id="modalIcon" src="/assets/icon/tweet/2.png">
+                    <img class="modalIcon mr-2 p-1" id="modalIcon" src="/assets/icon/tweet/3.png">
+                    <img class="modalIcon mr-2 p-1" id="modalIcon" src="/assets/icon/tweet/4.png">
+                    <img class="modalIcon mr-2 p-1" id="modalIcon" src="/assets/icon/tweet/5.png">
+
+                </div>
+
+                <button type="button" class="btn btn-modal" data-dismiss="modal">Retweet</button>
+            </div>
+
+        </div>
+    </div>
+</div>

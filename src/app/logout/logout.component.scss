@@ -1,0 +1,30 @@
+.btn-secondary {
+    color: black;
+    background-color: var(--searchBarColo);
+    border: none;
+    font-size: 15px;
+    font-weight: bold;
+    border-radius: 25px;
+}
+
+.btn-primary {
+    background-color: var(--twitterColor);
+    font-size: 15px;
+    border: none;
+    font-weight: bold;
+    border-radius: 25px;
+}
+.background {
+    background-color: var(--secondaryColorWhite);
+}
+.back {
+    background-color: #999999;
+    height: 100vh;
+}
+.top{
+    padding-top: 305px;
+}
+.rounded{
+    border-radius: 20px !important;
+}
+

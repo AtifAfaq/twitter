@@ -1,0 +1,138 @@
+<div class="row">
+    <div class="col-md-6 p-0">
+        <img class="twitterBanner" src="/assets/icon/signup/background.png">
+    </div>
+    <div class="col-md-6">
+        <div class="container">
+            <div class="row mt-3">
+                <div class="col-md-3"></div>
+                <div class="form-group col-md-3">
+                    <div class="row">
+                        <div class="col-md-12 p-0 labelBack"> <label class="mb-0" for="usr">Phone,email or
+                                username</label></div>
+                        <div class="col-md-12 p-0"><input type="text" class="form-control inputBack" id="usr"
+                                name="username" [(ngModel)]="email"></div>
+                    </div>
+                </div>
+                <div class="form-group col-md-3">
+                    <div class="row">
+                        <div class="col-md-12 p-0 labelBack"> <label class="pl-2 mb-0" for="usr">Password</label></div>
+                        <div class="col-md-12 p-0"><input type="password" class="form-control inputBack" id="usr"
+                                name="password" [(ngModel)]="password"></div>
+                        <p class="forgot pl-2">Forgot password?</p>
+                    </div>
+
+                </div>
+                <div class="col-md-2 mt-2">
+                    <button type="submit" class="btn btn-secondary" (click)='login()'>log in</button>
+                </div>
+
+            </div>
+
+            <div class="row mt-5">
+                <div class="col-md-3"></div>
+                <div class="col-md-6 mt-2">
+                    <i class="fab fa-twitter twitter margin " style="font-size:40px;"></i>
+                    <h2 class="mt-3"><strong>See what’s happening in the world right now</strong></h2>
+                    <p class="mt-5"><strong>Join Twitter today.</strong></p>
+                    <button class="mt-2 w-100 btn btn-primary btn btn-modal" data-toggle="modal"
+                        data-target="#myComment">Sign up</button>
+                    <button class="mt-3 w-100 btn btn-secondary">Log in</button>
+                </div>
+
+
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+
+<!-- The Modal -->
+<div class="modal" id="myComment">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <div class="ml-auto"><i class="fab fa-twitter twitter" style="font-size:30px;"></i></div>
+                <button type="button" class="close" id="signUpFormCloseButton" data-dismiss="modal">&times;</button>
+            </div>
+
+            <!-- Modal body -->
+            <form class="modal-body" [formGroup]="signUp">
+                <h4>Create your account</h4>
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-md-12 p-0 labelBack"> <label class="mb-0 p-2" for="usr">Name</label></div>
+                        <div class="col-md-12 p-0"><input type="text"  formControlName="name" class="form-control labelBack" 
+                                ></div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-md-12 p-0 labelBack"> <label class="mb-0 p-2" for="usr">Phone</label></div>
+                        <div class="col-md-12 p-0"><input type="text" formControlName="phone" class="form-control labelBack" 
+                               ></div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-md-12 p-0 labelBack"> <label class="mb-0 p-2" for="usr">Email</label></div>
+                        <div class="col-md-12 p-0"><input type="text" formControlName="email" class="form-control labelBack" 
+                                 ></div>
+                    </div>
+                </div>
+                <!-- <p *ngIf="!Usephone" class="twitter" (click)="Usephone='true'">Use email instead</p>
+                <p *ngIf="Usephone" class="twitter" (click)="Usephone=!Usephone">Use phone instead</p> -->
+
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-md-12 p-0 labelBack"> <label class="mb-0 p-2" for="usr">Password</label></div>
+                        <div class="col-md-12 p-0"><input type="password" class="form-control labelBack"
+                            formControlName="password" ></div>
+                    </div>
+                </div>
+                <div class="row">
+                    <h4>Date of birth</h4>
+                    <p>This will not be shown publicly. Confirm your own age, even if this account is for a business, a
+                        pet or something else.</p>
+
+                </div>
+                <div class="row mb-5">
+                    <div class="col-md-5">
+                        <label>Month</label>
+                        <ng-select [items]="months" bindLabel="name" 
+                        bindValue="value"  placeholder="Select Month" formControlName="selectedMonth" [(ngModel)]="selectedMonth">
+                        </ng-select>
+
+                    </div>
+
+                    <div class="col-md-3">
+                        <label>Day</label>
+                        <ng-select [items]="days" placeholder="Select Day"  formControlName="selectedDay" [(ngModel)]="selectedDay">
+                        </ng-select>
+                    </div>
+
+                    <div class="col-md-4">
+                        <label>Year</label>
+                        <ng-select [items]="year" placeholder="Select Year" formControlName="selectedYear" [(ngModel)]="selectedYear">
+                        </ng-select>
+
+                    </div>
+
+                </div>
+            </form>
+
+
+
+
+            <!-- Modal footer -->
+            <div class="modal-footer ">
+                <button class="btn btn-primary" (click)="signup()">Signup</button>
+            </div>
+
+        </div>
+    </div>
+</div>

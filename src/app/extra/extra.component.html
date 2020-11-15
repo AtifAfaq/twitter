@@ -1,0 +1,215 @@
+    <!--
+    ////////////tweet/////////// -->
+    <div class="row">
+        <div class="col-md-1">
+            <img class="tweetProfile" src="/assets/icon/tweetProfile.jpg">
+        </div>
+        <div class="col-md-11">
+            <div class="d-flex">
+                <h4 class="mb-0" (mouseenter)="mouseEnter('true')" (mouseleave)="mouseLeave('false')">
+                    Muhammad Afaq
+                </h4>
+                <p class="mx-1 mt-1 dark-grey mb-0">@Muhammad15067 . Sep 23</p>
+                <div class="ml-auto mb-0">
+                    <div class="dropdown">
+                        <i class="fas fa-angle-down dark-grey mt-2 dropdown-toggle" data-toggle="dropdown"></i>
+                        <div class="dropdown-menu right-dropdown">
+                            <a class="dropdown-item"><i class="far fa-trash-alt"></i><span class="ml-2">Delete</span></a>
+                            <a class="dropdown-item"><i class="fas fa-thumbtack"></i><span class="ml-2">Pin to your profile</span></a>
+                            <a class="dropdown-item"><i class="fas fa-pencil-alt"></i><span class="ml-2">Embed Tweet</span></a>
+                            <a class="dropdown-item"><i class="far fa-chart-bar"></i><span class="ml-2">View Tweet activity</span></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- /////////////// -->
+           <div *ngIf="isDisplay" class="popup">
+            <img class="tweetProfile mt-2" src="/assets/icon/tweetProfile.jpg"> 
+            <h4 class="mb-0 ">
+              <strong>Muhammad Afaq</strong>  
+            </h4>
+            <p class="mt-1 dark-grey mb-0">@Muhammad15067 . Sep 23</p>
+            <p><strong>1 </strong><span class="mr-2"> Following</span> <span><strong>0</strong></span><span> Followers</span></p>
+           </div>
+            <p class="mb-1 dark-grey" style="font-size:16px">Hey, I am sharing this
+            </p>
+            <div class="row mt-3 tweetIcon">
+                <div class="col-md-3 dark-grey p-0">
+                    <i class="far fa-comment-alt comment" (click)="openCommenModal()" data-toggle="modal"
+                        data-target="#myComment"></i>
+                </div>
+                <div class="col-md-3 dark-grey p-0">
+                    <div class="dropdown">
+                        <i class="fas fa-retweet retweet dropdown-toggle" data-toggle="dropdown"></i>
+                        <div class="dropdown-menu">
+                            <a class="dropdown-item"><i class="fas fa-retweet"></i>Retweet</a>
+                            <a class="dropdown-item" (click)="OpenTweetModal()" data-toggle="modal"
+                                data-target="#retweetModal"><i class="fas fa-pencil-alt"></i>Quote Tweet</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-3 dark-grey p-0">
+                    <i class="far fa-heart heart"></i>
+                </div>
+                <div class="col-md-3 dark-grey p-0">
+                    <i class="far fa-share-square comment"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+    <hr />
+
+    <!-- 
+    ////////////RETWEET///////////// -->
+    <p class="dark-grey mb-1"> <i class="ml-5 fas fa-retweet retweet"></i><strong class="pl-3">Junaid Iqbal
+            Retweeted</strong></p>
+    <div class="row">
+        <div class="col-md-1">
+            <img class="tweetProfile" src="/assets/icon/tweetProfile.jpg">
+        </div>
+        <div class="col-md-11">
+            <div class="d-flex">
+                <h4 class="mb-0">
+                    Muhammad Afaq
+                </h4>
+                <p class="mx-1 mt-1 dark-grey mb-0">@Muhammad15067 . Sep 23</p>
+                <div class="ml-auto mb-0">
+                    <i class="fas fa-angle-down dark-grey mt-2"></i>
+                </div>
+            </div>
+            <p class="mb-1 dark-grey" style="font-size:16px">Hey, I am sharing this
+            </p>
+            <div class="row mt-3 tweetIcon">
+                <div class="col-md-3 dark-grey p-0">
+                    <i class="far fa-comment-alt comment" data-toggle="modal" data-target="#myComment"></i>
+                </div>
+                <div class="col-md-3 dark-grey p-0">
+                    <div class="dropdown">
+                        <i class="fas fa-retweet retweet dropdown-toggle" data-toggle="dropdown"></i>
+                        <div class="dropdown-menu">
+                            <a class="dropdown-item"><i class="fas fa-retweet"></i>Retweet</a>
+                            <a class="dropdown-item" (click)="OpenTweetModal()" data-toggle="modal"
+                                data-target="#retweetModal"><i class="fas fa-pencil-alt"></i>Quote Tweet</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3 dark-grey p-0">
+                    <i class="far fa-heart heart"></i>
+                </div>
+                <div class="col-md-3 dark-grey p-0">
+                    <i class="far fa-share-square comment"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+    <hr />
+
+    <!-- ///////////tweet with image////////// -->
+    <div class="row">
+        <div class="col-md-1">
+            <img class="tweetProfile" src="/assets/icon/tweetProfile.jpg">
+        </div>
+        <div class="col-md-11">
+            <div class="d-flex">
+                <h4 class="mb-0">
+                    Muhammad Afaq
+                </h4>
+                <p class="mx-1 mt-1 dark-grey mb-0">@Muhammad15067 . Sep 23</p>
+                <div class="ml-auto mb-0">
+                    <i class="fas fa-angle-down dark-grey mt-2"></i>
+                </div>
+            </div>
+            <p class="mb-1 dark-grey" style="font-size:16px">Do you remember when you joined Twitter? I do!
+                #MyTwitterAnniversary
+            </p>
+            <img class="w-100 rounded" src="/assets/icon/5.jpeg">
+            <div class="row mt-3 tweetIcon">
+                <div class="col-md-3 dark-grey p-0">
+                    <i class="far fa-comment-alt comment" data-toggle="modal" data-target="#myComment"></i>
+                </div>
+                <div class="col-md-3 dark-grey p-0">
+                    <div class="dropdown">
+                        <i class="fas fa-retweet retweet dropdown-toggle" data-toggle="dropdown"></i>
+                        <div class="dropdown-menu">
+                            <a class="dropdown-item"><i class="fas fa-retweet"></i>Retweet</a>
+                            <a class="dropdown-item" (click)="OpenTweetModal()" data-toggle="modal"
+                                data-target="#retweetModal"><i class="fas fa-pencil-alt"></i>Quote Tweet</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3 dark-grey p-0">
+                    <i class="far fa-heart heart"></i>
+                </div>
+                <div class="col-md-3 dark-grey p-0">
+                    <i class="far fa-share-square comment"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+    <hr />
+
+    <!-- ////////retweet WITH IMAGE WITH QUOTE/////////////// -->
+    <div class="row">
+        <div class="col-md-1">
+            <img class="tweetProfile" src="/assets/icon/tweetProfile.jpg">
+        </div>
+        <div class="col-md-11">
+            <div class="d-flex">
+                <h4 class="mb-0">
+                    Muhammad Afaq
+                </h4>
+                <p class="mx-1 mt-1 dark-grey mb-0">@Muhammad15067 . Sep 23</p>
+                <div class="ml-auto mb-0">
+                    <i class="fas fa-angle-down dark-grey mt-2"></i>
+                </div>
+            </div>
+            <p class="mb-1 dark-grey" style="font-size:16px">Do you remember when you joined Twitter? I do!
+                #MyTwitterAnniversary
+            </p>
+            <!-- <Original tweet> -->
+
+            <div class="row">
+
+                <div class="col-md-12 retweeted">
+                    <div class="d-flex pl-3">
+                        <img class="retweetProfile" src="/assets/icon/tweetProfile.jpg">
+                        <h4 class="mb-0 ml-2">
+                            Muhammad Afaq
+                        </h4>
+                        <p class="mx-1 mt-1 dark-grey mb-0">@Muhammad15067 . Sep 23</p>
+                    </div>
+                    <p class="mb-1 pl-3 mb-2" style="font-size:16px">Do you remember when you joined Twitter? I do!
+                        #MyTwitterAnniversary
+                    </p>
+                    <img class="w-100 retweet-round" src="/assets/icon/5.jpeg">
+                </div>
+
+
+                <div class="row mt-3 tweetIcon">
+                    <div class="col-md-3 dark-grey p-0">
+                        <i class="far fa-comment-alt comment" data-toggle="modal" data-target="#myComment"></i>
+                    </div>
+                    <div class="col-md-3 dark-grey p-0">
+                        <div class="dropdown">
+                            <i class="fas fa-retweet retweet dropdown-toggle" data-toggle="dropdown"></i>
+                            <div class="dropdown-menu">
+                                <a class="dropdown-item"><i class="fas fa-retweet"></i>Retweet</a>
+                                <a class="dropdown-item" (click)="OpenTweetModal()" data-toggle="modal"
+                                    data-target="#retweetModal"><i class="fas fa-pencil-alt"></i>Quote Tweet</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3 dark-grey p-0">
+                        <i class=" far fa-heart heart"></i>
+                    </div>
+                    <div class="col-md-3 dark-grey p-0">
+                        <i class="far fa-share-square comment"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <hr />
+
+    </div> 

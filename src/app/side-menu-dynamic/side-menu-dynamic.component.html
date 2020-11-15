@@ -1,0 +1,110 @@
+<div class="row mt-3">
+    <!-- <div class="col-md-6">
+
+    </div> -->
+    <div class="col-md-12 p-2">
+        <div class="ml-2" id="twitterIcon">
+            <i class="fab fa-twitter twitter margin " style="font-size:40px;"></i>
+        </div>
+
+        <div *ngFor="let icon of iconArray;index as i" class="mt-2 p-2 paddingDiv" id="iconStyle" (click)="active(i)">
+            <img class="icon" [class.hide]="activeIndex!=i" src={{icon.activeIcon}}>
+            <img class="icon" [class.hide]="activeIndex===i" src={{icon.inActiveIcon}}>
+            <p class="d-inline-block mb-0 pl-3 font-weight-bold text">{{icon.title}}</p>
+        </div>
+
+        <div class="mt-2 p-2 paddingDiv">
+            <img class="icon" src="/assets/icon/dots.png">
+            <p class="d-inline-block mb-0 pl-3 font-weight-bold">More</p>
+        </div>
+        <!-- Button to Open the Modal -->
+        <button class="mt-4 p-2 btn btn-primary" data-toggle="modal" data-target="#myModal">Tweet</button>
+
+        <div class="d-inline-flex mt-5 p-1" id="bottom">
+            <div class="shade mt-1 ml-1"> <i class="fas fa-user-alt profile" style="font-size:35px"></i></div>
+
+            <div class="mt-2 ml-4">
+                <p class="mb-1">{{userData.name}}</p>
+                <p class="grey">@{{userData.username}}</p>
+            </div>
+
+            <div class="mt-2 p-2 ml-2">
+                <div class="dropdown">
+                    <i class="fas fa-angle-down" data-toggle="dropdown"></i>
+                    <div class="dropdown-menu right-dropdown">
+
+                        <div class="d-inline-flex p-1 bottom-border">
+                            <div class="shade mt-1 ml-1"> <i class="fas fa-user-alt profile" style="font-size:35px"></i>
+                            </div>
+                            <div class="mt-2 ml-4">
+                                <p class="mb-1">{{userData.name}}</p>
+                                <p class="grey">@{{userData.username}}</p>
+                            </div>
+                            <div class="mt-2 p-2 ml-2">
+                                <i class="fas fa-check twitter"></i>
+                            </div>
+                        </div>
+                        <a class="dropdown-item bottom-border">Add an existing Account</a>
+                        <a class="dropdown-item" routerLink="/logout">Log out @{{userData.username}}</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- The Modal -->
+<div class="modal" id="myModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+
+            <!-- Modal body -->
+            <div class="modal-body">
+                <div class="d-inline-flex" id="">
+                    <div class="shade"> <i class="fas fa-user-alt profile dark-grey" style="font-size:35px;"></i></div>
+
+                    <div class="mt-2 ml-4">
+                        <textarea class="mb-1 dark-grey textareaSize" style="font-size:25px"
+                            placeholder="What's Happening?" [(ngModel)]="tweetText"></textarea>
+                    </div>
+                </div>
+                    <div *ngIf="imageUrls.length>=1" class="row mb-3">
+                        <!-- <img  src="/assets/icon/trump.jpeg"> -->
+                        <div *ngFor="let img of imageUrls; index as i" class="">
+                            <img class="modalImage roundModalImage mb-2" [src]="img">
+                            <i (click)="removeImg(i)" class="fas fa-times mr-3 pointer closeIcon"></i>
+                        </div>
+                    </div>
+               
+                <div class="ml-2" id="iconStyle"><i class="fas fa-globe-americas"
+                        style="font-size:20px;color: var(--twitterColor);"><span class="ml-2">Everyone can
+                            reply</span></i></div>
+            </div>
+
+
+
+            <!-- Modal footer -->
+            <div class="modal-footer">
+                <div class="mr-auto">
+                    <input (change)="onChangeFiles($event)" style="visibility: hidden; position: absolute;"
+                        accept="image/*" #file class="form-control modalIcon mr-2 p-1" type="file" name="files"
+                        multiple>
+                    <img class="modalIcon mr-2 p-1" (click)="file.click()" id="modalIcon"
+                        src="/assets/icon/tweet/1.png">
+                    <img class="modalIcon mr-2 p-1" id="modalIcon" src="/assets/icon/tweet/2.png">
+                    <img class="modalIcon mr-2 p-1" id="modalIcon" src="/assets/icon/tweet/3.png">
+                    <img class="modalIcon mr-2 p-1" id="modalIcon" src="/assets/icon/tweet/4.png">
+                    <img class="modalIcon mr-2 p-1" id="modalIcon" src="/assets/icon/tweet/5.png">
+                </div>
+
+                <button type="button" class="btn btn-modal" data-dismiss="modal" (click)="tweet()">Tweet</button>
+            </div>
+
+        </div>
+    </div>
+</div>

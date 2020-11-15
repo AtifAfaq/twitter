@@ -1,0 +1,14 @@
+
+.gear {
+    width: 40px;
+    height: 40px;
+    object-fit: contain;
+    float:right;
+    border-radius: 50px;
+}
+#gear:hover{
+    background: var(--twittershadow);
+    -webkit-box-shadow: var(--twittershadow);
+    -moz-box-shadow: var(--twittershadow);
+    box-shadow:var(--twittershadow);
+}

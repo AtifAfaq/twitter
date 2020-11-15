@@ -1,0 +1,105 @@
+<div class="row mt-3">
+    <div class="col-md-12 p-2">
+
+        <div class="input-group mb-3 search dark-grey p-2" [class.searchActive]="show == false">
+            <div class="input-group-prepend">
+                <img *ngIf="show" class="icon m-1" src="/assets/icon/search.png">
+                <img *ngIf="!show"  class="icon m-1" src="/assets/icon/search-active.png">
+            </div>
+            <input type="text" class="form-control search-bar" placeholder="Search Twitter" id="usr" name="username" (focus)="focusFunction()" (blur)="blurFunction()" >
+        </div>
+
+        <div class="background w-100 p-0 rounded">
+            <div>
+                <h3 class="mb-0 ml-3 pt-3">What's happening</h3>
+                <hr />
+            </div>
+            <div class="d-inline-flex">
+                <div class="d-inline p-3">
+                    <p class="mb-0 dark-grey">Politics.<span class="ml-3">LIVE</span></p>
+                    <p class="mb-0"><strong>Trump officially nominates Amy Coney Barret for the Supreme Court</strong>
+                    </p>
+
+                </div>
+                <div class="d-inline">
+                    <img class="image rounded" src="/assets/icon/Amy.jpeg">
+                </div>
+
+            </div>
+            <hr />
+            <div class="d-inline-flex">
+                <div class="d-inline p-3">
+                    <p class="mb-0 dark-grey">US Elections<span class="ml-3">Last night</span></p>
+                    <p class=mb-0><strong>Trump paid $750 in federal income taxes in 2016 and 2017, New York Times
+                            reports</strong></p>
+                    <p class="mb-0"><span class="dark-grey">Trending with:</span><a class="ml-2">Fake News</a></p>
+                </div>
+                <div class="d-inline">
+                    <img class="image rounded" src="/assets/icon/trump.jpeg">
+                </div>
+            </div>
+            <hr />
+            <div class="p-3">
+                <p><span class="dark-grey">Trending in United States</span><br>
+                    <strong>$1.1 Billion</strong><br>
+                    <span class="dark-grey">8,568 Tweets</span></p>
+            </div>
+        </div>
+
+        <div class="background mt-3 w-100 p-0 pb-2 rounded">
+            <div class="pt-2">
+                <h3 class="mb-0 ml-3 p-2">Who to follow</h3>
+                <hr />
+            </div>
+            <div class="d-flex text-center">
+                <div class="pl-3 text-left">
+                    <img class="shade pr-0" src="/assets/icon/Amy.jpeg">
+                </div>
+                <div class="p-2 pt-3 pl-4 text-center">
+                    <p class="mb-0"><strong>Ahmed Raza</strong></p>
+                    <p>@raza255</p>
+                </div>
+                <div class="p-3 ml-auto">
+                    <button class='btn btn-primary btn-lg'>Follow</button>
+                </div>
+            </div>
+            <hr />
+            <div class="d-flex text-center">
+                <div class="pl-3 text-left">
+                    <img class="shade pr-0" src="/assets/icon/Amy.jpeg">
+                </div>
+                <div class="p-2 pt-3 pl-4 text-center">
+                    <p class="mb-0"><strong>Ahmed Raza</strong></p>
+                    <p>@raza255</p>
+                </div>
+                <div class="p-3 ml-auto">
+                    <button class='btn btn-primary btn-lg'>Follow</button>
+                </div>
+            </div>
+            <hr />
+            <div class="d-flex text-center">
+                <div class="pl-3 text-left">
+                    <img class="shade pr-0" src="/assets/icon/Amy.jpeg">
+                </div>
+                <div class="p-2 pt-3 pl-4 text-center">
+                    <p class="mb-0"><strong>Ahmed Raza</strong></p>
+                    <p>@raza255</p>
+                </div>
+                <div class="p-3 ml-auto">
+                    <button class='btn btn-primary btn-lg'>Follow</button>
+                </div>
+            </div>
+            <hr />
+            <p class="ml-4 twitter">Show more</p>
+
+        </div>
+
+
+        <div><span class="mr-2">Terms</span>
+            <span class="mr-2"> Privacy policy</span>
+            <span class="mr-2"> Cookies</span>
+            <span class="mr-2"> Ads info</span>
+            <span> More</span> <br>
+            © 2020 Twitter, Inc.</div>
+    </div>
+</div>
