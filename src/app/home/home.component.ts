@@ -3,7 +3,7 @@ import * as firebase from 'firebase';
 import { Router } from '@angular/router';
 import { iTweet } from '../models/tweet';
 import { ToastrService } from 'ngx-toastr';
-import { TwitterService } from '../twitter.service'
+import { TwitterService } from '../twitter.service';
 import { iUser } from '../models/user';
 
 @Component({
@@ -27,14 +27,15 @@ export class HomeComponent implements OnInit {
   constructor(public zone: NgZone,
     public router: Router, public toastr: ToastrService,
     public service: TwitterService) {
-    this.service.getObservable().subscribe((data) => {
-      this.allTweets = data;
-      console.log(data);
-    });
+   
   }
 
 
   ngOnInit(): void {
+    this.service.getObservable().subscribe((data) => {
+      this.allTweets = data;
+      console.log(data);
+    });
   }
   openCommenModal(): void { }
 

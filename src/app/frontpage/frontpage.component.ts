@@ -140,7 +140,8 @@ export class FrontpageComponent implements OnInit {
       email: this.UserFormData.email,
       username: this.generateUsername(),
       uid: this.uid,
-      dateOfBirth: new Date(this.selectedYear, this.selectedMonth, this.selectedDay)};
+      dateOfBirth: new Date(this.selectedYear, this.selectedMonth, this.selectedDay)
+    };
     var updates = {};
     updates['/users/' + this.uid] = userData;
     firebase.database().ref().update(updates)
@@ -150,6 +151,7 @@ export class FrontpageComponent implements OnInit {
         localStorage.setItem('userLoggedIn', 'true');
         firebase.auth().currentUser.sendEmailVerification();
         document.getElementById('signUpFormCloseButton').click();
+        this.service.getAllUsers();
         this.router.navigate(['/Home']);
       })
       .catch((e) => {
@@ -164,6 +166,7 @@ export class FrontpageComponent implements OnInit {
           this.uid = firebase.auth().currentUser.uid;
           // if (firebase.auth().currentUser.emailVerified) {
           this.getUserData();
+          this.service.getAllUsers();
           // }
           // else {
           //   alert("Your account is not verified! Go to your email address and verify");
@@ -204,7 +207,7 @@ export class FrontpageComponent implements OnInit {
         this.generateUsername();
       }
     });
- 
+
   }
 }
 

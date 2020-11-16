@@ -16,14 +16,14 @@
                 <h4 class="mb-0" (mouseenter)="t.isDisplay=true" (mouseleave)="t.isDisplay=false">
                     {{t.user.name}}
                 </h4>
-                <p class="mx-1 mt-1 dark-grey mb-0"> {{t.user.username}} . {{t.timestamp  | date: 'yyyy-MM-dd'}}</p>
+                <p class="mx-1 mt-1 dark-grey mb-0"> @{{t.user.username}} . {{t.timestamp  | date: 'fullDate'}}</p>
                 <!-- ///////////////popup -->
                 <div *ngIf="t.isDisplay" class="popup">
                     <img class="tweetProfile mt-2" src="/assets/icon/tweetProfile.jpg">
                     <h4 class="mb-0 ">
                         <strong>{{t.user.name}}</strong>
                     </h4>
-                    <p class="mt-1 dark-grey mb-0">@{{t.user.username}} . {{t.timestamp  | date: 'MM-dd'}}</p>
+                    <p class="mt-1 dark-grey mb-0">@{{t.user.username}} . {{t.timestamp  | date: 'fullDate'}}</p>
                     <p><strong>1 </strong><span class="mr-2"> Following</span>
                         <span><strong>0</strong></span><span> Followers</span></p>
                 </div>
