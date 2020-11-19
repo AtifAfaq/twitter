@@ -11,25 +11,27 @@
                 </div>
 
                 <div class="col-md-11 mt-2 mb">
-                    <h4 class="ml-3 mb-0"><strong>Muhammad Afaq</strong></h4>
-                    <p class="dark-grey ml-3">3 Tweets</p>
+                    <h4 class="ml-3 mb-0"><strong>{{user.name}}</strong></h4>
+                    <p class="dark-grey ml-3">{{allTweets.length}} Tweets</p> 
+                    <!-- Apne tweets k length ayege -->
                 </div>
 
                 <div class="row content w-100 mb-5">
                     <div class="col-md-4">
 
-                        <div class="shade" >
-                            <input (change)="onChangeFile($event)" style="visibility: hidden; position: absolute;"
+                        <div class="">
+                            <input (change)="updateProfilePic($event)" style="visibility: hidden; position: absolute;"
                                 accept="image/*" #file class="form-control modalIcon mr-2 p-1" type="file" name="files">
-                            <i *ngIf="!pictureSelected" class="fas fa-user-alt profile dark-grey"
-                                (click)="file.click()">
-                            </i>
-                            <img *ngIf="pictureSelected image" (click)="file.click()" [src]="imageUrl">
+                    
+                            <img *ngIf="!user.profileUrl " class="shade1" (click)="file.click()"
+                                src="/assets/icon/tweet/profile.jpeg">
+                            <img *ngIf="user.profileUrl" class="shade1" (click)="file.click()"
+                                src="{{user.profileUrl}}">
 
                         </div>
                         <div class="topMargin">
-                            <h4 class="mb-0">Muhammad Afaq</h4>
-                            <p class="dark-grey m-0">@Muhamma15067078</p>
+                            <h4 class="mb-0">{{user.name}}</h4>
+                            <p class="dark-grey m-0">@{{user.username}}</p>
                             <p class="dark-grey m-0"><i class="far fa-calendar-alt"></i><span class="ml-2">Joined
                                     September
                                     2020</span></p>
@@ -67,7 +69,7 @@
                 <div class="tab-content">
                     <!-- 1st Tab pane -->
                     <div id="home" class="container tab-pane active"><br>
-                        <app-tweet></app-tweet>
+                        <app-tweet [allTweets]="myTweets"></app-tweet>
 
                         <!-- ///////////WHO TO FOLLOW///////////// -->
                         <div class="background w-100 p-0 pb-2 rounded">
@@ -114,7 +116,7 @@
 
                     <!-- 2nd Tab pane -->
                     <div id="menu1" class="container tab-pane fade"><br>
-                        <app-tweet></app-tweet>
+                        <app-tweet [allTweets]="myTweets"></app-tweet>
 
                         <!-- ///////////WHO TO FOLLOW///////////// -->
                         <div class="background w-100 p-0 pb-2 rounded">

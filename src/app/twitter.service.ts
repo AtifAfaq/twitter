@@ -11,8 +11,11 @@ export class TwitterService {
   public fooSubject = new Subject<any>();
   allUsers: Array<iUser> = [];
   allTweets: Array<iTweet> = [];
-  constructor() { if(!this.allUsers || !this.allUsers.length){
-    this.getAllUsers(); }  }
+  constructor() {
+    if (!this.allUsers || !this.allUsers.length) {
+      this.getAllUsers();
+    }
+  }
 
   getAllUsers(): void {
     const self = this;
@@ -25,7 +28,7 @@ export class TwitterService {
         }
         // this.publishSomeData(self.allUsers);
       });
-      self.fetchAllTweets();
+    self.fetchAllTweets();
   }
 
   fetchAllTweets(): void {
@@ -39,16 +42,17 @@ export class TwitterService {
             temp.user = user;
             self.allTweets.push(temp);
           }
-          self.publishSomeData(self.allTweets);
+
         });
       }
+      self.publishSomeData(self.allTweets);
     });
 
     console.log(this.allTweets);
   }
 
 
-  publishSomeData(data: any) {
+  publishSomeData(data: any): void {
     this.fooSubject.next(data);
   }
   getObservable(): Subject<any> {

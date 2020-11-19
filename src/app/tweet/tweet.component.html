@@ -8,8 +8,9 @@
 
     <div class="row">
         <div class="col-md-1">
-            <img class="tweetProfile" src="/assets/icon/tweetProfile.jpg">
-            <!-- src={{t.profileImage}} -->
+            <img *ngIf="t.user.profileUrl" class="tweetProfile" src="{{t.user.profileUrl}}">
+            <img *ngIf="!t.user.profileUrl" class="tweetProfile" src="/assets/icon/tweet/profile.jpeg">
+            
         </div>
         <div class="col-md-11">
             <div class="d-flex relative">
@@ -31,8 +32,9 @@
                 <div class="ml-auto mb-0">
                     <div class="dropdown">
                         <i class="fas fa-angle-down dark-grey mt-2 dropdown-toggle" data-toggle="dropdown"></i>
-                        <div *ngFor="let i of icon" class="dropdown-menu right-dropdown">
-                            <a class="dropdown-item"><i class="far fa-trash-alt"></i><span
+                        <div class="dropdown-menu right-dropdown">
+                            <a class="dropdown-item" data-toggle="modal" data-target="#deleteModal"
+                                (click)="confirmOnly(i)"><i class="far fa-trash-alt"></i><span
                                     class="ml-2">Delete</span></a>
                             <a class="dropdown-item"><i class="fas fa-thumbtack"></i><span class="ml-2">Pin to your
                                     profile</span></a>
@@ -70,7 +72,8 @@
                 <!-- ////////////Bottom Icon//////// -->
                 <div class="row mt-3 tweetIcon">
                     <div class="col-md-3 dark-grey p-0">
-                        <i class="far fa-comment-alt comment" data-toggle="modal" data-target="#myComment"></i>
+                        <i class="far fa-comment-alt comment" (click)="confirmReply(t,i)" data-toggle="modal" data-target="#myComment"></i>
+                       <span *ngIf="t.replies">{{t.replies.length}}</span> 
                     </div>
                     <div class="col-md-3 dark-grey p-0">
                         <div class="dropdown">
@@ -89,6 +92,7 @@
                     </div>
                     <div *ngIf="isPostLiked(t)" (click)=unlikedTweet(t,i) class="col-md-3 dark-grey p-0">
                         <img class="heartLiked" src='../../assets/icon/tweet/heart.png'>
+                        <span *ngIf="t.likes">{{t.likes.length}}</span> 
                     </div>
                     <div class="col-md-3 dark-grey p-0">
                         <i class="far fa-share-square comment"></i>
@@ -97,5 +101,228 @@
             </div>
         </div>
         <hr class="w-100 mt-0">
+    </div>
+</div>
+
+
+<!-- _______________________Delete Modal -->
+
+<div class="modal" id="deleteModal">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <!-- Modal Header -->
+
+            <div class="modal-header">
+                <h4 class="modal-title">Delete Tweet?</h4>
+                <button type="button" class="close" data-dismiss="modal">
+                    &times;
+                </button>
+            </div>
+            <!-- Modal Body -->
+            <div class="modal-body">
+                <div class="mb-3">
+              <p>This can't be undone and it will be removed from your profile, the timeline of any accounts that follow you, and from twitter search results. </p>
+                </div>
+
+            </div>
+
+            <!-- Modal footer -->
+            <div class="modal-footer">
+                <button type="button" class="btn btn-success" data-dismiss="modal">
+                    Close
+                </button>
+                <button type="button" (click)="deleteTweetFromFirebase()" class="btn btn-danger" data-dismiss="modal">
+                    Confirm Delete
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- Comment Modal -->
+<div class="modal" id="myComment">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <button type="button" (click)="closeModal()" class="close" data-dismiss="modal">&times;</button>
+            </div>
+
+            <!-- Modal body -->
+            <div class="modal-body">
+                <div class="row mb-3">
+                    <div class="col-md-1 p-0">
+                        <!-- *ngIf="this.originalTweet.user.profileUrl" -->
+                        <img class="tweetProfile" src="/assets/icon/tweetProfile.jpg">
+                        <!-- <img *ngIf="!this.originalTweet.user.profileUrl" class="tweetProfile" src="/assets/icon/tweet/profile.jpeg"> -->
+                    </div>
+                    <div class="col-md-11">
+                        <div class="d-flex ">
+                            <h4 class="mb-0">
+                                {{this.userData.name}}
+                            </h4>
+                            <p class="mx-1 mt-1 dark-grey mb-0">@{{this.userData.username}} . Sep 23</p>
+
+                        </div>
+                        <p class="mb-1" style="font-size:16px">Hey, I am sharing this
+                        </p>
+                    </div>
+                    <div class="col-md-1 p-0"></div>
+                    <div class="col-md-11 ">
+                        <p style="font-size: 20px;"><span class="dark-grey">Replying to </span> <span
+                                class="twitter">@{{this.userData.username}} </span></p>
+                    </div>
+                </div>
+
+
+                <!-- ////////////////// -->
+
+                <div class="d-inline-flex" id="">
+                    <div class="shade"> <i class="fas fa-user-alt profile dark-grey" style="font-size:35px;"></i>
+                    </div>
+
+                    <div class="mt-2 ml-3">
+                        <textarea class="mb-1 dark-grey textareaSize" style="font-size:25px"
+                            placeholder="Tweet your reply" [(ngModel)]="replyObj.replyText"></textarea>
+                        <div class="row mb-3">
+                            <!-- <img  src="/assets/icon/trump.jpeg"> -->
+                            <div *ngIf="imageUrl" class="">
+                                <img class="modalImage roundModalImage mb-2" [src]="imageUrl">
+                                <i (click)="removeImg()" class="fas fa-times mr-3 pointer closeIcon"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+
+            <!-- Modal footer -->
+            <div class="modal-footer">
+                <div class="mr-auto">
+                    <input (change)="onChangeFile($event)" style="visibility: hidden; position: absolute;"
+                        accept="image/*" #file class="form-control modalIcon mr-2 p-1" type="file" name="files"
+                        multiple>
+                    <img class="modalIcon mr-2 p-1" (click)="file.click()" id="modalIcon"
+                        src="/assets/icon/tweet/1.png">
+                    <img class="modalIcon mr-2 p-1" id="modalIcon" src="/assets/icon/tweet/2.png">
+                    <img class="modalIcon mr-2 p-1" id="modalIcon" src="/assets/icon/tweet/3.png">
+                    <img class="modalIcon mr-2 p-1" id="modalIcon" src="/assets/icon/tweet/4.png">
+                    <img class="modalIcon mr-2 p-1" id="modalIcon" src="/assets/icon/tweet/5.png">
+                </div>
+
+                <button type="button" class="btn btn-modal" (click)="replyTweet()" data-dismiss="modal">Reply</button>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+<!-- Retweet Modal with Quote or Without Quote-->
+<div class="modal" id="retweetModal">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+
+            <!-- Modal body -->
+            <div class="modal-body">
+                <!-- ////////////////// -->
+
+                <div class="row" id="">
+                    <div class="col-md-1 p-0 shade"> <i class="fas fa-user-alt profile dark-grey "
+                            style="font-size:35px;"></i>
+                    </div>
+                    <!-- when retweet with quote -->
+
+                    <!-- <div class="col-md-11 mt-2 ">
+                                <textarea class="mb-1 dark-grey textareaSize" style="font-size:25px"
+                                    placeholder="Add a comment"></textarea>
+                                    <div class="row mb-3">
+                                            <div class="col-md-12 retweeted">
+                                                <div class="d-flex pl-3">
+                                                    <img class="retweetProfile" src="/assets/icon/tweetProfile.jpg">
+                                                    <h4 class="mb-0 ml-2">
+                                                        Muhammad Afaq
+                                                    </h4>
+                                                    <p class="mx-1 mt-1 dark-grey mb-0">@Muhammad15067 . Sep 23</p>
+                                                </div>
+                                                <p class="mb-1 mb-2 pl-3" style="font-size:16px">Do you remember when you joined Twitter? I do!
+                                                    #MyTwitterAnniversary
+                                                </p>
+                                                <img class="w-100 retweet-round" src="/assets/icon/5.jpeg">
+                                            </div>
+                                    </div>
+                            </div> -->
+
+                    <!-- when retweet with quote & picture -->
+                    <div class="col-md-11 mt-2 ">
+                        <textarea class="mb-1 dark-grey textareaSize" style="font-size:25px"
+                            placeholder="Add a comment"></textarea>
+                        <div class="row mb-3">
+                            <!-- <img  src="/assets/icon/trump.jpeg"> -->
+                            <div *ngIf="imageUrl" class="">
+                                <img class="modalImage roundModalImage mb-2" [src]="imageUrl">
+                                <i (click)="removeImg()" class="fas fa-times mr-3 pointer closeIcon"></i>
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-md-12 retweeted">
+                                <div class="d-flex pl-3">
+                                    <img class="retweetProfile" src="/assets/icon/tweetProfile.jpg">
+                                    <h4 class="mb-0 ml-2">
+                                        Muhammad Afaq
+                                    </h4>
+                                    <p class="mx-1 mt-1 dark-grey mb-0">@Muhammad15067 . Sep 23</p>
+                                </div>
+                                <div class="row mb-2 mt-2">
+                                    <div class="col-md-4">
+                                        <img class="w-100 roundModalImage" src="/assets/icon/5.jpeg">
+                                    </div>
+                                    <div class="col-md-8 p-0">
+                                        <p class="mb-1 mb-2" style="font-size:16px">Do you remember when you
+                                            joined
+                                            Twitter? I do!
+                                            #MyTwitterAnniversary
+                                        </p>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="ml-4" id="iconStyle"><i class="fas fa-globe-americas"
+                    style="font-size:20px;color: var(--twitterColor);"><span class="ml-2">Everyone can
+                        reply</span></i></div>
+
+            <!-- Modal footer -->
+            <div class="modal-footer">
+                <div class="mr-auto">
+                    <input (change)="onChangeFile($event)" style="visibility: hidden; position: absolute;"
+                        accept="image/*" #file class="form-control modalIcon mr-2 p-1" type="file" name="files"
+                        multiple>
+                    <img class="modalIcon mr-2 p-1" id="modalIcon" (click)="file.click()"
+                        src="/assets/icon/tweet/1.png">
+                    <img class="modalIcon mr-2 p-1" id="modalIcon" src="/assets/icon/tweet/2.png">
+                    <img class="modalIcon mr-2 p-1" id="modalIcon" src="/assets/icon/tweet/3.png">
+                    <img class="modalIcon mr-2 p-1" id="modalIcon" src="/assets/icon/tweet/4.png">
+                    <img class="modalIcon mr-2 p-1" id="modalIcon" src="/assets/icon/tweet/5.png">
+
+                </div>
+
+                <button type="button" class="btn btn-modal" data-dismiss="modal">Retweet</button>
+            </div>
+
+        </div>
     </div>
 </div>

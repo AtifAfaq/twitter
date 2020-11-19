@@ -13,13 +13,14 @@ import { NotificationsComponent } from './notifications/notifications.component'
 import { SettingsComponent } from './settings/settings.component';
 import { LogoutComponent } from './logout/logout.component';
 import { SignupComponent } from './signup/signup.component';
-import {FormsModule} from '@angular/forms';
+import { FormsModule } from '@angular/forms';
 import { FrontpageComponent } from './frontpage/frontpage.component';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { ToastrModule, ToastContainerModule  } from 'ngx-toastr';
+import { ToastrModule, ToastContainerModule } from 'ngx-toastr';
 import { ReactiveFormsModule } from '@angular/forms';
-import {TwitterService} from './twitter.service';
+import { TwitterService } from './twitter.service';
+import { UserService } from './user.service';
 
 // firebaseConfig
 var firebaseConfig = {
@@ -49,7 +50,7 @@ firebase.initializeApp(firebaseConfig);
     LogoutComponent,
     SignupComponent,
     FrontpageComponent,
-   
+
   ],
   imports: [
     BrowserModule,
@@ -61,7 +62,7 @@ firebase.initializeApp(firebaseConfig);
     ToastContainerModule,
     ReactiveFormsModule
   ],
-  providers: [TwitterService],
+  providers: [TwitterService, UserService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -5,6 +5,7 @@ import { iTweet } from '../models/tweet';
 import { ToastrService } from 'ngx-toastr';
 import { TwitterService } from '../twitter.service';
 import { iUser } from '../models/user';
+import { UserService } from '../user.service';
 
 @Component({
   selector: 'app-home',
@@ -22,12 +23,14 @@ export class HomeComponent implements OnInit {
   imageCount: any;
   tweetData = new iTweet();
   allTweets: Array<iTweet> = [];
+  myTweets: Array<iTweet> = [];
 
 
   constructor(public zone: NgZone,
     public router: Router, public toastr: ToastrService,
-    public service: TwitterService) {
-   
+    public service: TwitterService,
+    public userser: UserService) {
+
   }
 
 
@@ -36,6 +39,9 @@ export class HomeComponent implements OnInit {
       this.allTweets = data;
       console.log(data);
     });
+    this.allTweets = this.service.allTweets;
+    this.myTweets = this.userser.myTweets;
+    console.log('userService', this.userser.myTweets);
   }
   openCommenModal(): void { }
 
@@ -75,6 +81,7 @@ export class HomeComponent implements OnInit {
     this.imageUrl = '';
 
   }
+
 
   mouseEnter(data: any): void {
     this.isDisplay = true;

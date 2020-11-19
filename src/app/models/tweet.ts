@@ -14,19 +14,31 @@ export class iTweet {
     public uid: string;
     public key: string;
     public likes: Array<string> = [];
-    // public replies?: iTweetReply[] = [];
+    public replies?: iTweetReply[] = [];
     public isRetweet?: boolean;
+    public user?: iUser;
+
+
     // public retweet?: iRetweet = new iRetweet();
 
 }
+
+// export class iReplies{
+//     public image: string;
+//     public replyT: string;
+//     public uid: string;
+//     public timestamp: number;
+// }
 
 // export class iRetweet {
 //     public retweetUser: User;
 //     public retweetData: iTweet = new iTweet();
 // }
 
-// export class iTweetReply {
-//     public replyUser: User;
-//     public replyData: iTweet = new iTweet();
-// }
+export class iTweetReply {
+    public replyImage: string;
+    public replyText: string;
+    public uid: string;
+    public timestamp: number;
+}
 

@@ -5,6 +5,7 @@ import { NgSelectModule, NgOption } from '@ng-select/ng-select';
 import { ToastrService } from 'ngx-toastr';
 import { FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms';
 import { TwitterService } from '../twitter.service'
+import { iUser } from '../models/user';
 
 @Component({
   selector: 'app-frontpage',
@@ -134,13 +135,14 @@ export class FrontpageComponent implements OnInit {
 
   saveDataFirebase() {
 
-    var userData: any = {
+    var userData: iUser = {
       name: this.UserFormData.name,
       phone: this.UserFormData.phone,
       email: this.UserFormData.email,
       username: this.generateUsername(),
       uid: this.uid,
-      dateOfBirth: new Date(this.selectedYear, this.selectedMonth, this.selectedDay)
+      dateOfBirth: Number(new Date(this.selectedYear, this.selectedMonth, this.selectedDay)),
+      timestamp: Number(new Date())
     };
     var updates = {};
     updates['/users/' + this.uid] = userData;
@@ -166,7 +168,6 @@ export class FrontpageComponent implements OnInit {
           this.uid = firebase.auth().currentUser.uid;
           // if (firebase.auth().currentUser.emailVerified) {
           this.getUserData();
-          this.service.getAllUsers();
           // }
           // else {
           //   alert("Your account is not verified! Go to your email address and verify");
