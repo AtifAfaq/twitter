@@ -21,6 +21,7 @@ import { ToastrModule, ToastContainerModule } from 'ngx-toastr';
 import { ReactiveFormsModule } from '@angular/forms';
 import { TwitterService } from './twitter.service';
 import { UserService } from './user.service';
+import { TweetDetailComponent } from './tweet-detail/tweet-detail.component';
 
 // firebaseConfig
 var firebaseConfig = {
@@ -50,6 +51,7 @@ firebase.initializeApp(firebaseConfig);
     LogoutComponent,
     SignupComponent,
     FrontpageComponent,
+    TweetDetailComponent,
 
   ],
   imports: [

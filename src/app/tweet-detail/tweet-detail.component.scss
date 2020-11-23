@@ -1,0 +1,192 @@
+
+.modalIcon {
+    width: 40px;
+    height: 40px;
+    object-fit: contain;
+}
+#modalIcon:hover{
+    background: var(--twittershadow);
+    width: 40px;
+    border-radius: 50px;
+    -webkit-box-shadow: var(--twittershadow);
+    -moz-box-shadow: var(--twittershadow);
+    box-shadow:var(--twittershadow);
+}
+.shade {
+    background:#ccd6dd;
+    height: 60px;
+    width: 60px;
+    border-radius: 50px;
+    -webkit-box-shadow: 2px 2px 5px 0px rgba(204, 214, 221, 1);
+    -moz-box-shadow: 2px 2px 5px 0px rgba(204, 214, 221, 1);
+    box-shadow: 2px 2px 5px 0px  rgba(204, 214, 221, 1);
+    .profile{
+        margin:15px;
+        margin-left:13px;
+    }
+  
+}
+
+.btn-modal {
+    width: 150px;
+    height: 60px;
+    border-radius: 35px;
+    font-weight: bold;
+    color: #fff;
+    background-color: var(--twitterColor);
+}
+
+.textareaSize{
+    width: 100% !important;
+    height: 60px;
+}
+textarea { 
+    border-style: none; 
+    border-color: Transparent; 
+    overflow: auto;    
+    resize: none;  
+ 
+}
+textarea:focus{
+    border: 0 none #FFF;
+    overflow: hidden;
+    outline:none;  
+} 
+
+#iconStyle:hover{
+    cursor:pointer;
+    width: 200px;
+    border-radius: 25px;
+    background-color: var(--twittershadow); 
+}
+.line-width{
+    border-bottom: 15px solid rgb(230, 236, 240);
+}
+.icon {
+    width: 40px;
+   height: 40px;
+    padding-left: 2px;
+}
+
+
+//////////////tweet/////////////
+.tweetProfile{
+   border-radius: 50px;
+width:60px;
+}
+.retweetProfile{
+    border-radius: 50px;
+    width:30px;
+}
+.retweeted{
+    padding: 10px 0 0 0;
+    border: 1px solid darkgrey;
+    border-radius: 25px;
+}
+.heartLiked{
+    height: 20px;
+    width: 20px;
+
+   
+}
+.tweetIcon{
+    i{
+        height: 35px;
+        width: 35px;
+        text-align: center;
+        border-radius: 50px;
+        padding-top: 9px;
+    }
+    .comment:hover{
+        color:var(--twitterColor);
+        background: var(--twittershadow);
+    }  
+    .retweet:hover{
+        color:#d46326de;
+        background: #f9f3ef;
+    }
+    .heart:hover{
+        color:#9a0c23;
+        background:#fff2f0;
+    }
+
+}
+
+.rounded{
+    border-radius: 25px !important;
+}
+#myComment .modal-content{
+    // width: 750px !important;
+    height: 550px !important;
+    border-radius: 20px;
+}
+
+.retweet-round{
+    border-bottom-right-radius: 25px;
+    border-bottom-left-radius: 25px;
+}
+
+.roundModalImage{
+    border-radius: 15px !important;
+}
+
+////////////////////////////////////@extend
+.dropdown-toggle:after { content: none }
+
+
+
+////////////////////////////quote retweet//////////@extend   
+
+#retweetModal .modal-content{
+    // width: 750px !important;
+    height: 750px !important;
+    border-radius: 20px;
+}
+
+
+.modalImage{
+    width: 100%;
+    height: 350px;
+}
+.modal .modal-content{
+    overflow:hidden;
+    }
+    .modal-body{
+    overflow-y:scroll; // to get scrollbar only for y axis
+    }
+.closeIcon{
+        position: absolute;
+        color: black;
+    }
+    .relative {
+        position: relative;
+    }
+    .popup {
+        border: 1px solid darkgrey;
+        margin-top: 10px;
+        text-align: left;
+        padding: 10px;
+        width: 300px;
+        border-radius: 20px;
+        background: #ffffff;
+        position: absolute;
+        top: 35px;
+        left: 15px;
+        padding: 0 20px 20px 20px;
+        z-index: 1000000;
+    }
+
+.back{
+    background: #f7f7f7 !important ;
+}
+.bottom-border{
+    border-bottom: 1px solid;
+    }
+.right-dropdown{
+    left: -200px !important;
+}
+
+.replyPicSize{
+    height:200px;
+    object-fit:cover;
+}

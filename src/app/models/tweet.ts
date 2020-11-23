@@ -14,7 +14,7 @@ export class iTweet {
     public uid: string;
     public key: string;
     public likes: Array<string> = [];
-    public replies?: iTweetReply[] = [];
+    public replies?: Array<iTweetReply> = [];
     public isRetweet?: boolean;
     public user?: iUser;
 
@@ -36,9 +36,12 @@ export class iTweet {
 // }
 
 export class iTweetReply {
-    public replyImage: string;
+    public key: string;
+    public replyImage?: string;
     public replyText: string;
     public uid: string;
     public timestamp: number;
+    public user?: iUser;
+    public likes?: Array<string> = [];
 }
 

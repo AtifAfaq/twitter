@@ -1,16 +1,17 @@
 <!-- 
     ////////////tweet/////////// -->
 <div *ngFor="let t of allTweets; index as i" class="">
-    <div *ngIf="t.retweet" class="pt-1">
-        <p class="dark-grey mb-1"> <i class="ml-5 fas fa-retweet retweet"></i><strong class="pl-3">{{t.retweet}}
+    <!-- *ngIf="t.retweet" -->
+    <div class="pt-1">
+        <p class="dark-grey mb-1"> <i class="ml-5 fas fa-retweet retweet"></i><strong class="pl-3">Name
                 Retweeted</strong></p>
     </div>
-
+    <button (click)="goToDetails(t)"></button>
     <div class="row">
         <div class="col-md-1">
             <img *ngIf="t.user.profileUrl" class="tweetProfile" src="{{t.user.profileUrl}}">
             <img *ngIf="!t.user.profileUrl" class="tweetProfile" src="/assets/icon/tweet/profile.jpeg">
-            
+
         </div>
         <div class="col-md-11">
             <div class="d-flex relative">
@@ -20,7 +21,9 @@
                 <p class="mx-1 mt-1 dark-grey mb-0"> @{{t.user.username}} . {{t.timestamp  | date: 'fullDate'}}</p>
                 <!-- ///////////////popup -->
                 <div *ngIf="t.isDisplay" class="popup">
-                    <img class="tweetProfile mt-2" src="/assets/icon/tweetProfile.jpg">
+                    <!-- <img class="tweetProfile mt-2" src="/assets/icon/tweetProfile.jpg"> -->
+                    <img *ngIf="t.user.profileUrl" class="tweetProfile mt-2" src="{{t.user.profileUrl}}">
+                    <img *ngIf="!t.user.profileUrl" class="tweetProfile mt-2" src="/assets/icon/tweet/profile.jpeg">
                     <h4 class="mb-0 ">
                         <strong>{{t.user.name}}</strong>
                     </h4>
@@ -72,27 +75,29 @@
                 <!-- ////////////Bottom Icon//////// -->
                 <div class="row mt-3 tweetIcon">
                     <div class="col-md-3 dark-grey p-0">
-                        <i class="far fa-comment-alt comment" (click)="confirmReply(t,i)" data-toggle="modal" data-target="#myComment"></i>
-                       <span *ngIf="t.replies">{{t.replies.length}}</span> 
+                        <i class="far fa-comment-alt comment" (click)="confirmReply(t,i)" data-toggle="modal"
+                            data-target="#myComment"></i>
+                        <span *ngIf="t.replies">{{t.replies.length}}</span>
                     </div>
                     <div class="col-md-3 dark-grey p-0">
                         <div class="dropdown">
                             <i class="fas fa-retweet retweet dropdown-toggle" data-toggle="dropdown"></i>
                             <div class="dropdown-menu">
                                 <a class="dropdown-item"><i class="fas fa-retweet"></i>Retweet</a>
-                                <a class="dropdown-item" data-toggle="modal" data-target="#retweetModal"><i
-                                        class="fas fa-pencil-alt"></i>Quote Tweet</a>
+                                <a class="dropdown-item" data-toggle="modal" data-target="#retweetModal"
+                                    (click)="quoteTweet(t)"><i class="fas fa-pencil-alt"></i>Quote Tweet</a>
                             </div>
                         </div>
                     </div>
                     <!-- !t.liked -->
 
-                    <div *ngIf="!isPostLiked(t)" (click)=likedTweet(t,i) class="col-md-3 dark-grey p-0">
+                    <div *ngIf="!isPostLiked(t)" (click)="likedTweet(t,i)" class="col-md-3 dark-grey p-0">
                         <i class="far fa-heart heart"></i>
+                        <span *ngIf="t.likes">{{t.likes.length}}</span>
                     </div>
-                    <div *ngIf="isPostLiked(t)" (click)=unlikedTweet(t,i) class="col-md-3 dark-grey p-0">
+                    <div *ngIf="isPostLiked(t)" (click)="unlikedTweet(t,i)" class="col-md-3 dark-grey p-0">
                         <img class="heartLiked" src='../../assets/icon/tweet/heart.png'>
-                        <span *ngIf="t.likes">{{t.likes.length}}</span> 
+                        <span *ngIf="t.likes">{{t.likes.length}}</span>
                     </div>
                     <div class="col-md-3 dark-grey p-0">
                         <i class="far fa-share-square comment"></i>
@@ -121,7 +126,8 @@
             <!-- Modal Body -->
             <div class="modal-body">
                 <div class="mb-3">
-              <p>This can't be undone and it will be removed from your profile, the timeline of any accounts that follow you, and from twitter search results. </p>
+                    <p>This can't be undone and it will be removed from your profile, the timeline of any accounts that
+                        follow you, and from twitter search results. </p>
                 </div>
 
             </div>
@@ -241,30 +247,31 @@
                     </div>
                     <!-- when retweet with quote -->
 
-                    <!-- <div class="col-md-11 mt-2 ">
-                                <textarea class="mb-1 dark-grey textareaSize" style="font-size:25px"
-                                    placeholder="Add a comment"></textarea>
-                                    <div class="row mb-3">
-                                            <div class="col-md-12 retweeted">
-                                                <div class="d-flex pl-3">
-                                                    <img class="retweetProfile" src="/assets/icon/tweetProfile.jpg">
-                                                    <h4 class="mb-0 ml-2">
-                                                        Muhammad Afaq
-                                                    </h4>
-                                                    <p class="mx-1 mt-1 dark-grey mb-0">@Muhammad15067 . Sep 23</p>
-                                                </div>
-                                                <p class="mb-1 mb-2 pl-3" style="font-size:16px">Do you remember when you joined Twitter? I do!
-                                                    #MyTwitterAnniversary
-                                                </p>
-                                                <img class="w-100 retweet-round" src="/assets/icon/5.jpeg">
-                                            </div>
-                                    </div>
-                            </div> -->
-
-                    <!-- when retweet with quote & picture -->
-                    <div class="col-md-11 mt-2 ">
+                    <div *ngIf="!qTweet.tweetUrl" class="col-md-11 mt-2 ">
                         <textarea class="mb-1 dark-grey textareaSize" style="font-size:25px"
                             placeholder="Add a comment"></textarea>
+                        <div class="row mb-3">
+                            <div class="col-md-12 retweeted">
+                                <div class="d-flex pl-3">
+                                    <img class="retweetProfile" src="/assets/icon/tweetProfile.jpg">
+                                    <h4 class="mb-0 ml-2">
+                                        Muhammad Afaq
+                                    </h4>
+                                    <p class="mx-1 mt-1 dark-grey mb-0">@Muhammad15067 . Sep 23</p>
+                                </div>
+                                <p class="mb-1 mb-2 pl-3" style="font-size:16px">Do you remember when you joined
+                                    Twitter? I do!
+                                    #MyTwitterAnniversary
+                                </p>
+                                <img class="w-100 retweet-round" src="/assets/icon/5.jpeg">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- when retweet with quote & picture -->
+                    <div *ngIf="qTweet.tweetUrl" class="col-md-11 mt-2 ">
+                        <textarea class="mb-1 dark-grey textareaSize" style="font-size:25px"
+                            placeholder="Add a quote"></textarea>
                         <div class="row mb-3">
                             <!-- <img  src="/assets/icon/trump.jpeg"> -->
                             <div *ngIf="imageUrl" class="">

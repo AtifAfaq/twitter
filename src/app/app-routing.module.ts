@@ -10,6 +10,7 @@ import {SettingsComponent} from './settings/settings.component';
 import {LogoutComponent} from './logout/logout.component';
 import {SignupComponent} from './signup/signup.component';
 import {FrontpageComponent} from './frontpage/frontpage.component';
+import { TweetDetailComponent } from './tweet-detail/tweet-detail.component';
 
 const routes: Routes = [
   { path: 'Home', component: HomeComponent },
@@ -20,6 +21,7 @@ const routes: Routes = [
   { path: 'logout', component: LogoutComponent},
   { path: 'signup', component: SignupComponent},
   { path: 'frontpage', component: FrontpageComponent},
+  { path: 'tweetDetails', component: TweetDetailComponent},
   { path: '', component: FrontpageComponent },
 ];
 

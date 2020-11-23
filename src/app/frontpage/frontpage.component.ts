@@ -6,6 +6,7 @@ import { ToastrService } from 'ngx-toastr';
 import { FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms';
 import { TwitterService } from '../twitter.service'
 import { iUser } from '../models/user';
+import { UserService } from '../user.service';
 
 @Component({
   selector: 'app-frontpage',
@@ -82,7 +83,7 @@ export class FrontpageComponent implements OnInit {
   days: any = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31];
 
   constructor(public router: Router, public el: ElementRef,
-    public toastr: ToastrService, public fb: FormBuilder, public service: TwitterService) {
+    public toastr: ToastrService, public fb: FormBuilder, public service: TwitterService, public userser: UserService) {
 
   }
 
@@ -176,7 +177,7 @@ export class FrontpageComponent implements OnInit {
         }
       })
       .catch((e) => {
-        this.toastr.error('error', 'e.message');
+        this.toastr.error('error', e.message);
       });
   }
 
@@ -187,11 +188,13 @@ export class FrontpageComponent implements OnInit {
         this.toastr.success('success', 'You are successfully logged in!');
         localStorage.setItem('userObj', JSON.stringify(user));
         localStorage.setItem('userLoggedIn', 'true');
+        this.service.fetchAllTweets();
+        this.userser.fetchUserTweets();
         this.router.navigate(['/Home']);
       })
       .catch((e) => {
-        this.toastr.error('error', 'e.message');
-      })
+        this.toastr.error('error', e.message);
+      });
   }
 
   generateUsername() {

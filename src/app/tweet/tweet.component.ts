@@ -4,6 +4,7 @@ import * as firebase from 'firebase';
 import { ToastrService } from 'ngx-toastr';
 import { iTweet, iTweetReply } from '../models/tweet';
 import { iUser } from '../models/user';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -17,12 +18,12 @@ export class TweetComponent implements OnInit {
   newImage: any = {};
   imageUrl: string | ArrayBuffer;
   activeIndex;
-  // replyText;
+  qTweet = new iTweet();
   uploadedString;
   originalTweet: iTweet;
   tweetsLikedByUser = [];
   userData: iUser = JSON.parse(localStorage.getItem('userObj'));
-  replies: Array<iTweetReply>;
+  replies: iTweetReply[] = [];
   replyObj = new iTweetReply();
   user = new iUser();
 
@@ -53,7 +54,7 @@ export class TweetComponent implements OnInit {
   ];
 
   // document.getElementById('signUpFormCloseButton').click();
-  constructor(public service: TwitterService, public toastr: ToastrService) {
+  constructor(public service: TwitterService, public toastr: ToastrService, public router: Router) {
     if (!this.user) {
       this.user = new iUser();
     }
@@ -75,15 +76,16 @@ export class TweetComponent implements OnInit {
 
   unlikedTweet(selectedTweet, i) {
     var tweetKey = selectedTweet.key;
-    if (!this.allTweets[i].likes) {
-      this.allTweets[i].likes = [];
-    }
-    selectedTweet.likes.forEach((like, index) => {
-      if (like == this.userData.uid) {
-        selectedTweet.likes.splice(index, 1);
-        // this.allTweets[i].liked = false;
-      }
-    });
+    // if (!this.allTweets[i].likes) {
+    //   this.allTweets[i].likes = [];
+    // }
+    // selectedTweet.likes.forEach((like, index) => {
+    //   if (like == this.userData.uid) {
+    //     selectedTweet.likes.splice(index, 1);
+    //   }
+    // });
+    var removeIndex = selectedTweet.likes.indexOf(this.userData.uid);
+    selectedTweet.likes.splice(removeIndex, 1);
     var updates = {};
     updates['/tweets/' + tweetKey + '/likes'] = selectedTweet.likes;
     firebase.database().ref().update(updates).then(() => {
@@ -93,8 +95,6 @@ export class TweetComponent implements OnInit {
         this.toastr.error('error', e.message);
       });
   }
-
-
 
   likedTweet(selectedTweet, index) {
     var tweetKey = selectedTweet.key;
@@ -140,6 +140,7 @@ export class TweetComponent implements OnInit {
 
   closeModal() {
     this.replyObj = new iTweetReply();
+    this.imageUrl = '';
   }
 
   confirmOnly(i) {
@@ -165,7 +166,7 @@ export class TweetComponent implements OnInit {
   confirmReply(t, i) {
     this.originalTweet = t;
     this.activeIndex = i;
-    console.log(this.originalTweet);
+    console.log('originalTweet', this.originalTweet);
   }
 
   replyTweet(): void {
@@ -203,7 +204,7 @@ export class TweetComponent implements OnInit {
   postReplyOnFirebase() {
     this.replyObj.uid = this.userData.uid;
     this.replyObj.timestamp = Number(new Date());
-
+    this.replyObj.key = firebase.database().ref().child(`/tweets/`).push().key;
 
     var tweetKey = this.originalTweet.key;
     if (!this.allTweets[this.activeIndex].replies) {
@@ -213,6 +214,7 @@ export class TweetComponent implements OnInit {
     // this.allTweets[index].liked = true;
     console.log('tweets', this.allTweets);
     var updates = {};
+
     updates['/tweets/' + tweetKey + `/replies`] = this.allTweets[this.activeIndex].replies;
     firebase.database().ref().update(updates).then(() => {
       this.toastr.success('success', 'replied!');
@@ -224,6 +226,14 @@ export class TweetComponent implements OnInit {
     console.log('Alltweets', this.allTweets);
   }
 
+  goToDetails(selectedTweet) {
+    this.service.Tweetdetail = selectedTweet;
+    this.router.navigate(['/tweetDetails']);
+  }
 
+  quoteTweet(t) {
+    this.qTweet = t;
+    console.log('Qtweet', this.qTweet);
+  }
 
 }

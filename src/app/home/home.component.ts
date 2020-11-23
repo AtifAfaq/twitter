@@ -26,6 +26,7 @@ export class HomeComponent implements OnInit {
   myTweets: Array<iTweet> = [];
 
 
+
   constructor(public zone: NgZone,
     public router: Router, public toastr: ToastrService,
     public service: TwitterService,
@@ -35,13 +36,18 @@ export class HomeComponent implements OnInit {
 
 
   ngOnInit(): void {
+
     this.service.getObservable().subscribe((data) => {
-      this.allTweets = data;
-      console.log(data);
+      if (data.allTweetsFetched) {
+        this.allTweets = this.service.allTweets;
+      }
+      else if (data.onlyMyTweetsFetched) {
+        this.myTweets = this.userser.myTweets;
+      }
     });
     this.allTweets = this.service.allTweets;
     this.myTweets = this.userser.myTweets;
-    console.log('userService', this.userser.myTweets);
+    console.log('home Component', this.allTweets);
   }
   openCommenModal(): void { }
 
@@ -82,7 +88,6 @@ export class HomeComponent implements OnInit {
 
   }
 
-
   mouseEnter(data: any): void {
     this.isDisplay = true;
   }
@@ -104,40 +109,41 @@ export class HomeComponent implements OnInit {
     }
   }
 
-
-
   uploadImage(): void {
     const self = this;
     const storageRef = firebase.storage().ref();
-    const filename = Math.floor(Date.now() / 1000) + '.' + this.newImage.name.split('.').pop();
-    const uploadTask = storageRef.child('tweetImages/' + filename).put(this.newImage);
+    const filename = Math.floor(Date.now() / 1000) + '.' + self.newImage.name.split('.').pop();
+    const uploadTask = storageRef.child('tweetImages/' + filename).put(self.newImage);
     uploadTask.on(firebase.storage.TaskEvent.STATE_CHANGED,
       (snapshot) => { },
       (error) => {
       }, () => {
         uploadTask.snapshot.ref.getDownloadURL().then((downloadURL) => {
-          this.tweetData.tweetUrl = downloadURL;
-          this.postTweetOnFirebase();
+          self.tweetData.tweetUrl = downloadURL;
+          self.postTweetOnFirebase();
         })
           .catch((e) => {
-            this.toastr.error('error', e.message);
+            self.toastr.error('error', e.message);
           });
       });
   }
 
   postTweetOnFirebase(): void {
     const self = this;
-    this.tweetData.timestamp = Number(new Date());
-    this.tweetData.uid = this.userData.uid;
-    this.tweetData.key = firebase.database().ref().child(`/tweets/`).push().key;
-    firebase.database().ref().child(`/tweets/${this.tweetData.key}`).
-      set(this.tweetData).then(() => {
-        this.toastr.success('success', 'Tweeted Succesfully');
-        this.tweetData = new iTweet();
-        this.imageUrl = '';
+    self.tweetData.timestamp = Number(new Date());
+    self.tweetData.uid = self.userData.uid;
+    self.tweetData.key = firebase.database().ref().child(`/tweets/`).push().key;
+    firebase.database().ref().child(`/tweets/${self.tweetData.key}`).
+      set(self.tweetData).then(() => {
+        self.tweetData.user = self.userData;
+        self.service.allTweets.unshift(self.tweetData);
+        console.log('tweets', self.allTweets);
+        self.toastr.success('success', 'Tweeted Succesfully');
+        self.tweetData = new iTweet();
+        self.imageUrl = '';
       })
       .catch((e) => {
-        alert(e.message);
+        self.toastr.error('error', e.message);
       });
   }
 

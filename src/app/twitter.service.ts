@@ -11,6 +11,7 @@ export class TwitterService {
   public fooSubject = new Subject<any>();
   allUsers: Array<iUser> = [];
   allTweets: Array<iTweet> = [];
+  Tweetdetail: iTweet;
   constructor() {
     if (!this.allUsers || !this.allUsers.length) {
       this.getAllUsers();
@@ -19,6 +20,7 @@ export class TwitterService {
 
   getAllUsers(): void {
     const self = this;
+    this.allUsers = [];
     firebase.database().ref().child('users')
       .once('value', (snapshot) => {
         const data = snapshot.val();
@@ -33,6 +35,7 @@ export class TwitterService {
 
   fetchAllTweets(): void {
     const self = this;
+    this.allTweets = [];
     firebase.database().ref().child('tweets').once('value', (snapshot) => {
       var data = snapshot.val();
       for (var key in data) {
@@ -45,10 +48,11 @@ export class TwitterService {
 
         });
       }
-      self.publishSomeData(self.allTweets);
+
+      self.publishSomeData({ allTweetsFetched: true });
     });
 
-    console.log(this.allTweets);
+    console.log('twitterservice', this.allTweets);
   }
 
 
