@@ -227,8 +227,8 @@ export class TweetComponent implements OnInit {
   }
 
   goToDetails(selectedTweet) {
-    this.service.Tweetdetail = selectedTweet;
-    this.router.navigate(['/tweetDetails']);
+    // this.service.Tweetdetail = selectedTweet;
+    this.router.navigate(['/tweetDetails', selectedTweet.key]);
   }
 
   quoteTweet(t) {

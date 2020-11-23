@@ -6,6 +6,7 @@ import { UserService } from '../user.service';
 import { ToastrService } from 'ngx-toastr';
 import { iUser } from '../models/user';
 import { Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-tweet-detail',
@@ -17,14 +18,24 @@ export class TweetDetailComponent implements OnInit {
   allTweets: Array<iTweet> = [];
   allUsers: Array<iUser> = [];
   userData;
+  tweetKeyReciever: string;
 
-  constructor(public service: TwitterService, public userser: UserService, public toastr: ToastrService, public router: Router) {
+  constructor(public service: TwitterService, public userser: UserService, public toastr: ToastrService,
+    public router: Router, private route: ActivatedRoute) {
+    this.tweetKeyReciever = route.snapshot.params.key;
 
-    this.Tweet = this.service.Tweetdetail;
+
+    this.service.allTweets.forEach(twet => {
+      if (twet.key == this.tweetKeyReciever) {
+        this.Tweet = twet;
+      }
+    })
+    // this.Tweet = this.service.Tweetdetail;
+    this.allTweets.push(this.Tweet);
     if (!this.Tweet) {
       this.router.navigate(['/Home']);
     }
-    this.allTweets.push(this.Tweet);
+
     console.log("Tweet Details", this.allTweets);
     this.allUsers = this.service.allUsers;
     this.userData = this.userser.user;
@@ -32,6 +43,7 @@ export class TweetDetailComponent implements OnInit {
   }
 
   ngOnInit(): void {
+
   }
   sortingUserReply() {
     if (this.allTweets[0].replies) {

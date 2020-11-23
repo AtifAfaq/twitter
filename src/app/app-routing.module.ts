@@ -21,7 +21,7 @@ const routes: Routes = [
   { path: 'logout', component: LogoutComponent},
   { path: 'signup', component: SignupComponent},
   { path: 'frontpage', component: FrontpageComponent},
-  { path: 'tweetDetails', component: TweetDetailComponent},
+  { path: 'tweetDetails/:key', component: TweetDetailComponent},
   { path: '', component: FrontpageComponent },
 ];
 
