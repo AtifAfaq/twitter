@@ -106,12 +106,12 @@
 
                                 <div *ngIf="!isReplyLiked(r)" (click)=likedReply(r,u) class="col-md-3 dark-grey p-0">
                                     <i class="far fa-heart heart"></i>
-                                    <span *ngIf="r.likes">{{r.likes.length}}</span>
+                                    <span *ngIf="r.likes && r.likes.length">{{r.likes.length}}</span>
                                 </div>
 
                                 <div *ngIf="isReplyLiked(r)" (click)=unlikedReply(r,u) class="col-md-3 dark-grey p-0">
                                     <img class="heartLiked" src='../../assets/icon/tweet/heart.png'>
-                                    <span *ngIf="r.likes">{{r.likes.length}}</span>
+                                    <span *ngIf="r.likes && r.likes.length">{{r.likes.length}}</span>
                                 </div>
                                 <div class="col-md-3 dark-grey p-0">
                                     <i class="far fa-share-square comment"></i>

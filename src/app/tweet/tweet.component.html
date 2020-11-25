@@ -1,17 +1,16 @@
 <!-- 
     ////////////tweet/////////// -->
 <div *ngFor="let t of allTweets; index as i" class="">
-    <!-- *ngIf="t.retweet" -->
-    <div class="pt-1">
-        <p class="dark-grey mb-1"> <i class="ml-5 fas fa-retweet retweet"></i><strong class="pl-3">Name
+    
+    <div *ngIf="checkRetweets(t)" class="pt-1">
+        <p class="dark-grey mb-1"> <i class="ml-5 fas fa-retweet retweet"></i><strong class="pl-3">{{userData.name}}
                 Retweeted</strong></p>
     </div>
-    <button (click)="goToDetails(t)"></button>
     <div class="row">
         <div class="col-md-1">
             <img *ngIf="t.user.profileUrl" class="tweetProfile" src="{{t.user.profileUrl}}">
             <img *ngIf="!t.user.profileUrl" class="tweetProfile" src="/assets/icon/tweet/profile.jpeg">
-
+            <div class='vl'></div>
         </div>
         <div class="col-md-11">
             <div class="d-flex relative">
@@ -49,11 +48,14 @@
                     </div>
                 </div>
             </div>
-            <p class="mb-1 dark-grey" style="font-size:16px">{{t.tweetText}}
-            </p>
-            <div *ngIf="t.tweetUrl">
-                <img class="w-100 rounded tweetPicSize" src={{t.tweetUrl}}>
+            <div (click)="goToDetails(t)">
+                <p class="mb-1 dark-grey" style="font-size:16px">{{t.tweetText}}
+                </p>
+                <div *ngIf="t.tweetUrl">
+                    <img class="w-100 rounded tweetPicSize" src={{t.tweetUrl}}>
+                </div>
             </div>
+
 
             <!-- <Retweeted Original tweet> -->
             <div class="row">
@@ -81,9 +83,12 @@
                     </div>
                     <div class="col-md-3 dark-grey p-0">
                         <div class="dropdown">
-                            <i class="fas fa-retweet retweet dropdown-toggle" data-toggle="dropdown"></i>
+                            <i class="fas fa-retweet retweet dropdown-toggle" data-toggle="dropdown">  
+                                </i>
+                                <span *ngIf="isRetweeted(t)"> {{t.isRetweet.length}}</span>
                             <div class="dropdown-menu">
-                                <a class="dropdown-item"><i class="fas fa-retweet"></i>Retweet</a>
+                                <a (click)="retweet(t,i)" class="dropdown-item"><i
+                                        class="fas fa-retweet"></i>Retweet</a>
                                 <a class="dropdown-item" data-toggle="modal" data-target="#retweetModal"
                                     (click)="quoteTweet(t)"><i class="fas fa-pencil-alt"></i>Quote Tweet</a>
                             </div>

@@ -7,4 +7,5 @@ export class iUser {
     public username: string;
     public profileUrl?: string;
     public dateOfBirth: number;
+    public backgroundUrl?: string;
 }

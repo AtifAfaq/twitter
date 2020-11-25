@@ -13,6 +13,7 @@ import { UserService } from '../user.service';
 })
 export class ProfileComponent implements OnInit {
   pictureSelected;
+  backgroundSelected;
   allTweets: Array<iTweet>;
   myTweets: Array<iTweet>;
   imagePaths: any = [];
@@ -41,7 +42,7 @@ export class ProfileComponent implements OnInit {
     public userser: UserService
   ) {
     this.allTweets = this.service.allTweets;
-    this.myTweets = this.userser.myTweets;
+    this.myTweets = this.service.myTweets;
     console.log('Tweets from profile page', this.myTweets);
   }
 
@@ -80,6 +81,7 @@ export class ProfileComponent implements OnInit {
     this.uploadImage();
   }
 
+
   uploadImage(): void {
     const self = this;
     const storageRef = firebase.storage().ref();
@@ -94,12 +96,10 @@ export class ProfileComponent implements OnInit {
           this.postReplyOnFirebase();
         })
           .catch((e) => {
-            // this.toastr.error('error', e.message);
+            this.toastr.error('error', e.message);
           });
       });
   }
-
-
   postReplyOnFirebase() {
 
     var userUid = this.user.uid;
@@ -108,6 +108,65 @@ export class ProfileComponent implements OnInit {
     firebase.database().ref().update(updates).then(() => {
       localStorage.setItem('userObj', JSON.stringify(this.user));
       this.toastr.success('success', 'Profile picture updated successfully!');
+    })
+      .catch((e) => {
+        this.toastr.error('error', e.message);
+      });
+    console.log('Alltweets', this.allTweets);
+  }
+
+  showBackground() {
+    if (this.user.backgroundUrl) {
+      return true;
+    }
+    else {
+      return false;
+    }
+  }
+
+  updateBackground(event: EventTarget): void {
+    const eventObj: MSInputMethodContext = <MSInputMethodContext>event;
+    const target: HTMLInputElement = <HTMLInputElement>eventObj.target;
+    const files: FileList = target.files;
+    if (files[0].size <= 100000000) {
+      this.newImage = files[0];
+    }
+    const reader = new FileReader();
+    reader.readAsDataURL(this.newImage);
+    reader.onload = () => {
+      this.imageUrl = reader.result;
+    };
+    this.backgroundSelected = true;
+    this.uploadBackground();
+  }
+
+  uploadBackground(): void {
+    const self = this;
+    const storageRef = firebase.storage().ref();
+    const filename = Math.floor(Date.now() / 1000) + '.' + this.newImage.name.split('.').pop();
+    const uploadTask = storageRef.child('tweetImages/' + filename).put(this.newImage);
+    uploadTask.on(firebase.storage.TaskEvent.STATE_CHANGED,
+      (snapshot) => { },
+      (error) => {
+      }, () => {
+        uploadTask.snapshot.ref.getDownloadURL().then((downloadURL) => {
+          this.user.backgroundUrl = downloadURL;
+          this.postBackgroundOnFirebase();
+        })
+          .catch((e) => {
+            this.toastr.error('error', e.message);
+          });
+      });
+  }
+
+  postBackgroundOnFirebase() {
+
+    var userUid = this.user.uid;
+    var updates = {};
+    updates['/users/' + userUid + `/backgroundUrl`] = this.user.backgroundUrl;
+    firebase.database().ref().update(updates).then(() => {
+      localStorage.setItem('userObj', JSON.stringify(this.user));
+      this.toastr.success('success', 'Background updated successfully!');
     })
       .catch((e) => {
         this.toastr.error('error', e.message);

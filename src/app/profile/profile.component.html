@@ -12,38 +12,47 @@
 
                 <div class="col-md-11 mt-2 mb">
                     <h4 class="ml-3 mb-0"><strong>{{user.name}}</strong></h4>
-                    <p class="dark-grey ml-3">{{allTweets.length}} Tweets</p> 
+                    <p class="dark-grey ml-3">{{myTweets.length}} Tweets</p>
                     <!-- Apne tweets k length ayege -->
+                </div>
+
+                <div class="row">
+                   
+                    <input (change)="updateBackground($event)"
+                    style="visibility: hidden; position: absolute;" accept="image/*"
+                    class="form-control modalIcon mr-2 p-1" #background type="file">
+                    <img *ngIf="!showBackground()" class="w-100 backgroundImage" (click)="background.click()" src="/assets/icon/profile/background.jpg">
+                    <img  *ngIf="showBackground()" class="w-100 backgroundImage" (click)="background.click()" src="{{user.backgroundUrl}}">
                 </div>
 
                 <div class="row content w-100 mb-5">
                     <div class="col-md-4">
+                        <div>
+                            <div class="">
+                                <input (change)="updateProfilePic($event)"
+                                    style="visibility: hidden; position: absolute;" accept="image/*" #file
+                                    class="form-control modalIcon mr-2 p-1" type="file" name="files">
 
-                        <div class="">
-                            <input (change)="updateProfilePic($event)" style="visibility: hidden; position: absolute;"
-                                accept="image/*" #file class="form-control modalIcon mr-2 p-1" type="file" name="files">
-                    
-                            <img *ngIf="!user.profileUrl " class="shade1" (click)="file.click()"
-                                src="/assets/icon/tweet/profile.jpeg">
-                            <img *ngIf="user.profileUrl" class="shade1" (click)="file.click()"
-                                src="{{user.profileUrl}}">
+                                <img *ngIf="!user.profileUrl " class="shade1" (click)="file.click()"
+                                    src="/assets/icon/tweet/profile.jpeg">
+                                <img *ngIf="user.profileUrl" class="shade1" (click)="file.click()"
+                                    src="{{user.profileUrl}}">
 
+                            </div>
+                            <div class="topMargin ">
+                                <h4 class="mb-0">{{user.name}}</h4>
+                                <p class="dark-grey m-0">@{{user.username}}</p>
+                                <p class="dark-grey m-0"><i class="far fa-calendar-alt"></i><span class="ml-2">Joined
+                                        September
+                                        2020</span></p>
+                                <p><strong>1 </strong><span class="mr-2 dark-grey"> Following</span>
+                                    <span><strong>0</strong></span><span class="dark-grey">
+                                        Followers</span></p>
+                            </div>
                         </div>
-                        <div class="topMargin">
-                            <h4 class="mb-0">{{user.name}}</h4>
-                            <p class="dark-grey m-0">@{{user.username}}</p>
-                            <p class="dark-grey m-0"><i class="far fa-calendar-alt"></i><span class="ml-2">Joined
-                                    September
-                                    2020</span></p>
-                            <p><strong>1 </strong><span class="mr-2 dark-grey"> Following</span>
-                                <span><strong>0</strong></span><span class="dark-grey">
-                                    Followers</span></p>
-                        </div>
-
                     </div>
-
                     <div class="col-md-4"></div>
-                    <div class="col-md-4 text-center setBtn">
+                    <div class="col-md-4 text-center marginTop">
                         <button type="button" class="btn btn-modal" data-dismiss="modal">Set up profile</button>
                     </div>
                 </div>
@@ -66,7 +75,7 @@
                     </ul>
                 </div>
                 <!-- Tab panes -->
-                <div class="tab-content">
+                <div class="tab-content w-100">
                     <!-- 1st Tab pane -->
                     <div id="home" class="container tab-pane active"><br>
                         <app-tweet [allTweets]="myTweets"></app-tweet>

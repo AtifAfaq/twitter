@@ -59,10 +59,19 @@ export class TweetComponent implements OnInit {
       this.user = new iUser();
     }
 
+
   }
 
   ngOnInit(): void {
 
+  }
+
+  checkRetweets(tweet: iTweet){
+    if (tweet.isRetweet) {
+      return tweet.isRetweet.includes(this.userData.uid);
+    } else {
+      return false;
+    }
   }
 
   isPostLiked(tweet: iTweet) {
@@ -71,7 +80,6 @@ export class TweetComponent implements OnInit {
     } else {
       return false;
     }
-
   }
 
   unlikedTweet(selectedTweet, i) {
@@ -235,5 +243,71 @@ export class TweetComponent implements OnInit {
     this.qTweet = t;
     console.log('Qtweet', this.qTweet);
   }
+
+  isRetweeted(tweet: iTweet) {
+    if (tweet.isRetweet) {
+      return tweet.isRetweet.includes(this.userData.uid);
+    } else {
+      return false;
+    }
+  }
+
+  retweet(selectedTweet, index) {
+    var tweetKey = selectedTweet.key;
+    if (!this.allTweets[index].isRetweet) {
+      this.allTweets[index].isRetweet = [];
+    }
+    if (!selectedTweet.isRetweet.includes(this.userData.uid)) {
+      this.allTweets[index].isRetweet.push(this.userData.uid);
+      var updates = {};
+      updates['/tweets/' + tweetKey + '/isRetweet'] = this.allTweets[index].isRetweet;
+      firebase.database().ref().update(updates).then(() => {
+        this.toastr.success('success', 'Retweeted Successfully!');
+      })
+        .catch((e) => {
+          this.toastr.error('error', e.message);
+        });
+    }
+    else[
+      this.toastr.warning('warning','Already Retweet!')
+    ]
+  }
+
+  // this.allTweets[index].likes.push(this.userData.uid);
+  // // this.allTweets[index].liked = true;
+  // console.log('tweets', this.allTweets);
+  // var updates = {};
+  // updates['/tweets/' + tweetKey + '/likes'] = this.allTweets[index].likes;
+  // firebase.database().ref().update(updates).then(() => {
+  //   this.toastr.success('success', 'liked!');
+
+  // })
+  //   .catch((e) => {
+  //     this.toastr.error('error', e.message);
+  //   });
+
+
+  // likedTweet(selectedTweet, index) {
+  //   var tweetKey = selectedTweet.key;
+  //   if (!this.allTweets[index].likes) {
+  //     this.allTweets[index].likes = [];
+  //   }
+  //   this.allTweets[index].likes.push(this.userData.uid);
+  //   // this.allTweets[index].liked = true;
+  //   console.log('tweets', this.allTweets);
+  //   var updates = {};
+  //   updates['/tweets/' + tweetKey + '/likes'] = this.allTweets[index].likes;
+  //   firebase.database().ref().update(updates).then(() => {
+  //     this.toastr.success('success', 'liked!');
+
+  //   })
+  //     .catch((e) => {
+  //       this.toastr.error('error', e.message);
+  //     });
+
+
+  //   console.log('Alltweets', this.allTweets);
+
+  // }
 
 }

@@ -15,7 +15,7 @@ export class iTweet {
     public key: string;
     public likes: Array<string> = [];
     public replies?: Array<iTweetReply> = [];
-    public isRetweet?: boolean;
+    public isRetweet?: Array<string> = [];
     public user?: iUser;
 
 

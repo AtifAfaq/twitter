@@ -12,10 +12,13 @@ export class TwitterService {
   allUsers: Array<iUser> = [];
   allTweets: Array<iTweet> = [];
   Tweetdetail: iTweet;
+  myTweets: Array<iTweet> = [];
+  user = new iUser();
   constructor() {
     if (!this.allUsers || !this.allUsers.length) {
       this.getAllUsers();
     }
+    this.user = JSON.parse(localStorage.getItem('userObj'));
   }
 
   getAllUsers(): void {
@@ -28,31 +31,54 @@ export class TwitterService {
           let temp = data[key];
           self.allUsers.push(temp);
         }
-        // this.publishSomeData(self.allUsers);
+        self.publishSomeData({ allUserFetched: true });
+        self.fetchAllTweets();
       });
-    self.fetchAllTweets();
   }
 
   fetchAllTweets(): void {
     const self = this;
-    this.allTweets = [];
+    self.allTweets = [];
+    self.myTweets = [];
     firebase.database().ref().child('tweets').once('value', (snapshot) => {
       var data = snapshot.val();
       for (var key in data) {
-        var temp = data[key]
-        this.allUsers.filter(user => {
-          if (user.uid == temp.uid) {
-            temp.user = user;
-            self.allTweets.push(temp);
-          }
+        var temp: iTweet = data[key]
 
-        });
+        // Case for putting users in tweets
+        // this.allUsers.filter(user => {
+        //   if (user.uid == temp.uid) {
+        //     temp.user = user;
+        //     self.allTweets.push(temp);
+        //   }
+        // });
+
+        // Case for putting users in tweets
+        var UsersArray: Array<iUser> = this.allUsers.filter(user => user.uid == temp.uid)
+        temp.user = UsersArray[0];
+        self.allTweets.push(temp);
+
+
+
+
+        //Case for My tweets
+        // Tweeted by me 
+        if (temp.uid == this.user.uid) {
+          // temp.user = this.user;
+          self.myTweets.push(temp);
+        }
+
+        // Retweeted by me 
+        if (temp.isRetweet && temp.isRetweet.includes(this.user.uid)) {
+          self.myTweets.push(temp);
+        }
+
       }
-
       self.publishSomeData({ allTweetsFetched: true });
     });
 
     console.log('twitterservice', this.allTweets);
+    console.log('Mytweets', this.myTweets);
   }
 
 

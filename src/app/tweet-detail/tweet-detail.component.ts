@@ -22,30 +22,41 @@ export class TweetDetailComponent implements OnInit {
 
   constructor(public service: TwitterService, public userser: UserService, public toastr: ToastrService,
     public router: Router, private route: ActivatedRoute) {
-    this.tweetKeyReciever = route.snapshot.params.key;
-
-
-    this.service.allTweets.forEach(twet => {
-      if (twet.key == this.tweetKeyReciever) {
-        this.Tweet = twet;
+    this.service.getObservable().subscribe((data) => {
+      if (data.allTweetsFetched) {
+        this.allTweets = this.service.allTweets;
+        this.tweetKeyReciever = route.snapshot.params.key;
+        this.allTweets = this.allTweets.filter(twet => twet.key == this.tweetKeyReciever);
+        this.sortingUserReply();
       }
-    })
-    // this.Tweet = this.service.Tweetdetail;
-    this.allTweets.push(this.Tweet);
-    if (!this.Tweet) {
+      if (data.allUsersFetched) {
+        this.allUsers = this.service.allUsers;
+
+      }
+    });
+    this.allTweets = this.service.allTweets;
+    this.tweetKeyReciever = route.snapshot.params.key;
+    this.allTweets = this.allTweets.filter(twet => twet.key == this.tweetKeyReciever);
+
+    if (!this.allTweets) {
       this.router.navigate(['/Home']);
     }
 
     console.log("Tweet Details", this.allTweets);
     this.allUsers = this.service.allUsers;
     this.userData = this.userser.user;
-    this.sortingUserReply();
+    if (this.allTweets.length && this.allUsers.length) {
+      this.sortingUserReply();
+    }
   }
 
   ngOnInit(): void {
 
   }
   sortingUserReply() {
+    if (!this.allTweets[0].replies) {
+      this.allTweets[0].replies = [];
+    }
     if (this.allTweets[0].replies) {
       this.allTweets[0].replies.forEach((reply, index) => {
         this.allUsers.forEach(user => {
@@ -126,7 +137,7 @@ export class TweetDetailComponent implements OnInit {
 
   unlikedReply(selectedReply, index) {
     var replyKey = selectedReply.key;
-    var tweetKey = this.Tweet.key;
+    var tweetKey = this.allTweets[0].key;
     if (!this.allTweets[0].replies[index].likes) {
       this.allTweets[0].replies[index].likes = [];
     }
@@ -145,29 +156,10 @@ export class TweetDetailComponent implements OnInit {
   }
 
 
-
-  likedReply(selectedReply, index) {
-    var tweetKey = this.Tweet.key;
-    var replyKey = selectedReply.key;
-    if (!this.allTweets[0].replies[index].likes) {
-      this.allTweets[0].replies[index].likes = [];
-    }
-    this.allTweets[0].replies[index].likes.push(this.userData.uid);
-    // this.allTweets[index].liked = true;
-    console.log('likes Array added', this.allTweets);
-    var updates = {};
-    updates['/tweets/' + tweetKey + '/replies/' + index + '/likes'] = this.allTweets[0].replies[index].likes;
-    firebase.database().ref().update(updates).then(() => {
-      this.toastr.success('success', 'liked Reply!');
-
-    })
-      .catch((e) => {
-        this.toastr.error('error', e.message);
-      });
-  }
-
   confirmReply(r, i) {
 
   }
+
+
 
 }
