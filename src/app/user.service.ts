@@ -12,45 +12,48 @@ import { ToastrService } from 'ngx-toastr';
 export class UserService {
   user = new iUser();
   myTweets: Array<iTweet> = [];
+  selectedProfileUsername: string;
+  localUser = new iUser();
 
   constructor(public service: TwitterService, public router: Router, public toastr: ToastrService) {
     this.user = JSON.parse(localStorage.getItem('userObj'));
-    this.fetchUserTweets();
+    this.localUser = JSON.parse(localStorage.getItem('userObj'));
+    // this.fetchUserTweets();
   }
 
-  fetchUserTweets() {
-    const self = this;
-    this.user = JSON.parse(localStorage.getItem('userObj'));
-    
-    // Case for tweets which I have tweeted
-    if (this.user) {
-      firebase.database().ref().child('tweets').orderByChild('uid').equalTo(this.user.uid)
-        .once('value', (snapshot) => {
-          var data = snapshot.val();
-          for (var key in data) {
-            var temp = data[key];
-            temp.user = this.user;
-            self.myTweets.push(temp);
-          }
-          self.service.publishSomeData({ onlyMyTweetsFetched: true });
-        });
-    }
+  // fetchUserTweets() {
+  //   const self = this;
+  //   this.user = JSON.parse(localStorage.getItem('userObj'));
 
-    // Case for tweets which I have retweeted
-    if (this.user) {
-      firebase.database().ref().child('tweets')
-        .once('value', (snapshot) => {
-          var data = snapshot.val();
-          for (var key in data) {
-            var temp = data[key];
-            if (temp.isRetweet && temp.isRetweet.includes(this.user.uid)) {
-              temp.user = this.user;
-              self.myTweets.push(temp);
-            }
-          }
-        })
-    }
-  }
+  //   // Case for tweets which I have tweeted
+  //   if (this.user) {
+  //     firebase.database().ref().child('tweets').orderByChild('uid').equalTo(this.user.uid)
+  //       .once('value', (snapshot) => {
+  //         var data = snapshot.val();
+  //         for (var key in data) {
+  //           var temp = data[key];
+  //           temp.user = this.user;
+  //           self.myTweets.push(temp);
+  //         }
+  //         self.service.publishSomeData({ onlyMyTweetsFetched: true });
+  //       });
+  //   }
+
+  //   // Case for tweets which I have retweeted
+  //   if (this.user) {
+  //     firebase.database().ref().child('tweets')
+  //       .once('value', (snapshot) => {
+  //         var data = snapshot.val();
+  //         for (var key in data) {
+  //           var temp = data[key];
+  //           if (temp.isRetweet && temp.isRetweet.includes(this.user.uid)) {
+  //             temp.user = this.user;
+  //             self.myTweets.push(temp);
+  //           }
+  //         }
+  //       })
+  //   }
+  // }
 
   logOut() {
     var user = firebase.auth().currentUser;
@@ -77,5 +80,20 @@ export class UserService {
   emptyUserService() {
     this.myTweets = [];
     this.service.allTweets = [];
+  }
+
+  tweetsOfSelectedUser(user) {
+    this.myTweets = [];
+    this.selectedProfileUsername = user.username;
+    this.user = user;
+    this.myTweets = this.service.allTweets.filter(tweet => (tweet.uid == user.uid || tweet.isRetweet && tweet.isRetweet.includes(user.uid)));
+    console.log("sortedMy Array", this.myTweets);
+    this.service.publishSomeData({
+      tweetsOfSelectedUser: true,
+      selectedUser: user
+    });
+    // if (temp.uid == this.user.uid || temp.isRetweet && temp.isRetweet.includes(this.user.uid)) {
+    //   self.myTweets.push(temp);
+    // }
   }
 }

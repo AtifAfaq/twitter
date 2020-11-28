@@ -8,8 +8,10 @@
         </div>
 
         <div *ngFor="let icon of iconArray;index as i" class="mt-2 p-2 paddingDiv" id="iconStyle" (click)="active(i)">
-            <img class="icon" [class.hide]="activeIndex!=i" src={{icon.activeIcon}}>
-            <img class="icon" [class.hide]="activeIndex===i" src={{icon.inActiveIcon}}>
+            <!-- [class.hide]="activeIndex!=i" -->
+            <img *ngIf="activeIndex==i" class="icon"  src={{icon.activeIcon}}>
+            <!-- [class.hide]="activeIndex==i" -->
+            <img  *ngIf="activeIndex!=i" class="icon"  src={{icon.inActiveIcon}}>
             <p class="d-inline-block mb-0 pl-3 font-weight-bold text">{{icon.title}}</p>
         </div>
 

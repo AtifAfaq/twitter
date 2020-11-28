@@ -4,6 +4,16 @@
     </div>
     <div class="col-md-6 ">
         <div class="border">
+            <div class="row pt-3">
+                <div class="col-md-1">
+                    <img class="icon p-1 cursor" id="backIcon" src="/assets/icon/backArrow.png" routerLink="/Home">
+                </div>
+    
+                <div class="col-md-11 mt-2 mb">
+                    <h4 class="ml-3 mb-0"><strong>Tweet</strong></h4>
+                </div>
+            </div>
+           <hr>
             <app-tweet [allTweets]='allTweets'></app-tweet>
             <!-- 
     ////////////Reply tweet/////////// -->
@@ -17,7 +27,7 @@
                     </div>
                     <div class="col-md-11">
                         <div class="d-flex relative">
-                            <h4 class="mb-0" (mouseenter)="r.isDisplay=true" (mouseleave)="r.isDisplay=false">
+                            <h4 class="mb-0 cursor" (mouseenter)="r.isDisplay=true" (mouseleave)="r.isDisplay=false">
                                 {{r.user.name}}
                             </h4>
                             <p class="mx-1 mt-1 dark-grey mb-0"> @{{r.user.username}} .

@@ -5,7 +5,7 @@ import { ToastrService } from 'ngx-toastr';
 import { iTweet, iTweetReply } from '../models/tweet';
 import { iUser } from '../models/user';
 import { Router } from '@angular/router';
-
+import { UserService } from '../user.service';
 
 @Component({
   selector: 'app-tweet',
@@ -15,6 +15,7 @@ import { Router } from '@angular/router';
 export class TweetComponent implements OnInit {
   @Input() allTweets: Array<iTweet>;
   @Input() allUsers: Array<iUser>;
+  @Input() myTweets: Array<iTweet>;
   newImage: any = {};
   imageUrl: string | ArrayBuffer;
   activeIndex;
@@ -54,7 +55,7 @@ export class TweetComponent implements OnInit {
   ];
 
   // document.getElementById('signUpFormCloseButton').click();
-  constructor(public service: TwitterService, public toastr: ToastrService, public router: Router) {
+  constructor(public service: TwitterService, public toastr: ToastrService, public router: Router, public userSer: UserService) {
     if (!this.user) {
       this.user = new iUser();
     }
@@ -66,7 +67,7 @@ export class TweetComponent implements OnInit {
 
   }
 
-  checkRetweets(tweet: iTweet){
+  checkRetweets(tweet: iTweet) {
     if (tweet.isRetweet) {
       return tweet.isRetweet.includes(this.userData.uid);
     } else {
@@ -269,8 +270,14 @@ export class TweetComponent implements OnInit {
         });
     }
     else[
-      this.toastr.warning('warning','Already Retweet!')
+      this.toastr.warning('warning', 'Already Retweet!')
     ]
+  }
+
+  goToProfile(user) {
+    this.userSer.selectedProfileUsername = user.username;
+    this.userSer.tweetsOfSelectedUser(user);
+    this.router.navigate(['/Profile', user.username]);
   }
 
   // this.allTweets[index].likes.push(this.userData.uid);

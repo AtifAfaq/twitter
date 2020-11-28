@@ -14,7 +14,7 @@ import { TweetDetailComponent } from './tweet-detail/tweet-detail.component';
 
 const routes: Routes = [
   { path: 'Home', component: HomeComponent },
-  { path: 'Profile', component: ProfileComponent },
+  { path: 'Profile/:username', component: ProfileComponent },
   { path: 'tweet', component: TweetComponent },
   { path: 'Notifications', component: NotificationsComponent},
   { path: 'Settings', component: SettingsComponent},

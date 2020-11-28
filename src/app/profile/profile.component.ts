@@ -1,10 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, NgZone } from '@angular/core';
 import * as firebase from 'firebase';
 import { iUser } from '../models/user';
 import { ToastrService } from 'ngx-toastr';
 import { TwitterService } from '../twitter.service';
 import { iTweet } from '../models/tweet';
 import { UserService } from '../user.service';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-profile',
@@ -19,7 +20,8 @@ export class ProfileComponent implements OnInit {
   imagePaths: any = [];
   newImage: any = {};
   imageUrl;
-  user: iUser = JSON.parse(localStorage.getItem('userObj'));
+  selectedUser = [];
+  user = new iUser();
   whoToFollow: Array<any> = [
     {
       img: '/assets/icon/Amy.jpeg',
@@ -39,11 +41,36 @@ export class ProfileComponent implements OnInit {
   ];
   constructor(public toastr: ToastrService,
     public service: TwitterService,
-    public userser: UserService
+    public userser: UserService,
+    public route: ActivatedRoute,
+    public ngZone: NgZone,
   ) {
+    // Agar param ka username match karta hai local storage k userData k username se to neeche wala method chalega line 53 tak
+    // this.route.snapshot.params
+    this.myTweets = [];
+    var profileUsername = route.snapshot.params.username;
+
+    this.service.getObservable().subscribe(data => {
+      if (data.tweetsOfSelectedUser) {
+        this.ngZone.run(() => {
+          this.myTweets = this.userser.myTweets;
+          this.user = data.selectedUser;
+        })
+      }
+      if (data.allTweetsFetched) {
+        this.selectedUser = this.service.allUsers.filter(user => user.username == profileUsername)
+        this.userser.tweetsOfSelectedUser(this.selectedUser[0]);
+      }
+      window.scroll(0, 0);
+    });
+
     this.allTweets = this.service.allTweets;
-    this.myTweets = this.service.myTweets;
+    this.myTweets = this.userser.myTweets;
+    if (this.service.allUsers && this.service.allUsers.length) {
+      this.user = this.service.allUsers.filter(user => user.username == profileUsername)[0];
+    }
     console.log('Tweets from profile page', this.myTweets);
+    // other wise wo new param k against data aur profile niakalega 
   }
 
   ngOnInit(): void {

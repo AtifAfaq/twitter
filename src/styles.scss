@@ -1,46 +1,41 @@
 /* You can add global styles to this file, and also import other style files */
 @import "~@ng-select/ng-select/themes/default.theme.css";
 
-
- 
 :root {
-    --twitterColor:#1ea2f1;
-    --secondaryColorWhite:#ffffff;
-    --tertiaryColorGrey: #f5f8fa;
-    --searchBarColo:#e6ecf0;
-   --twittershadow: #b3dbfa91;
- 
-  }
-.twitter{
-    color:var(--twitterColor);
+  --twitterColor: #1ea2f1;
+  --secondaryColorWhite: #ffffff;
+  --tertiaryColorGrey: #f5f8fa;
+  --searchBarColo: #e6ecf0;
+  --twittershadow: #b3dbfa91;
 }
-.bgtwitter{
-    background-color:var(--twitterColor);
+.twitter {
+  color: var(--twitterColor);
 }
-.grey{
-  color:rgba(204, 214, 221, 1);
+.bgtwitter {
+  background-color: var(--twitterColor);
+}
+.grey {
+  color: rgba(204, 214, 221, 1);
 }
 
-.dark-grey{
+.dark-grey {
   color: #657786;
 }
 .container {
-    width: 100% !important;
-    height: 100% !important;
-    padding-left: 0% !important;
-    padding-right: 0% !important;
-
-  }
-  
-  .row {
-    width: 100% !important;
-    margin-left: 0px !important;
-  }
-  .border{
-    border-top: none !important;
-    border-bottom: none !important;
+  width: 100% !important;
+  height: 100% !important;
+  padding-left: 0% !important;
+  padding-right: 0% !important;
 }
 
+.row {
+  width: 100% !important;
+  margin-left: 0px !important;
+}
+.border {
+  border-top: none !important;
+  border-bottom: none !important;
+}
 
 //////////////////////toaster
 /* based on angular-toastr css https://github.com/Foxandxss/angular-toastr/blob/cb508fe6801d6b288d3afc525bb40fee1b101650/dist/angular-toastr.css */
@@ -97,10 +92,10 @@
 }
 .toast-message a,
 .toast-message label {
-  color: #FFFFFF;
+  color: #ffffff;
 }
 .toast-message a:hover {
-  color: #CCCCCC;
+  color: #cccccc;
   text-decoration: none;
 }
 .toast-close-button {
@@ -110,7 +105,7 @@
   float: right;
   font-size: 20px;
   font-weight: bold;
-  color: #FFFFFF;
+  color: #ffffff;
   text-shadow: 0 1px 0 #ffffff;
   /* opacity: 0.8; */
 }
@@ -149,7 +144,7 @@ button.toast-close-button {
   background-repeat: no-repeat;
   background-size: 24px;
   box-shadow: 0 0 12px #999999;
-  color: #FFFFFF;
+  color: #ffffff;
 }
 .toast-container .ngx-toastr:hover {
   box-shadow: 0 0 12px #000000;
@@ -189,16 +184,16 @@ button.toast-close-button {
   pointer-events: auto;
 }
 .toast-success {
-  background-color: #51A351;
+  background-color: #51a351;
 }
 .toast-error {
-  background-color: #BD362F;
+  background-color: #bd362f;
 }
 .toast-info {
-  background-color: #2F96B4;
+  background-color: #2f96b4;
 }
 .toast-warning {
-  background-color: #F89406;
+  background-color: #f89406;
 }
 .toast-progress {
   position: absolute;
@@ -207,6 +202,9 @@ button.toast-close-button {
   height: 4px;
   background-color: #000000;
   opacity: 0.4;
+}
+.cursor {
+  cursor: pointer;
 }
 /* Responsive Design */
 @media all and (max-width: 240px) {

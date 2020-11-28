@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import * as firebase from 'firebase';
+import { UserService } from '../user.service';
 
 @Component({
   selector: 'app-side-menu-dynamic',
@@ -48,7 +49,7 @@ export class SideMenuDynamicComponent implements OnInit {
     title: 'Profile'
   }
   ];
-  constructor(private router: Router) {
+  constructor(public router: Router, public userser: UserService) {
   }
 
   ngOnInit(): void {
@@ -61,7 +62,17 @@ export class SideMenuDynamicComponent implements OnInit {
   active(index) {
     this.activeIndex = index;
     const iconTitle = this.iconArray[this.activeIndex].title;
-    this.router.navigate(['/' + iconTitle]);
+    // if icon Tiltle is profile then take it from user.username
+    if (iconTitle == 'Profile') {
+      this.goToProfile(this.userData);
+    }
+    else {
+      this.router.navigate(['/' + iconTitle]);
+    }
+  }
+  goToProfile(userData) {
+    this.userser.tweetsOfSelectedUser(userData);
+    this.router.navigate(['/Profile', userData.username]);
   }
 
   onChangeFiles(event: EventTarget) {

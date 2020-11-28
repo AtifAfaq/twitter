@@ -1,20 +1,26 @@
 <!-- 
     ////////////tweet/////////// -->
 <div *ngFor="let t of allTweets; index as i" class="">
-    
+
     <div *ngIf="checkRetweets(t)" class="pt-1">
         <p class="dark-grey mb-1"> <i class="ml-5 fas fa-retweet retweet"></i><strong class="pl-3">{{userData.name}}
                 Retweeted</strong></p>
     </div>
     <div class="row">
         <div class="col-md-1">
-            <img *ngIf="t.user.profileUrl" class="tweetProfile" src="{{t.user.profileUrl}}">
-            <img *ngIf="!t.user.profileUrl" class="tweetProfile" src="/assets/icon/tweet/profile.jpeg">
-            <div class='vl'></div>
+            <!-- Use params method on Profile -->
+            <!-- On click of picture t.user will be send to userservice  -->
+            <!-- will route to Profile page using Params ..... And will show Others Profile data & his tweets -->
+            <img *ngIf="t.user.profileUrl" class="tweetProfile cursor" src="{{t.user.profileUrl}}"
+                (click)="goToProfile(t.user)">
+            <img *ngIf="!t.user.profileUrl" class="tweetProfile cursor" src="/assets/icon/tweet/profile.jpeg"
+                (click)="goToProfile(t.user)">
+            <!-- <div class='vl'></div> -->
         </div>
         <div class="col-md-11">
             <div class="d-flex relative">
-                <h4 class="mb-0" (mouseenter)="t.isDisplay=true" (mouseleave)="t.isDisplay=false">
+                <h4 class="mb-0 cursor" (mouseenter)="t.isDisplay=true" (mouseleave)="t.isDisplay=false"
+                    (click)="goToProfile(t.user);t.isDisplay=false">
                     {{t.user.name}}
                 </h4>
                 <p class="mx-1 mt-1 dark-grey mb-0"> @{{t.user.username}} . {{t.timestamp  | date: 'fullDate'}}</p>
@@ -48,7 +54,7 @@
                     </div>
                 </div>
             </div>
-            <div (click)="goToDetails(t)">
+            <div class="cursor" (click)="goToDetails(t)">
                 <p class="mb-1 dark-grey" style="font-size:16px">{{t.tweetText}}
                 </p>
                 <div *ngIf="t.tweetUrl">
@@ -83,9 +89,9 @@
                     </div>
                     <div class="col-md-3 dark-grey p-0">
                         <div class="dropdown">
-                            <i class="fas fa-retweet retweet dropdown-toggle" data-toggle="dropdown">  
-                                </i>
-                                <span *ngIf="isRetweeted(t)"> {{t.isRetweet.length}}</span>
+                            <i class="fas fa-retweet retweet dropdown-toggle" data-toggle="dropdown">
+                            </i>
+                            <span *ngIf="isRetweeted(t)"> {{t.isRetweet.length}}</span>
                             <div class="dropdown-menu">
                                 <a (click)="retweet(t,i)" class="dropdown-item"><i
                                         class="fas fa-retweet"></i>Retweet</a>

@@ -7,22 +7,23 @@
             <div class="row mt-1">
 
                 <div class="col-md-1">
-                    <img class="icon p-1" id="backIcon" src="/assets/icon/backArrow.png" routerLink="/Home">
+                    <img class="icon p-1 cursor" id="backIcon" src="/assets/icon/backArrow.png" routerLink="/Home">
                 </div>
 
                 <div class="col-md-11 mt-2 mb">
-                    <h4 class="ml-3 mb-0"><strong>{{user.name}}</strong></h4>
-                    <p class="dark-grey ml-3">{{myTweets.length}} Tweets</p>
+                    <h4 *ngIf="user" class="ml-3 mb-0"><strong>{{user.name}}</strong></h4>
+                    <p *ngIf="myTweets && myTweets.length" class="dark-grey ml-3">{{myTweets.length}} Tweets</p>
                     <!-- Apne tweets k length ayege -->
                 </div>
 
                 <div class="row">
-                   
-                    <input (change)="updateBackground($event)"
-                    style="visibility: hidden; position: absolute;" accept="image/*"
-                    class="form-control modalIcon mr-2 p-1" #background type="file">
-                    <img *ngIf="!showBackground()" class="w-100 backgroundImage" (click)="background.click()" src="/assets/icon/profile/background.jpg">
-                    <img  *ngIf="showBackground()" class="w-100 backgroundImage" (click)="background.click()" src="{{user.backgroundUrl}}">
+
+                    <input (change)="updateBackground($event)" style="visibility: hidden; position: absolute;"
+                        accept="image/*" class="form-control modalIcon mr-2 p-1" #background type="file">
+                    <img *ngIf="!showBackground()" class="w-100 backgroundImage" (click)="background.click()"
+                        src="/assets/icon/profile/background.jpg">
+                    <img *ngIf="showBackground()" class="w-100 backgroundImage" (click)="background.click()"
+                        src="{{user.backgroundUrl}}">
                 </div>
 
                 <div class="row content w-100 mb-5">
@@ -42,9 +43,8 @@
                             <div class="topMargin ">
                                 <h4 class="mb-0">{{user.name}}</h4>
                                 <p class="dark-grey m-0">@{{user.username}}</p>
-                                <p class="dark-grey m-0"><i class="far fa-calendar-alt"></i><span class="ml-2">Joined
-                                        September
-                                        2020</span></p>
+                                <p class="dark-grey m-0"><i class="far fa-calendar-alt"></i><span
+                                        class="ml-2">{{user.timestamp| date: 'longDate'}}</span></p>
                                 <p><strong>1 </strong><span class="mr-2 dark-grey"> Following</span>
                                     <span><strong>0</strong></span><span class="dark-grey">
                                         Followers</span></p>
@@ -53,12 +53,15 @@
                     </div>
                     <div class="col-md-4"></div>
                     <div class="col-md-4 text-center marginTop">
-                        <button type="button" class="btn btn-modal" data-dismiss="modal">Set up profile</button>
+                        <button *ngIf="user.username==userser.localUser.username" type="button" class="btn btn-modal"
+                            data-dismiss="modal">Set up profile</button>
+                        <button *ngIf="user.username != userser.localUser.username" type="button" class="btn btn-modal"
+                            data-dismiss="modal">Follow</button>
                     </div>
                 </div>
             </div>
             <div class="row mt-5">
-                <div class="col-md-12 mt-5 pt-5">
+                <div class="col-md-12 margin pt-5">
                     <ul class="nav nav-tabs nav-justified" style="position:relative;">
                         <li class="nav-item">
                             <a class="nav-link active" data-toggle="tab" href="#home">Tweets</a>

@@ -15,9 +15,8 @@ export class TwitterService {
   myTweets: Array<iTweet> = [];
   user = new iUser();
   constructor() {
-    if (!this.allUsers || !this.allUsers.length) {
-      this.getAllUsers();
-    }
+    this.getAllUsers();
+
     this.user = JSON.parse(localStorage.getItem('userObj'));
   }
 
@@ -44,35 +43,10 @@ export class TwitterService {
       var data = snapshot.val();
       for (var key in data) {
         var temp: iTweet = data[key]
-
-        // Case for putting users in tweets
-        // this.allUsers.filter(user => {
-        //   if (user.uid == temp.uid) {
-        //     temp.user = user;
-        //     self.allTweets.push(temp);
-        //   }
-        // });
-
         // Case for putting users in tweets
         var UsersArray: Array<iUser> = this.allUsers.filter(user => user.uid == temp.uid)
         temp.user = UsersArray[0];
         self.allTweets.push(temp);
-
-
-
-
-        //Case for My tweets
-        // Tweeted by me 
-        if (temp.uid == this.user.uid) {
-          // temp.user = this.user;
-          self.myTweets.push(temp);
-        }
-
-        // Retweeted by me 
-        if (temp.isRetweet && temp.isRetweet.includes(this.user.uid)) {
-          self.myTweets.push(temp);
-        }
-
       }
       self.publishSomeData({ allTweetsFetched: true });
     });

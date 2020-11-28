@@ -189,7 +189,7 @@ export class FrontpageComponent implements OnInit {
         localStorage.setItem('userObj', JSON.stringify(user));
         localStorage.setItem('userLoggedIn', 'true');
         this.service.fetchAllTweets();
-        this.userser.fetchUserTweets();
+        // this.userser.fetchUserTweets();
         this.router.navigate(['/Home']);
       })
       .catch((e) => {
