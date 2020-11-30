@@ -22,6 +22,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { TwitterService } from './twitter.service';
 import { UserService } from './user.service';
 import { TweetDetailComponent } from './tweet-detail/tweet-detail.component';
+import { MessagesComponent } from './messages/messages.component';
 
 // firebaseConfig
 var firebaseConfig = {
@@ -52,6 +53,7 @@ firebase.initializeApp(firebaseConfig);
     SignupComponent,
     FrontpageComponent,
     TweetDetailComponent,
+    MessagesComponent,
 
   ],
   imports: [

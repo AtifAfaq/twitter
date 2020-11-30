@@ -188,3 +188,11 @@ textarea:focus {
     height: 300px;
     object-fit: cover;
 }
+
+.greenIcon{
+color:#19be63  !important;
+&.retweet:hover {
+    color: #19be63 !important;
+    background: #84d69e57 !important;
+}
+}

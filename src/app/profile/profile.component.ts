@@ -22,6 +22,7 @@ export class ProfileComponent implements OnInit {
   imageUrl;
   selectedUser = [];
   user = new iUser();
+  activeIndex;
   whoToFollow: Array<any> = [
     {
       img: '/assets/icon/Amy.jpeg',
@@ -45,8 +46,6 @@ export class ProfileComponent implements OnInit {
     public route: ActivatedRoute,
     public ngZone: NgZone,
   ) {
-    // Agar param ka username match karta hai local storage k userData k username se to neeche wala method chalega line 53 tak
-    // this.route.snapshot.params
     this.myTweets = [];
     var profileUsername = route.snapshot.params.username;
 
@@ -70,7 +69,7 @@ export class ProfileComponent implements OnInit {
       this.user = this.service.allUsers.filter(user => user.username == profileUsername)[0];
     }
     console.log('Tweets from profile page', this.myTweets);
-    // other wise wo new param k against data aur profile niakalega 
+   
   }
 
   ngOnInit(): void {

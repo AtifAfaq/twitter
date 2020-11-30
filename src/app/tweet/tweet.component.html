@@ -89,15 +89,28 @@
                     </div>
                     <div class="col-md-3 dark-grey p-0">
                         <div class="dropdown">
-                            <i class="fas fa-retweet retweet dropdown-toggle" data-toggle="dropdown">
+                            <i *ngIf="!isRetweeted(t)" class="fas fa-retweet retweet dropdown-toggle"
+                                data-toggle="dropdown">
                             </i>
-                            <span *ngIf="isRetweeted(t)"> {{t.isRetweet.length}}</span>
-                            <div class="dropdown-menu">
+                            <i *ngIf="isRetweeted(t)" [class.greenIcon]="isRetweeted(t)"
+                                class="fas fa-retweet retweet dropdown-toggle" data-toggle="dropdown">
+                            </i>
+                            <span *ngIf="t.isRetweet && t.isRetweet.length" [class.greenIcon]="isRetweeted(t)">
+                                {{t.isRetweet.length}}</span>
+
+                            <div *ngIf="!isRetweeted(t)" class="dropdown-menu">
                                 <a (click)="retweet(t,i)" class="dropdown-item"><i
                                         class="fas fa-retweet"></i>Retweet</a>
                                 <a class="dropdown-item" data-toggle="modal" data-target="#retweetModal"
                                     (click)="quoteTweet(t)"><i class="fas fa-pencil-alt"></i>Quote Tweet</a>
                             </div>
+
+                            <div *ngIf="isRetweeted(t)" class="dropdown-menu">
+                                <a (click)="undoRetweet(t,i)" class="dropdown-item"><i class="fas fa-retweet"></i>Undo
+                                    Retweet</a>
+
+                            </div>
+
                         </div>
                     </div>
                     <!-- !t.liked -->
@@ -239,7 +252,7 @@
 
 
 <!-- Retweet Modal with Quote or Without Quote-->
-<div class="modal" id="retweetModal">
+<div *ngIf="qTweet.user" class="modal" id="retweetModal">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
 
@@ -253,28 +266,31 @@
                 <!-- ////////////////// -->
 
                 <div class="row" id="">
-                    <div class="col-md-1 p-0 shade"> <i class="fas fa-user-alt profile dark-grey "
-                            style="font-size:35px;"></i>
+                    <div class="col-md-1 p-0">
+                        <!-- <i class="fas fa-user-alt profile dark-grey "
+                            style="font-size:35px;"></i> -->
+                        <img *ngIf="!qTweet.user.profileUrl" style="height:60px;width: 60px;border-radius:50%" src="/assets/icon/tweetProfile.jpg">
+                        <img *ngIf="qTweet.user.profileUrl" style="height:60px;width: 60px;border-radius:50%" src={{userData.profileUrl}}>
                     </div>
                     <!-- when retweet with quote -->
 
                     <div *ngIf="!qTweet.tweetUrl" class="col-md-11 mt-2 ">
                         <textarea class="mb-1 dark-grey textareaSize" style="font-size:25px"
-                            placeholder="Add a comment"></textarea>
+                            placeholder="Add a quote"></textarea>
                         <div class="row mb-3">
                             <div class="col-md-12 retweeted">
                                 <div class="d-flex pl-3">
-                                    <img class="retweetProfile" src="/assets/icon/tweetProfile.jpg">
+                                    <img *ngIf="!qTweet.user.profileUrl" class="retweetProfile"
+                                        src="/assets/icon/tweetProfile.jpg">
+                                    <img *ngIf="qTweet.user.profileUrl" class="retweetProfile" src={{qTweet.user.profileUrl}}>
                                     <h4 class="mb-0 ml-2">
-                                        Muhammad Afaq
+                                        {{qTweet.user.name}}
                                     </h4>
-                                    <p class="mx-1 mt-1 dark-grey mb-0">@Muhammad15067 . Sep 23</p>
+                                    <p class="mx-1 mt-1 dark-grey mb-0">@{{qTweet.user.username}} . Sep 23</p>
                                 </div>
-                                <p class="mb-1 mb-2 pl-3" style="font-size:16px">Do you remember when you joined
-                                    Twitter? I do!
-                                    #MyTwitterAnniversary
+                                <p class="mb-1 mb-2 pl-3" style="font-size:16px">{{qTweet.tweetText}}
                                 </p>
-                                <img class="w-100 retweet-round" src="/assets/icon/5.jpeg">
+                                <img class="w-100 retweet-round" src={{qTweet.tweetUrl}}>
                             </div>
                         </div>
                     </div>
@@ -293,21 +309,21 @@
                         <div class="row mb-3">
                             <div class="col-md-12 retweeted">
                                 <div class="d-flex pl-3">
-                                    <img class="retweetProfile" src="/assets/icon/tweetProfile.jpg">
+                                    <!-- <img class="retweetProfile" src="/assets/icon/tweetProfile.jpg"> -->
+                                    <img *ngIf="!qTweet.user.profileUrl" class="retweetProfile"
+                                        src="/assets/icon/tweetProfile.jpg">
+                                    <img *ngIf="qTweet.user.profileUrl" class="retweetProfile" src={{qTweet.user.profileUrl}}>
                                     <h4 class="mb-0 ml-2">
-                                        Muhammad Afaq
+                                        {{qTweet.user.name}}
                                     </h4>
-                                    <p class="mx-1 mt-1 dark-grey mb-0">@Muhammad15067 . Sep 23</p>
+                                    <p class="mx-1 mt-1 dark-grey mb-0">@{{qTweet.user.username}} . {{qTweet.timestamp| date : 'longDate'}}</p>
                                 </div>
                                 <div class="row mb-2 mt-2">
                                     <div class="col-md-4">
                                         <img class="w-100 roundModalImage" src="/assets/icon/5.jpeg">
                                     </div>
                                     <div class="col-md-8 p-0">
-                                        <p class="mb-1 mb-2" style="font-size:16px">Do you remember when you
-                                            joined
-                                            Twitter? I do!
-                                            #MyTwitterAnniversary
+                                        <p class="mb-1 mb-2" style="font-size:16px">{{qTweet.tweetText}}
                                         </p>
                                     </div>
 

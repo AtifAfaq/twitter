@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import * as firebase from 'firebase';
 import { UserService } from '../user.service';
+import { TwitterService } from '../twitter.service';
 
 @Component({
   selector: 'app-side-menu-dynamic',
@@ -49,7 +50,17 @@ export class SideMenuDynamicComponent implements OnInit {
     title: 'Profile'
   }
   ];
-  constructor(public router: Router, public userser: UserService) {
+  constructor(public router: Router, public userser: UserService, public service: TwitterService) {
+    this.selectActiveIcon();
+  }
+
+  selectActiveIcon() {
+    var currentRoute = this.router.url.split('/');
+    this.iconArray.forEach((icon, index) => {
+      if (icon.title == currentRoute[1]) {
+        this.activeIndex = index;
+      }
+    });
   }
 
   ngOnInit(): void {
@@ -65,6 +76,7 @@ export class SideMenuDynamicComponent implements OnInit {
     // if icon Tiltle is profile then take it from user.username
     if (iconTitle == 'Profile') {
       this.goToProfile(this.userData);
+
     }
     else {
       this.router.navigate(['/' + iconTitle]);
@@ -116,5 +128,6 @@ export class SideMenuDynamicComponent implements OnInit {
 
   }
 }
+
 
 

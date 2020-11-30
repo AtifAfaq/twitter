@@ -1,0 +1,23 @@
+<div class="row">
+    <div class="col-md-3">
+        <app-side-menu-dynamic></app-side-menu-dynamic>
+    </div>
+    <div class="col-md-3">
+      <div class="border">
+        <div class="d-flex px-3 w-100">
+            <h3 class=" p-2 mt-2"><strong>Messages</strong></h3>
+            <img class="modalIcon ml-auto mt-3 p-1" id="modalIcon" src="/assets/icon/messages/message.png">
+        </div>
+        <hr>
+   <div class="px-2">
+    <div class="input-group mb-3 search dark-grey p-2" [class.searchActive]="show == false">
+        <div class="input-group-prepend">
+            <img *ngIf="show" class="icon m-1" src="/assets/icon/search.png">
+            <img *ngIf="!show"  class="icon m-1" src="/assets/icon/search-active.png">
+        </div>
+        <input type="text" class="form-control search-bar" placeholder="Search Twitter" id="usr" name="username" (focus)="focusFunction()" (blur)="blurFunction()" >
+    </div>
+   </div>
+      </div>
+    </div>
+</div>

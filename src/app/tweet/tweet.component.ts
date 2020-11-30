@@ -59,6 +59,9 @@ export class TweetComponent implements OnInit {
     if (!this.user) {
       this.user = new iUser();
     }
+    if (!this.qTweet) {
+      this.qTweet = new iTweet;
+    }
 
 
   }
@@ -240,8 +243,8 @@ export class TweetComponent implements OnInit {
     this.router.navigate(['/tweetDetails', selectedTweet.key]);
   }
 
-  quoteTweet(t) {
-    this.qTweet = t;
+  quoteTweet(tweet: iTweet) {
+    this.qTweet = tweet;
     console.log('Qtweet', this.qTweet);
   }
 
@@ -280,6 +283,27 @@ export class TweetComponent implements OnInit {
     this.router.navigate(['/Profile', user.username]);
   }
 
+  undoRetweet(selectedTweet, index) {
+    var tweetKey = selectedTweet.key;
+
+    if (selectedTweet.isRetweet.includes(this.userData.uid)) {
+      var selectedRetweet = this.allTweets[index].isRetweet.filter(uid => uid !== this.userData.uid);
+      this.allTweets[index].isRetweet = selectedRetweet;
+      // this.service.allTweets[index].isRetweet = selectedRetweet;
+      console.log('Removed Array', selectedRetweet);
+      var updates = {};
+      updates['/tweets/' + tweetKey + '/isRetweet'] = selectedRetweet;
+      firebase.database().ref().update(updates).then(() => {
+        this.toastr.success('success', 'Retweeted Successfully Removed!');
+      })
+        .catch((e) => {
+          this.toastr.error('error', e.message);
+        });
+    }
+    else[
+      this.toastr.warning('warning', 'Not Removed!')
+    ]
+  }
   // this.allTweets[index].likes.push(this.userData.uid);
   // // this.allTweets[index].liked = true;
   // console.log('tweets', this.allTweets);

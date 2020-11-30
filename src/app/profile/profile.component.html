@@ -53,8 +53,10 @@
                     </div>
                     <div class="col-md-4"></div>
                     <div class="col-md-4 text-center marginTop">
-                        <button *ngIf="user.username==userser.localUser.username" type="button" class="btn btn-modal"
+                        <button *ngIf="user.username == userser.localUser.username && !user.profileUrl" type="button" class="btn btn-modal"
                             data-dismiss="modal">Set up profile</button>
+                            <button *ngIf="user.profileUrl && user.username == userser.localUser.username" type="button" class="btn btn-modal"
+                            data-dismiss="modal">Edit profile</button>
                         <button *ngIf="user.username != userser.localUser.username" type="button" class="btn btn-modal"
                             data-dismiss="modal">Follow</button>
                     </div>

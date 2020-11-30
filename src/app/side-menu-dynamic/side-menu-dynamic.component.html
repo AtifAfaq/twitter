@@ -9,9 +9,9 @@
 
         <div *ngFor="let icon of iconArray;index as i" class="mt-2 p-2 paddingDiv" id="iconStyle" (click)="active(i)">
             <!-- [class.hide]="activeIndex!=i" -->
-            <img *ngIf="activeIndex==i" class="icon"  src={{icon.activeIcon}}>
+            <img *ngIf="activeIndex==i" class="icon" src={{icon.activeIcon}}>
             <!-- [class.hide]="activeIndex==i" -->
-            <img  *ngIf="activeIndex!=i" class="icon"  src={{icon.inActiveIcon}}>
+            <img *ngIf="activeIndex!=i" class="icon" src={{icon.inActiveIcon}}>
             <p class="d-inline-block mb-0 pl-3 font-weight-bold text">{{icon.title}}</p>
         </div>
 
@@ -23,7 +23,12 @@
         <button class="mt-4 p-2 btn btn-primary" data-toggle="modal" data-target="#myModal">Tweet</button>
 
         <div class="d-inline-flex mt-5 p-1" id="bottom">
-            <div class="shade mt-1 ml-1"> <i class="fas fa-user-alt profile" style="font-size:35px"></i></div>
+            <div class="shade mt-1 ml-1"> 
+                <img *ngIf="!userData.profileUrl" style="width: 60px; height: 60px; border-radius: 50%;"
+                                    src="assets/icon/tweet/profile.jpeg">
+                                <img *ngIf="userData.profileUrl" style="width: 60px; height: 60px; border-radius: 50%;"
+                                    src={{userData.profileUrl}}>
+            </div>
 
             <div class="mt-2 ml-4">
                 <p class="mb-1">{{userData.name}}</p>
@@ -36,7 +41,11 @@
                     <div class="dropdown-menu right-dropdown">
 
                         <div class="d-inline-flex p-1 bottom-border">
-                            <div class="shade mt-1 ml-1"> <i class="fas fa-user-alt profile" style="font-size:35px"></i>
+                            <div class="mt-1 ml-1">
+                                <img *ngIf="!userData.profileUrl" style="width: 60px; height: 60px; border-radius: 50%;"
+                                    src="assets/icon/tweet/profile.jpeg">
+                                <img *ngIf="userData.profileUrl" style="width: 60px; height: 60px; border-radius: 50%;"
+                                    src={{userData.profileUrl}}>
                             </div>
                             <div class="mt-2 ml-4">
                                 <p class="mb-1">{{userData.name}}</p>
@@ -75,14 +84,14 @@
                             placeholder="What's Happening?" [(ngModel)]="tweetText"></textarea>
                     </div>
                 </div>
-                    <div *ngIf="imageUrls.length>=1" class="row mb-3">
-                        <!-- <img  src="/assets/icon/trump.jpeg"> -->
-                        <div *ngFor="let img of imageUrls; index as i" class="">
-                            <img class="modalImage roundModalImage mb-2" [src]="img">
-                            <i (click)="removeImg(i)" class="fas fa-times mr-3 pointer closeIcon"></i>
-                        </div>
+                <div *ngIf="imageUrls.length>=1" class="row mb-3">
+                    <!-- <img  src="/assets/icon/trump.jpeg"> -->
+                    <div *ngFor="let img of imageUrls; index as i" class="">
+                        <img class="modalImage roundModalImage mb-2" [src]="img">
+                        <i (click)="removeImg(i)" class="fas fa-times mr-3 pointer closeIcon"></i>
                     </div>
-               
+                </div>
+
                 <div class="ml-2" id="iconStyle"><i class="fas fa-globe-americas"
                         style="font-size:20px;color: var(--twitterColor);"><span class="ml-2">Everyone can
                             reply</span></i></div>

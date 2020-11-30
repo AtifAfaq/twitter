@@ -24,6 +24,7 @@ export class HomeComponent implements OnInit {
   tweetData = new iTweet();
   allTweets: Array<iTweet> = [];
   myTweets: Array<iTweet> = [];
+  activeIndex;
 
 
 
@@ -31,7 +32,8 @@ export class HomeComponent implements OnInit {
     public router: Router, public toastr: ToastrService,
     public service: TwitterService,
     public userser: UserService) {
-
+  
+ 
   }
 
 

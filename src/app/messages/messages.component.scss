@@ -1,0 +1,41 @@
+.modalIcon {
+    width: 40px;
+    height: 40px;
+    object-fit: contain;
+}
+#modalIcon:hover{
+    background: var(--twittershadow);
+    width: 40px;
+    border-radius: 50px;
+    -webkit-box-shadow: var(--twittershadow);
+    -moz-box-shadow: var(--twittershadow);
+    box-shadow:var(--twittershadow);
+}
+.icon {
+    width: 30px;
+    padding-left: 2px;
+}
+
+.search{
+    // border: 1px solid black;
+    border-radius: 25px;
+    background-color:#e6ecf0;
+    .search-bar{
+        border-radius: 25px !important;
+        border:none !important;
+    }
+    input{
+        background-color: transparent;
+    }
+    input:focus {
+        border: none; 
+        border-width: 0; 
+        box-shadow: none;
+    }
+}
+.searchActive{
+    border:1px solid #66afe9;
+    outline: 0;
+    -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075),0 0 8px rgba(102,175,233,.6);
+    box-shadow: inset 0 1px 1px rgba(0,0,0,.075),0 0 8px rgba(102,175,233,.6);
+}
