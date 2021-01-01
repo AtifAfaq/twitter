@@ -11,9 +11,9 @@
             <!-- Use params method on Profile -->
             <!-- On click of picture t.user will be send to userservice  -->
             <!-- will route to Profile page using Params ..... And will show Others Profile data & his tweets -->
-            <img *ngIf="t.user.profileUrl" class="tweetProfile cursor" src="{{t.user.profileUrl}}"
+            <img *ngIf="t.user?.profileUrl" class="tweetProfile cursor" src="{{t.user.profileUrl}}"
                 (click)="goToProfile(t.user)">
-            <img *ngIf="!t.user.profileUrl" class="tweetProfile cursor" src="/assets/icon/tweet/profile.jpeg"
+            <img *ngIf="!t.user?.profileUrl" class="tweetProfile cursor" src="/assets/icon/tweet/profile.jpeg"
                 (click)="goToProfile(t.user)">
             <!-- <div class='vl'></div> -->
         </div>
@@ -21,18 +21,18 @@
             <div class="d-flex relative">
                 <h4 class="mb-0 cursor" (mouseenter)="t.isDisplay=true" (mouseleave)="t.isDisplay=false"
                     (click)="goToProfile(t.user);t.isDisplay=false">
-                    {{t.user.name}}
+                    {{t.user?.name}}
                 </h4>
-                <p class="mx-1 mt-1 dark-grey mb-0"> @{{t.user.username}} . {{t.timestamp  | date: 'fullDate'}}</p>
+                <p class="mx-1 mt-1 dark-grey mb-0"> @{{t.user?.username}} . {{t.timestamp  | date: 'fullDate'}}</p>
                 <!-- ///////////////popup -->
                 <div *ngIf="t.isDisplay" class="popup">
                     <!-- <img class="tweetProfile mt-2" src="/assets/icon/tweetProfile.jpg"> -->
-                    <img *ngIf="t.user.profileUrl" class="tweetProfile mt-2" src="{{t.user.profileUrl}}">
-                    <img *ngIf="!t.user.profileUrl" class="tweetProfile mt-2" src="/assets/icon/tweet/profile.jpeg">
+                    <img *ngIf="t.user?.profileUrl" class="tweetProfile mt-2" src="{{t.user.profileUrl}}">
+                    <img *ngIf="!t.user?.profileUrl" class="tweetProfile mt-2" src="/assets/icon/tweet/profile.jpeg">
                     <h4 class="mb-0 ">
-                        <strong>{{t.user.name}}</strong>
+                        <strong>{{t.user?.name}}</strong>
                     </h4>
-                    <p class="mt-1 dark-grey mb-0">@{{t.user.username}} . {{t.timestamp  | date: 'fullDate'}}</p>
+                    <p class="mt-1 dark-grey mb-0">@{{t.user?.username}} . {{t.timestamp  | date: 'fullDate'}}</p>
                     <p><strong>1 </strong><span class="mr-2"> Following</span>
                         <span><strong>0</strong></span><span> Followers</span></p>
                 </div>
@@ -57,27 +57,26 @@
             <div class="cursor" (click)="goToDetails(t)">
                 <p class="mb-1 dark-grey" style="font-size:16px">{{t.tweetText}}
                 </p>
-                <div *ngIf="t.tweetUrl">
-                    <img class="w-100 rounded tweetPicSize" src={{t.tweetUrl}}>
+                <div>
+                    <img *ngIf="t.tweetUrl" class="w-100 rounded tweetPicSize" src={{t.tweetUrl}}>
                 </div>
             </div>
 
 
             <!-- <Retweeted Original tweet> -->
-            <div class="row">
-
-                <div *ngIf="t.retweeted" class="col-md-12 retweeted">
+            <div class="row mt-3">
+            
+                <div *ngIf="t.originalTweet" class="col-md-12 retweeted cursor" (click)="goToDetails(t.originalTweet)">
                     <div class="d-flex pl-3">
-                        <img class="retweetProfile" src="/assets/icon/tweetProfile.jpg">
+                        <img class="retweetProfile" src="{{t.originalTweet.user.profileUrl}}">
                         <h4 class="mb-0 ml-2">
-                            Muhammad Afaq
+                            {{t.originalTweet.user.name}}
                         </h4>
-                        <p class="mx-1 mt-1 dark-grey mb-0">@Muhammad15067 . Sep 23</p>
+                        <p class="mx-1 mt-1 dark-grey mb-0">@{{t.originalTweet.user.username}} . {{t.originalTweet.timestamp  | date: 'fullDate'}}</p>
                     </div>
-                    <p class="mb-1 pl-3 mb-2" style="font-size:16px">Do you remember when you joined Twitter? I do!
-                        #MyTwitterAnniversary
+                    <p class="mb-1 pl-3 mb-2" style="font-size:16px">{{t.originalTweet.tweetText}}
                     </p>
-                    <img class="w-100 retweet-round" src="/assets/icon/5.jpeg">
+                    <img class="w-100 retweet-round tweetPicSize" src={{t.originalTweet.tweetUrl}}>
                 </div>
 
                 <!-- ////////////Bottom Icon//////// -->
@@ -171,7 +170,7 @@
 
 
 <!-- Comment Modal -->
-<div class="modal" id="myComment">
+<div *ngIf="originalTweet" class="modal" id="myComment">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
 
@@ -185,24 +184,29 @@
                 <div class="row mb-3">
                     <div class="col-md-1 p-0">
                         <!-- *ngIf="this.originalTweet.user.profileUrl" -->
-                        <img class="tweetProfile" src="/assets/icon/tweetProfile.jpg">
-                        <!-- <img *ngIf="!this.originalTweet.user.profileUrl" class="tweetProfile" src="/assets/icon/tweet/profile.jpeg"> -->
+                        <img *ngIf="!this.originalTweet.user.profileUrl" class="tweetProfile"
+                        src="/assets/icon/tweet/profile.jpeg">
+                        <img *ngIf="this.originalTweet.user.profileUrl" class="tweetProfile"
+                            src={{originalTweet.user.profileUrl}}>
+                        <div class='vl'></div>
                     </div>
                     <div class="col-md-11">
                         <div class="d-flex ">
                             <h4 class="mb-0">
-                                {{this.userData.name}}
+                                {{originalTweet.user.name}}
                             </h4>
-                            <p class="mx-1 mt-1 dark-grey mb-0">@{{this.userData.username}} . Sep 23</p>
+                            <p class="mx-1 mt-1 dark-grey mb-0">@{{originalTweet.user.username}} . Sep 23</p>
 
                         </div>
-                        <p class="mb-1" style="font-size:16px">Hey, I am sharing this
+                        <p class="mb-1" style="font-size:16px">{{originalTweet.tweetText}}
                         </p>
+                        <img *ngIf="originalTweet.tweetUrl" style="height: 150px;
+                        width: 350px;" src={{originalTweet.tweetUrl}}>
                     </div>
                     <div class="col-md-1 p-0"></div>
                     <div class="col-md-11 ">
                         <p style="font-size: 20px;"><span class="dark-grey">Replying to </span> <span
-                                class="twitter">@{{this.userData.username}} </span></p>
+                                class="twitter">@{{originalTweet.user.username}} </span></p>
                     </div>
                 </div>
 
@@ -210,7 +214,10 @@
                 <!-- ////////////////// -->
 
                 <div class="d-inline-flex" id="">
-                    <div class="shade"> <i class="fas fa-user-alt profile dark-grey" style="font-size:35px;"></i>
+                    <div>
+                        <!-- <i class="fas fa-user-alt profile dark-grey" style="font-size:35px;"></i> -->
+                        <img *ngIf="!userData.profileUrl" class="tweetProfile" src="/assets/icon/tweetProfile.jpg">
+                        <img *ngIf="userData.profileUrl" class="tweetProfile" src={{userData.profileUrl}}>
                     </div>
 
                     <div class="mt-2 ml-3">
@@ -252,6 +259,7 @@
 
 
 <!-- Retweet Modal with Quote or Without Quote-->
+
 <div *ngIf="qTweet.user" class="modal" id="retweetModal">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
@@ -269,20 +277,23 @@
                     <div class="col-md-1 p-0">
                         <!-- <i class="fas fa-user-alt profile dark-grey "
                             style="font-size:35px;"></i> -->
-                        <img *ngIf="!qTweet.user.profileUrl" style="height:60px;width: 60px;border-radius:50%" src="/assets/icon/tweetProfile.jpg">
-                        <img *ngIf="qTweet.user.profileUrl" style="height:60px;width: 60px;border-radius:50%" src={{userData.profileUrl}}>
+                        <img *ngIf="!userData.profileUrl" style="height:60px;width: 60px;border-radius:50%"
+                        src="/assets/icon/tweet/profile.jpeg">
+                        <img *ngIf="userData.profileUrl" style="height:60px;width: 60px;border-radius:50%"
+                            src={{userData.profileUrl}}>
                     </div>
                     <!-- when retweet with quote -->
 
-                    <div *ngIf="!qTweet.tweetUrl" class="col-md-11 mt-2 ">
+                    <div *ngIf="!qTweet.tweetUrl" class="col-md-11 mt-2" id="retweetedText">
                         <textarea class="mb-1 dark-grey textareaSize" style="font-size:25px"
-                            placeholder="Add a quote"></textarea>
+                            placeholder="Add a quote" ></textarea>
                         <div class="row mb-3">
                             <div class="col-md-12 retweeted">
                                 <div class="d-flex pl-3">
                                     <img *ngIf="!qTweet.user.profileUrl" class="retweetProfile"
-                                        src="/assets/icon/tweetProfile.jpg">
-                                    <img *ngIf="qTweet.user.profileUrl" class="retweetProfile" src={{qTweet.user.profileUrl}}>
+                                    src="/assets/icon/tweet/profile.jpeg">
+                                    <img *ngIf="qTweet.user.profileUrl" class="retweetProfile"
+                                        src={{qTweet.user.profileUrl}}>
                                     <h4 class="mb-0 ml-2">
                                         {{qTweet.user.name}}
                                     </h4>
@@ -298,7 +309,7 @@
                     <!-- when retweet with quote & picture -->
                     <div *ngIf="qTweet.tweetUrl" class="col-md-11 mt-2 ">
                         <textarea class="mb-1 dark-grey textareaSize" style="font-size:25px"
-                            placeholder="Add a quote"></textarea>
+                            placeholder="Add a quote" [(ngModel)]="retweetedText"></textarea>
                         <div class="row mb-3">
                             <!-- <img  src="/assets/icon/trump.jpeg"> -->
                             <div *ngIf="imageUrl" class="">
@@ -311,16 +322,18 @@
                                 <div class="d-flex pl-3">
                                     <!-- <img class="retweetProfile" src="/assets/icon/tweetProfile.jpg"> -->
                                     <img *ngIf="!qTweet.user.profileUrl" class="retweetProfile"
-                                        src="/assets/icon/tweetProfile.jpg">
-                                    <img *ngIf="qTweet.user.profileUrl" class="retweetProfile" src={{qTweet.user.profileUrl}}>
+                                    src="/assets/icon/tweet/profile.jpeg">
+                                    <img *ngIf="qTweet.user.profileUrl" class="retweetProfile"
+                                        src={{qTweet.user.profileUrl}}>
                                     <h4 class="mb-0 ml-2">
                                         {{qTweet.user.name}}
                                     </h4>
-                                    <p class="mx-1 mt-1 dark-grey mb-0">@{{qTweet.user.username}} . {{qTweet.timestamp| date : 'longDate'}}</p>
+                                    <p class="mx-1 mt-1 dark-grey mb-0">@{{qTweet.user.username}} .
+                                        {{qTweet.timestamp| date : 'longDate'}}</p>
                                 </div>
                                 <div class="row mb-2 mt-2">
                                     <div class="col-md-4">
-                                        <img class="w-100 roundModalImage" src="/assets/icon/5.jpeg">
+                                        <img class="w-100 roundModalImage" src={{qTweet.tweetUrl}}>
                                     </div>
                                     <div class="col-md-8 p-0">
                                         <p class="mb-1 mb-2" style="font-size:16px">{{qTweet.tweetText}}
@@ -354,7 +367,7 @@
 
                 </div>
 
-                <button type="button" class="btn btn-modal" data-dismiss="modal">Retweet</button>
+                <button (click)="retweetWithQuote(qTweet)" type="button" class="btn btn-modal" data-dismiss="modal">Retweet</button>
             </div>
 
         </div>

@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { TwitterService } from '../twitter.service';
+import { iUser } from '../models/user';
 
 @Component({
   selector: 'app-messages',
@@ -9,7 +10,10 @@ import { TwitterService } from '../twitter.service';
 export class MessagesComponent implements OnInit {
   activeIndex;
   show: boolean = true;
-  constructor(public service: TwitterService) { }
+  allUsers: Array<iUser> = [];
+  constructor(public service: TwitterService) {
+    this.allUsers = this.service.allUsers;
+  }
 
   ngOnInit(): void {
   }

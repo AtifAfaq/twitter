@@ -7,6 +7,8 @@ import { ToastrService } from 'ngx-toastr';
 import { iUser } from '../models/user';
 import { Router } from '@angular/router';
 import { ActivatedRoute } from '@angular/router';
+import { ConditionalExpr } from '@angular/compiler';
+import { ConsoleService } from '@ng-select/ng-select/lib/console.service';
 
 @Component({
   selector: 'app-tweet-detail',
@@ -22,7 +24,15 @@ export class TweetDetailComponent implements OnInit {
 
   constructor(public service: TwitterService, public userser: UserService, public toastr: ToastrService,
     public router: Router, private route: ActivatedRoute) {
+
     this.service.getObservable().subscribe((data) => {
+      if (data.details) {
+        this.allTweets = this.service.allTweets;
+        this.tweetKeyReciever = data.param;
+        this.allTweets = this.allTweets.filter(twet => twet.key == this.tweetKeyReciever);
+        console.log('allTweetsFromDetails', this.allTweets);
+        this.sortingUserReply();
+      }
       if (data.allTweetsFetched) {
         this.allTweets = this.service.allTweets;
         this.tweetKeyReciever = route.snapshot.params.key;
@@ -33,6 +43,7 @@ export class TweetDetailComponent implements OnInit {
         this.allUsers = this.service.allUsers;
 
       }
+
     });
     this.allTweets = this.service.allTweets;
     this.tweetKeyReciever = route.snapshot.params.key;

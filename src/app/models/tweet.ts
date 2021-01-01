@@ -17,11 +17,29 @@ export class iTweet {
     public replies?: Array<iTweetReply> = [];
     public isRetweet?: Array<string> = [];
     public user?: iUser;
+    // public originalTweet?:iTweet;
 
 
     // public retweet?: iRetweet = new iRetweet();
 
 }
+
+
+export class iRetweet {
+    public tweetText: string;
+    public tweetUrl: string;
+    public timestamp: number;
+    public uid: string;
+    public key: string;
+    public likes: Array<string> = [];
+    public replies?: Array<iTweetReply> = [];
+    public isRetweet?: Array<string> = [];
+    public user?: iUser;
+   public originalTweet?:iTweet;
+}
+
+
+
 
 // export class iReplies{
 //     public image: string;

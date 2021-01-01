@@ -2,9 +2,9 @@ import { Component, OnInit, Input } from '@angular/core';
 import { TwitterService } from '../twitter.service';
 import * as firebase from 'firebase';
 import { ToastrService } from 'ngx-toastr';
-import { iTweet, iTweetReply } from '../models/tweet';
+import { iTweet, iTweetReply, iRetweet } from '../models/tweet';
 import { iUser } from '../models/user';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { UserService } from '../user.service';
 
 @Component({
@@ -17,6 +17,7 @@ export class TweetComponent implements OnInit {
   @Input() allUsers: Array<iUser>;
   @Input() myTweets: Array<iTweet>;
   newImage: any = {};
+  retweetedImage = '';
   imageUrl: string | ArrayBuffer;
   activeIndex;
   qTweet = new iTweet();
@@ -27,6 +28,7 @@ export class TweetComponent implements OnInit {
   replies: iTweetReply[] = [];
   replyObj = new iTweetReply();
   user = new iUser();
+  retweetedText;
 
 
   icon: Array<any> = [
@@ -55,15 +57,7 @@ export class TweetComponent implements OnInit {
   ];
 
   // document.getElementById('signUpFormCloseButton').click();
-  constructor(public service: TwitterService, public toastr: ToastrService, public router: Router, public userSer: UserService) {
-    if (!this.user) {
-      this.user = new iUser();
-    }
-    if (!this.qTweet) {
-      this.qTweet = new iTweet;
-    }
-
-
+  constructor(public service: TwitterService, public toastr: ToastrService, public router: Router, public userSer: UserService, public route: ActivatedRoute) {
   }
 
   ngOnInit(): void {
@@ -240,6 +234,9 @@ export class TweetComponent implements OnInit {
 
   goToDetails(selectedTweet) {
     // this.service.Tweetdetail = selectedTweet;
+    if (this.router.url !== '/Home') {
+      this.service.publishSomeData({ details: true, param: selectedTweet.key })
+    }
     this.router.navigate(['/tweetDetails', selectedTweet.key]);
   }
 
@@ -247,6 +244,62 @@ export class TweetComponent implements OnInit {
     this.qTweet = tweet;
     console.log('Qtweet', this.qTweet);
   }
+
+
+  retweetWithQuote(qTweet: iTweet): void {
+    if (this.imageUrl) {
+      this.uploadRetweetImage(qTweet);
+    } else {
+      this.postRetweetOnFirebase(qTweet)
+    }
+  }
+
+  uploadRetweetImage(qTweet) {
+    const self = this;
+    const storageRef = firebase.storage().ref();
+    const filename = Math.floor(Date.now() / 1000) + '.' + this.newImage.name.split('.').pop();
+    const uploadTask = storageRef.child('tweetImages/' + filename).put(this.newImage);
+    uploadTask.on(firebase.storage.TaskEvent.STATE_CHANGED,
+      (snapshot) => { },
+      (error) => {
+      }, () => {
+        uploadTask.snapshot.ref.getDownloadURL().then((downloadURL) => {
+          // this.tweetData.tweetUrl = downloadURL;
+          this.retweetedImage = downloadURL;
+          this.postRetweetOnFirebase(qTweet);
+        })
+          .catch((e) => {
+            this.toastr.error('error', e.message);
+          });
+      });
+  }
+
+  postRetweetOnFirebase(qTweet) {
+    var retweetedTweet = new iRetweet();
+    const self = this;
+    retweetedTweet.originalTweet = qTweet;
+    retweetedTweet.isRetweet = [];
+    retweetedTweet.key = firebase.database().ref().child(`/tweets/`).push().key;
+    retweetedTweet.likes = [];
+    retweetedTweet.replies = [];
+    retweetedTweet.timestamp = Number(new Date());
+    retweetedTweet.tweetText = this.retweetedText;
+    retweetedTweet.tweetUrl = this.retweetedImage;
+    retweetedTweet.uid = self.userData.uid;
+    console.log('Object to upload', retweetedTweet);
+    firebase.database().ref().child(`/tweets/${retweetedTweet.key}`).
+      set(retweetedTweet).then(() => {
+        self.service.allTweets.unshift(retweetedTweet);
+        console.log('tweets', self.allTweets);
+        self.toastr.success('success', 'Tweeted Succesfully');
+        retweetedTweet = new iTweet();
+        self.imageUrl = '';
+      })
+      .catch((e) => {
+        self.toastr.error('error', e.message);
+      });
+  }
+
 
   isRetweeted(tweet: iTweet) {
     if (tweet.isRetweet) {
@@ -277,6 +330,8 @@ export class TweetComponent implements OnInit {
     ]
   }
 
+
+
   goToProfile(user) {
     this.userSer.selectedProfileUsername = user.username;
     this.userSer.tweetsOfSelectedUser(user);
@@ -304,41 +359,7 @@ export class TweetComponent implements OnInit {
       this.toastr.warning('warning', 'Not Removed!')
     ]
   }
-  // this.allTweets[index].likes.push(this.userData.uid);
-  // // this.allTweets[index].liked = true;
-  // console.log('tweets', this.allTweets);
-  // var updates = {};
-  // updates['/tweets/' + tweetKey + '/likes'] = this.allTweets[index].likes;
-  // firebase.database().ref().update(updates).then(() => {
-  //   this.toastr.success('success', 'liked!');
-
-  // })
-  //   .catch((e) => {
-  //     this.toastr.error('error', e.message);
-  //   });
 
 
-  // likedTweet(selectedTweet, index) {
-  //   var tweetKey = selectedTweet.key;
-  //   if (!this.allTweets[index].likes) {
-  //     this.allTweets[index].likes = [];
-  //   }
-  //   this.allTweets[index].likes.push(this.userData.uid);
-  //   // this.allTweets[index].liked = true;
-  //   console.log('tweets', this.allTweets);
-  //   var updates = {};
-  //   updates['/tweets/' + tweetKey + '/likes'] = this.allTweets[index].likes;
-  //   firebase.database().ref().update(updates).then(() => {
-  //     this.toastr.success('success', 'liked!');
-
-  //   })
-  //     .catch((e) => {
-  //       this.toastr.error('error', e.message);
-  //     });
-
-
-  //   console.log('Alltweets', this.allTweets);
-
-  // }
 
 }
