@@ -1,4 +1,5 @@
 <div class="row">
+
     <div class="col-md-3">
         <app-side-menu-dynamic></app-side-menu-dynamic>
     </div>
@@ -21,33 +22,40 @@
                 </div>
             </div>
             <hr>
-            <div class="row">
-                <div class="col-md-2">
-                    <img class="tweetProfile" src="/assets/icon/tweetProfile.jpg">
-                </div>
-                <div class="col-md-10">
-                    <div class="mt-1">
-                        <h4 class="mb-0">
-                            Juniad Iqbal
-                        </h4>
-                        <p class="dark-grey m-0">@JuniLuka</p>
+            <div *ngFor="let chatUser of allChats">
+                <div class="row mb-3" (click)="detailsOfChatUser(chatUser)">
+                    <div class="col-md-2">
+                        <img *ngIf="chatUser.recipent.profileUrl" class="tweetProfile"
+                            src={{chatUser.recipent.profileUrl}}>
+                        <img *ngIf="!chatUser.recipent.profileUrl" class="tweetProfile"
+                            src="/assets/icon/tweetProfile.jpg">
+                    </div>
+                    <div class="col-md-10 pl-3">
+                        <div class="mt-1">
+                            <h4 class="mb-0">
+                                {{chatUser.recipent.name}}
+                            </h4>
+                            <p class="dark-grey m-0">@{{chatUser.recipent.username}}</p>
+                        </div>
                     </div>
                 </div>
+                <hr class="w-100">
             </div>
-            <hr>
         </div>
     </div>
     <div class="col-md-6 p-0 mt-1">
-        <div class="row">
+        <div *ngIf="!chatUser.recipent" class="noMessage dark-grey"> Please select a person to chat with</div>
+        <div *ngIf="chatUser.recipent" class="row">
             <div class="col-md-1">
-                <img class="tweetProfile" src="/assets/icon/tweetProfile.jpg">
+                <img *ngIf="chatUser.recipent.profileUrl" class="tweetProfile" src={{chatUser.recipent.profileUrl}}>
+                <img *ngIf="!chatUser.recipent.profileUrl" class="tweetProfile" src="/assets/icon/tweetProfile.jpg">
             </div>
             <div class="col-md-10">
                 <div class="mt-1">
                     <h4 class="mb-0">
-                        Juniad Iqbal
+                        {{chatUser.recipent.name}}
                     </h4>
-                    <p class="dark-grey m-0">@JuniLuka</p>
+                    <p class="dark-grey m-0">@{{chatUser.recipent.username}}</p>
                 </div>
             </div>
             <div class="col-md-1 mt-2">
@@ -55,118 +63,190 @@
             </div>
             <hr class="w-100 p-0">
         </div>
-        <div class="row">
+        <div *ngIf="chatUser.recipent" class="row">
             <div class="col-md-12 text-center">
-                <strong>Juniad Iqbal </strong> <span class="dark-grey m-0">@JuniLuka</span>
+                <strong>{{chatUser.recipent.name}}</strong> <span
+                    class="dark-grey m-0">@{{chatUser.recipent.username}}</span>
                 <p class="m-0">Muslim | A proud Pakistani | Freelancer | Software Engineer</p>
                 <p class="m-0">Insta : juni_luka</p>
                 <div class="mt-2">
                     <p class="m-0"><strong>617</strong><span class="mr-2"> Following</span>
                         <span><strong>171</strong></span><span> Followers</span></p>
 
-                    <p class="dark-grey m-0"><i class="far fa-calendar-alt"></i><span class="ml-2">Joined September
-                            2015</span></p>
+                    <p class="dark-grey m-0"><i class="far fa-calendar-alt"></i><span
+                            class="ml-2">{{chatUser.recipent.timestamp| date: 'longDate'}}</span></p>
                 </div>
             </div>
             <hr class="w-100">
         </div>
-        <div id="chat">
-            <div class="row mb-0">
-                <div class=" ml-auto mr-3">
-                    <p class="chat mb-0">hello juniad bhai kaise hain ap</p>
+        <div class="vh">
+         <div *ngFor="let message of allMessages">
+                <!-- person 1 -->
+
+            <!-- text chat -->
+            <div *ngIf="!message.image && message.uid ==person1" id="textchat p1">
+                <div class="row mb-0">
+                    <div class=" ml-auto mr-3">
+                        <p class="chat mb-0">{{message.text}}</p>
+                    </div>
+                    <br />
                 </div>
-                <br />
+                <div class="row mt-0">
+                    <p class="dark-grey ml-auto mr-3">{{message.timestamp | date: 'medium'}} <i
+                            style="color:var(--twitterColor)" class="fas fa-check"></i></p>
+                </div>
             </div>
-            <div class="row mt-0">
-                <p class="dark-grey ml-auto mr-3">Nov 23, 2020, 2:17 PM <i style="color:var(--twitterColor)"
-                        class="fas fa-check"></i></p>
+            <!-- Imagechat           -->
+            <div *ngIf="message.image && !message.text && message.uid ==person1" id="Imagechat p1">
+                <div class="row mb-0">
+                    <div class=" ml-auto mr-3">
+                        <img src={{message.image}}>
+                    </div>
+                    <br />
+                </div>
+                <div class="row mt-0">
+                    <p class="dark-grey ml-auto mr-3">{{message.timestamp | date: 'medium'}}<i
+                            style="color:var(--twitterColor)" class="fas fa-check"></i></p>
+                </div>
             </div>
+            <!-- Imagechat with text -->
+            <div *ngIf="message.image && message.text && message.uid ==person1" id="textchat p1">
+                <div class="row mb-0">
+                    <div class=" ml-auto mr-3">
+                        <img src={{message.image}}>
+                        <p class="chat mb-0">{{message.text}}</p>
+                    </div>
+                    <br />
+                </div>
+                <div class="row mt-0">
+                    <p class="dark-grey ml-auto mr-3">{{message.timestamp | date: 'medium'}}<i
+                            style="color:var(--twitterColor)" class="fas fa-check"></i></p>
+                </div>
+            </div>
+
+
+            <!-- person 2 -->
+       
+            <!-- text chat -->
+            <div *ngIf="!message.image && message.uid ==person2" id="textchat p1">
+                <div class="row mb-0">
+                    <div class=" mr-auto ml-3">
+                        <p class="chat2 mb-0">{{message.text}}</p>
+                    </div>
+                    <br />
+                </div>
+                <div class="row mt-0">
+                    <p class="dark-grey mr-auto ml-3">{{message.timestamp | date: 'medium'}} <i
+                            style="color:var(--twitterColor)" class="fas fa-check"></i></p>
+                </div>
+            </div>
+            <!-- Imagechat           -->
+            <div *ngIf="message.image && !message.text && message.uid ==person2" id="Imagechat p1">
+                <div class="row mb-0">
+                    <div class=" mr-auto ml-3">
+                        <img src={{message.image}}>
+                    </div>
+                    <br />
+                </div>
+                <div class="row mt-0">
+                    <p class="dark-grey mr-auto ml-3">{{message.timestamp | date: 'medium'}}<i
+                            style="color:var(--twitterColor)" class="fas fa-check"></i></p>
+                </div>
+            </div>
+            <!-- Imagechat with text -->
+            <div *ngIf="message.image && message.text && message.uid ==person2" id="textchat p1">
+                <div class="row mb-0">
+                    <div class=" mr-auto ml-3">
+                        <img src={{message.image}}>
+                        <p class="chat2 mb-0">{{message.text}}</p>
+                    </div>
+                    <br />
+                </div>
+                <div class="row mt-0">
+                    <p class="dark-grey mr-auto ml-3">{{message.timestamp | date: 'medium'}}<i
+                            style="color:var(--twitterColor)" class="fas fa-check"></i></p>
+                </div>
+            </div>
+         </div>
         </div>
 
-        <div id="chat">
-            <div class="row mb-0">
-                <div class=" mr-auto ml-3">
-                    <p class="chat2 mb-0">hello juniad bhai kaise hain ap</p>
-                </div>
-                <br />
-            </div>
-            <div class="row mt-0">
-                <p class="dark-grey mr-auto ml-4">Nov 23, 2020, 2:17 PM <i style="color:var(--twitterColor)"
-                        class="fas fa-check"></i></p>
-            </div>
-        </div>
+        <!-- Footer -->
+        <div *ngIf="chatUser.recipent" class="row mt-5">
+            <div class="col-md-2">
+                <input (change)="onChangeFile($event)" style="visibility: hidden; position: absolute;" accept="image/*"
+                    #file class="form-control modalIcon mr-2 p-1" type="file" name="files" multiple>
+                <img class="modalIcon mr-2 p-1" (click)="file.click()" id="modalIcon" src="/assets/icon/tweet/1.png">
+                <img class="modalIcon mr-1 p-1" id="modalIcon" src="/assets/icon/tweet/2.png">
 
+            </div>
+            <!-- ////////search/////// -->
+            <div class="col-md-8">
+                <div class="input-group mb-3 search dark-grey">
+                    <input type="text" class="form-control search-bar " placeholder="Start a new message" id="usr"
+                        name="username" [(ngModel)]="message">
+                    <div class="input-group-prepend">
+                        <i class="p-1 smiley far fa-smile"></i>
+
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-2 margin">
+                <button type="button" class="btn btn-primary" (click)="messageSendOnFirebase(chatUser)">Send</button>
+            </div>
+
+        </div>
     </div>
-</div>
 
-<!-- Comment Modal -->
-<div class="modal" id="myComment">
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content">
 
-            <!-- Modal Header -->
-            <div class="modal-header">
-                <p class="" style="font-weight: bold;"><strong>New message</strong></p>
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
-            </div>
+    <!-- Comment Modal -->
+    <div class="modal" id="myComment">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
 
-            <!-- Modal body -->
-            <div class="modal-body">
-                <div class="row mb-3">
+                <!-- Modal Header -->
+                <div class="modal-header">
+                    <p class="" style="font-weight: bold;"><strong>New message</strong></p>
+                    <button type="button" class="close" id="messageCloseButton" data-dismiss="modal">&times;</button>
+                </div>
 
-                    <div class="input-group mb-3 search dark-grey p-2 mb-0" [class.searchActive]="show == false">
-                        <div class="input-group-prepend">
-                            <img *ngIf="show" class="icon m-1" src="/assets/icon/search.png">
-                            <img *ngIf="!show" class="icon m-1" src="/assets/icon/search-active.png">
+                <!-- Modal body -->
+                <div class="modal-body">
+                    <div class="row mb-3">
+
+                        <div class="input-group mb-3 search dark-grey p-2 mb-0" [class.searchActive]="show == false">
+                            <div class="input-group-prepend">
+                                <img *ngIf="show" class="icon m-1" src="/assets/icon/search.png">
+                                <img *ngIf="!show" class="icon m-1" src="/assets/icon/search-active.png">
+                            </div>
+                            <input type="text" class="form-control search-bar" placeholder="Search Twitter" id="usr"
+                                name="username" (focus)="focusFunction()" (blur)="blurFunction()">
                         </div>
-                        <input type="text" class="form-control search-bar" placeholder="Search Twitter" id="usr"
-                            name="username" (focus)="focusFunction()" (blur)="blurFunction()">
-                    </div>
-                    <hr class="w-100 mt-0" />
-                    <div class="col-md-1 p-0">
-                        <img class="tweetProfile" src="/assets/icon/tweetProfile.jpg">
-                    </div>
-                    <div class="col-md-11 pl-2">
-                        <div class="mt-1">
-                            <h4 class="mb-0">
-                                Juniad Iqbal
-                            </h4>
-                            <p class="dark-grey m-0">@JuniLuka</p>
+                        <hr class="w-100 mt-0" />
+                        <div *ngFor="let user of allUsers" class="row mb-3">
+                            <div class="col-md-1 p-0">
+                                <img *ngIf="user.profileUrl" class="tweetProfile" src={{user.profileUrl}}>
+                                <img *ngIf="!user.profileUrl" class="tweetProfile" src="/assets/icon/tweetProfile.jpg">
+                            </div>
+                            <div class="col-md-11 pl-2" (click)="startChatWithUser(user)">
+                                <div class="mt-1">
+                                    <h4 class="mb-0">
+                                        {{user.name}}
+                                    </h4>
+                                    <p class="dark-grey m-0">@{{user.username}}</p>
+                                </div>
+                            </div>
+                            <hr class="w-100">
                         </div>
                     </div>
                 </div>
 
 
-                <!-- ////////////////// -->
 
-                <div class="d-inline-flex" id="">
-                    <div>
-                        <!-- <i class="fas fa-user-alt profile dark-grey" style="font-size:35px;"></i> -->
-                        <!-- <img *ngIf="!userData.profileUrl" class="tweetProfile" src="/assets/icon/tweetProfile.jpg">
-                        <img *ngIf="userData.profileUrl" class="tweetProfile" src={{userData.profileUrl}}> -->
-                    </div>
-
-                    <div class="mt-2 ml-3">
-                        <!-- <textarea class="mb-1 dark-grey textareaSize" style="font-size:25px"
-                            placeholder="Tweet your reply" [(ngModel)]="replyObj.replyText"></textarea> -->
-                        <div class="row mb-3">
-                            <!-- <img  src="/assets/icon/trump.jpeg"> -->
-                            <!-- <div *ngIf="imageUrl" class="">
-                                <img class="modalImage roundModalImage mb-2" [src]="imageUrl">
-                                <i (click)="removeImg()" class="fas fa-times mr-3 pointer closeIcon"></i>
-                            </div> -->
-                        </div>
-                    </div>
+                <!-- Modal footer -->
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-dismiss="modal">Next</button>
                 </div>
+
             </div>
-
-
-
-            <!-- Modal footer -->
-            <div class="modal-footer">
-                <button type="button" class="btn btn-primary" data-dismiss="modal">Next</button>
-            </div>
-
         </div>
     </div>
-</div>

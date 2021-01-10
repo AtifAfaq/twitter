@@ -60,3 +60,26 @@
     color: black;
     border-radius: 15px 15px 15px 0;
 }
+.smiley {
+    font-size: 29px;
+    color: var(--twitterColor);
+}
+.btn-primary {
+    border-radius: 35px;
+    background-color: var(--twitterColor);
+    margin-top: -10px;
+}
+.vh {
+    height: 60vh;
+    overflow: auto;
+}
+.margin {
+    margin-top: 10px;
+}
+.noMessage {
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 600px;
+}

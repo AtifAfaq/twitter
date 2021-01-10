@@ -32,6 +32,7 @@ export class TwitterService {
         }
         self.publishSomeData({ allUserFetched: true });
         self.fetchAllTweets();
+       
       });
   }
 

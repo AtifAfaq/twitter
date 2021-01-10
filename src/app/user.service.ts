@@ -10,6 +10,9 @@ import { ToastrService } from 'ngx-toastr';
   providedIn: 'root'
 })
 export class UserService {
+  chatwithUsers: Array<iUser> = [];
+  allChats = [];
+  allUsers: Array<iUser> = [];
   user = new iUser();
   myTweets: Array<iTweet> = [];
   selectedProfileUsername: string;
@@ -18,42 +21,43 @@ export class UserService {
   constructor(public service: TwitterService, public router: Router, public toastr: ToastrService) {
     this.user = JSON.parse(localStorage.getItem('userObj'));
     this.localUser = JSON.parse(localStorage.getItem('userObj'));
-    // this.fetchUserTweets();
+
+
+    this.service.getObservable().subscribe((data) => {
+      if (data.allUserFetched) {
+        this.allUsers = this.service.allUsers;
+        this.getChats();
+      }
+    });
   }
 
-  // fetchUserTweets() {
-  //   const self = this;
-  //   this.user = JSON.parse(localStorage.getItem('userObj'));
 
-  //   // Case for tweets which I have tweeted
-  //   if (this.user) {
-  //     firebase.database().ref().child('tweets').orderByChild('uid').equalTo(this.user.uid)
-  //       .once('value', (snapshot) => {
-  //         var data = snapshot.val();
-  //         for (var key in data) {
-  //           var temp = data[key];
-  //           temp.user = this.user;
-  //           self.myTweets.push(temp);
-  //         }
-  //         self.service.publishSomeData({ onlyMyTweetsFetched: true });
-  //       });
-  //   }
+  getChats() {
+    const self = this;
+    this.allChats = [];
+    firebase.database().ref().child('chat')
+      .once('value', (snapshot) => {
+        var data = snapshot.val();
+        for (var key in data) {
+          var temp = data[key];
+          temp.key = key;
+          if (temp.person1 == this.localUser.uid || temp.person2 == this.localUser.uid) {
+            if (temp.person1 == this.localUser.uid) {
+              var rec = this.allUsers.filter(user => user.uid == temp.person2)
+              temp.recipent = rec[0];
+            }
+            else {
+              var rec = this.allUsers.filter(user => user.uid == temp.person1)
+              temp.recipent = rec[0];
+            }
+            self.allChats.push(temp);
+          }
+        }
+        self.service.publishSomeData({ allChats: true });
+      })
 
-  //   // Case for tweets which I have retweeted
-  //   if (this.user) {
-  //     firebase.database().ref().child('tweets')
-  //       .once('value', (snapshot) => {
-  //         var data = snapshot.val();
-  //         for (var key in data) {
-  //           var temp = data[key];
-  //           if (temp.isRetweet && temp.isRetweet.includes(this.user.uid)) {
-  //             temp.user = this.user;
-  //             self.myTweets.push(temp);
-  //           }
-  //         }
-  //       })
-  //   }
-  // }
+    console.log('allChats', this.allChats);
+  }
 
   logOut() {
     var user = firebase.auth().currentUser;

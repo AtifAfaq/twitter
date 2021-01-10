@@ -63,3 +63,14 @@ export class iTweetReply {
     public likes?: Array<string> = [];
 }
 
+export class iMessage {
+    public image:string;
+    public text:string;
+    public timestamp:number;
+    public uid:string;
+}
+
+export class iChat {
+    public person1:string;
+    public person2:string;
+}
