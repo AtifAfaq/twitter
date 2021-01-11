@@ -18,7 +18,7 @@ export class MessagesComponent implements OnInit {
   show: boolean = true;
   allUsers: Array<iUser> = [];
   chatwithUsers: Array<iUser> = []
-  allChats = []
+  allChats;
   person1;
   person2;
   chatUser: any = {};
@@ -28,11 +28,10 @@ export class MessagesComponent implements OnInit {
   constructor(public service: TwitterService, public user: UserService, public toastr: ToastrService) {
     this.allUsers = this.service.allUsers;
     this.chatwithUsers = this.user.chatwithUsers;
-    console.log('allUsers', this.allUsers)
+    this.allChats = this.user.allChats;
+   
     this.service.getObservable().subscribe((data) => {
-      // if (data.chatwithUsers) {
-      //   this.chatwithUsers = this.user.chatwithUsers;
-      // }
+  
       if (data.allChats) {
         this.allChats = this.user.allChats;
         console.log('allChats', this.allChats)

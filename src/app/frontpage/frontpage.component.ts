@@ -188,7 +188,9 @@ export class FrontpageComponent implements OnInit {
         this.toastr.success('success', 'You are successfully logged in!');
         localStorage.setItem('userObj', JSON.stringify(user));
         localStorage.setItem('userLoggedIn', 'true');
-        this.service.fetchAllTweets();
+        this.userser.localUser = user;
+        this.userser.user = user;
+        this.service.getAllUsers();
         // this.userser.fetchUserTweets();
         this.router.navigate(['/Home']);
       })
