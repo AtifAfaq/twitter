@@ -13,6 +13,7 @@ export class UserService {
   chatwithUsers: Array<iUser> = [];
   allChats = [];
   allUsers: Array<iUser> = [];
+  allMessages = [];
   user = new iUser();
   myTweets: Array<iTweet> = [];
   selectedProfileUsername: string;
@@ -57,6 +58,19 @@ export class UserService {
       })
 
     console.log('allChats', this.allChats);
+
+  }
+
+  getByDefaultChat(chat) {
+    const self = this;
+    self.allMessages = [];
+    firebase.database().ref().child(`/chat/${chat.key}/messages`)
+      .on('child_added', (snapshot) => {
+        var data = snapshot.val();
+        data.key = snapshot.key;
+        self.allMessages.push(data);
+        console.log('Messages', self.allMessages);
+      })
   }
 
   logOut() {

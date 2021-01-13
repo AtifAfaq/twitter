@@ -169,10 +169,12 @@
             </div>
          </div>
         </div>
+     
 
         <!-- Footer -->
-        <div *ngIf="chatUser.recipent" class="row mt-5">
-            <div class="col-md-2">
+        <div *ngIf="chatUser.recipent" >
+        <div class="row mt-5">
+            <div class="col-md-3">
                 <input (change)="onChangeFile($event)" style="visibility: hidden; position: absolute;" accept="image/*"
                     #file class="form-control modalIcon mr-2 p-1" type="file" name="files" multiple>
                 <img class="modalIcon mr-2 p-1" (click)="file.click()" id="modalIcon" src="/assets/icon/tweet/1.png">
@@ -180,7 +182,7 @@
 
             </div>
             <!-- ////////search/////// -->
-            <div class="col-md-8">
+            <div class="col-md-7">
                 <div class="input-group mb-3 search dark-grey">
                     <input type="text" class="form-control search-bar " placeholder="Start a new message" id="usr"
                         name="username" [(ngModel)]="message">
@@ -195,6 +197,8 @@
             </div>
 
         </div>
+    </div>
+</div>
     </div>
 
 

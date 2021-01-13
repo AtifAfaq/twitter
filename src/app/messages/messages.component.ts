@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, NgZone } from '@angular/core';
 import { TwitterService } from '../twitter.service';
 import { iUser } from '../models/user';
 import * as firebase from 'firebase';
@@ -25,15 +25,21 @@ export class MessagesComponent implements OnInit {
   chats = [];
   allMessages = [];
   chat = new iChat();
-  constructor(public service: TwitterService, public user: UserService, public toastr: ToastrService) {
+  constructor(public service: TwitterService, public user: UserService, public toastr: ToastrService, public zone: NgZone) {
     this.allUsers = this.service.allUsers;
     this.chatwithUsers = this.user.chatwithUsers;
     this.allChats = this.user.allChats;
-   
+    if (this.allChats.length) {
+      this.getByDefaultChat(this.allChats[0]);
+      this.detailsOfChatUser(this.allChats[0])
+    }
+
     this.service.getObservable().subscribe((data) => {
-  
+
       if (data.allChats) {
         this.allChats = this.user.allChats;
+        this.getByDefaultChat(this.allChats[0]);
+        this.detailsOfChatUser(this.allChats[0])
         console.log('allChats', this.allChats)
       }
     });
@@ -104,28 +110,53 @@ export class MessagesComponent implements OnInit {
   detailsOfChatUser(user) {
     this.chatUser = user;
     console.log('Chat Users', this.chatUser)
-    this.showChatOfThisUser(user);
+    this.getChatFromFirebase(user);
+    // this.showChatOfThisUser(user);
   }
 
-  // Have to work on it 
-
-  showChatOfThisUser(user) {
-    this.allMessages = [];
-    this.allChats.forEach(chat => {
-      if (chat.person1 == user.recipent.uid || chat.person2 == user.recipent.uid) {
-        this.person1 = chat.person1;
-        this.person2 = chat.person2;
-        for (var key in chat.messages) {
-          if (key in chat.messages) {
-            var temp = chat.messages[key];
-            temp.key = key;
-            this.allMessages.push(temp);
-          }
-        }
-      }
-      console.log('ChatMessages', this.allMessages)
-    });
+  getChatFromFirebase(user) {
+    const self = this;
+    self.allMessages = [];
+    firebase.database().ref().child(`/chat/${user.key}/messages`)
+      .on('child_added', (snapshot) => {
+        this.zone.run(() => {
+          var data = snapshot.val();
+          data.key = snapshot.key;
+          self.allMessages.push(data);
+          console.log('Messages', self.allMessages);
+        })
+      })
   }
+
+  getByDefaultChat(chat) {
+    const self = this;
+    self.allMessages = [];
+    firebase.database().ref().child(`/chat/${chat.key}/messages`)
+      .on('child_added', (snapshot) => {
+        var data = snapshot.val();
+        data.key = snapshot.key;
+        self.allMessages.push(data);
+        console.log('Messages', self.allMessages);
+      })
+  }
+
+  // showChatOfThisUser(user) {
+  //   this.allMessages = [];
+  //   this.allChats.forEach(chat => {
+  //     if (chat.person1 == user.recipent.uid || chat.person2 == user.recipent.uid) {
+  //       this.person1 = chat.person1;
+  //       this.person2 = chat.person2;
+  //       for (var key in chat.messages) {
+  //         if (key in chat.messages) {
+  //           var temp = chat.messages[key];
+  //           temp.key = key;
+  //           this.allMessages.push(temp);
+  //         }
+  //       }
+  //     }
+  //     console.log('ChatMessages', this.allMessages)
+  //   });
+  // }
 
   messageSendOnFirebase(selectedUser) {
     var key = firebase.database().ref().child(`/chat/`).push().key;
