@@ -20,18 +20,18 @@
                 </div>
             </div>
             <hr>
-            <div *ngFor="let chatUser of allChats;index as i">
-                <div [class.iconStyle]="selectedIndex === i" class="row mb-3" (click)="detailsOfChatUser(chatUser,i)">
+            <div *ngFor="let user of allChats;index as i">
+                <div [class.iconStyle]="user.recipent.uid==chatUser.recipent.uid" class="row mb-3" (click)="detailsOfChatUser(user,i)">
                     <div class="col-md-2">
-                        <img *ngIf="chatUser.recipent.profileUrl" class="tweetProfile" src={{chatUser.recipent.profileUrl}}>
-                        <img *ngIf="!chatUser.recipent.profileUrl" class="tweetProfile" src="/assets/icon/tweetProfile.jpg">
+                        <img *ngIf="user.recipent.profileUrl" class="tweetProfile" src={{user.recipent.profileUrl}}>
+                        <img *ngIf="!user.recipent.profileUrl" class="tweetProfile" src="/assets/icon/tweetProfile.jpg">
                     </div>
                     <div class="col-md-10 pl-3">
                         <div class="mt-1">
                             <h4 class="mb-0">
-                                {{chatUser.recipent.name}}
+                                {{user.recipent.name}}
                             </h4>
-                            <p class="dark-grey m-0">@{{chatUser.recipent.username}}</p>
+                            <p class="dark-grey m-0">@{{user.recipent.username}}</p>
                         </div>
                     </div>
                 </div>

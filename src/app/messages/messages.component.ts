@@ -142,6 +142,7 @@ export class MessagesComponent implements OnInit, AfterViewChecked {
     this.chatUser = user;
     this.selectedIndex = i;
     this.getChatFromFirebase(user, i);
+    console.log(this.chatUser);
 
   }
 
