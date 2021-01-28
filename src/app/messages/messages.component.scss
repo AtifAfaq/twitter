@@ -3,6 +3,7 @@
     height: 40px;
     object-fit: contain;
 }
+
 #modalIcon:hover {
     background: var(--twittershadow);
     width: 40px;
@@ -11,6 +12,7 @@
     -moz-box-shadow: var(--twittershadow);
     box-shadow: var(--twittershadow);
 }
+
 .icon {
     width: 30px;
     padding-left: 2px;
@@ -23,6 +25,7 @@
     .search-bar {
         border-radius: 25px !important;
         border: none !important;
+        width: 70%;
     }
     input {
         background-color: transparent;
@@ -33,20 +36,24 @@
         box-shadow: none;
     }
 }
+
 .searchActive {
     border: 1px solid #66afe9;
     outline: 0;
     -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(102, 175, 233, 0.6);
     box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(102, 175, 233, 0.6);
 }
+
 .tweetProfile {
     border-radius: 50px;
     width: 60px;
     height: 60px;
 }
+
 .border {
     height: 100vh;
 }
+
 .chat {
     padding: 12px;
     background-color: var(--twitterColor);
@@ -60,26 +67,69 @@
     color: black;
     border-radius: 15px 15px 15px 0;
 }
+
 .smiley {
     font-size: 29px;
     color: var(--twitterColor);
 }
+
 .btn-primary {
     border-radius: 35px;
     background-color: var(--twitterColor);
     margin-top: -10px;
 }
+
 .vh {
-    height: 60vh;
+    height: 55vh;
     overflow: auto;
 }
+
 .margin {
     margin-top: 10px;
 }
+
 .noMessage {
     text-align: center;
     display: flex;
     justify-content: center;
     align-items: center;
     height: 600px;
+}
+
+.iconStyle {
+    cursor: pointer;
+    background-color: var(--twittershadow);
+}
+
+.messageImage {
+    width: 450px;
+    height: 250px;
+    object-fit: contain;
+    float: right;
+}
+
+.closeIcon {
+    position: absolute;
+    color: red;
+}
+
+.container {
+    display: grid;
+    grid-template-columns: 100% 0%;
+    width: 36%;
+    button {
+        background: transparent;
+        border: 0;
+        transform: translateX(-40px);
+        cursor: pointer;
+        &:focus {
+            outline: 0;
+        }
+    }
+}
+
+.emoji-mart {
+    position: absolute !important;
+    top: -430px;
+    right: 20px;
 }

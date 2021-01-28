@@ -23,6 +23,7 @@ import { TwitterService } from './twitter.service';
 import { UserService } from './user.service';
 import { TweetDetailComponent } from './tweet-detail/tweet-detail.component';
 import { MessagesComponent } from './messages/messages.component';
+import { PickerModule } from '@ctrl/ngx-emoji-mart';
 
 // firebaseConfig
 var firebaseConfig = {
@@ -64,7 +65,8 @@ firebase.initializeApp(firebaseConfig);
     BrowserAnimationsModule,
     ToastrModule.forRoot(),
     ToastContainerModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    PickerModule
   ],
   providers: [TwitterService, UserService],
   bootstrap: [AppComponent]

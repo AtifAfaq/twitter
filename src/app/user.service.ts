@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, NgZone } from '@angular/core';
 import { iUser } from './models/user';
 import { TwitterService } from './twitter.service';
 import { iTweet } from './models/tweet';
@@ -19,7 +19,7 @@ export class UserService {
   selectedProfileUsername: string;
   localUser = new iUser();
 
-  constructor(public service: TwitterService, public router: Router, public toastr: ToastrService) {
+  constructor(public service: TwitterService, public router: Router, public toastr: ToastrService, public zone: NgZone) {
     this.user = JSON.parse(localStorage.getItem('userObj'));
     this.localUser = JSON.parse(localStorage.getItem('userObj'));
 
@@ -54,12 +54,25 @@ export class UserService {
             self.allChats.push(temp);
           }
         }
+        this.sortingTimestampToMoveChat();
         self.service.publishSomeData({ allChats: true });
+
+        console.log('Sorted in service', this.allChats);
       })
 
-    console.log('allChats', this.allChats);
+
 
   }
+
+
+  sortingTimestampToMoveChat() {
+
+    this.zone.run(() => {
+      this.allChats.sort((a, b) => b.lastChatTimestamp - a.lastChatTimestamp);
+      console.log('ChatSorted', this.allChats)
+    })
+  }
+
 
   getByDefaultChat(chat) {
     const self = this;

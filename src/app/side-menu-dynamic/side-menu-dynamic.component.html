@@ -21,46 +21,44 @@
         </div>
         <!-- Button to Open the Modal -->
         <button class="mt-4 p-2 btn btn-primary" data-toggle="modal" data-target="#myModal">Tweet</button>
+        <div class="row">
+            <div class="d-inline-flex mt-3 p-1" id="bottom">
+                <div class="shade mt-1 ml-1">
+                    <img *ngIf="!userData.profileUrl" style="width: 60px; height: 60px; border-radius: 50%;" src="assets/icon/tweet/profile.jpeg">
+                    <img *ngIf="userData.profileUrl" style="width: 60px; height: 60px; border-radius: 50%;" src={{userData.profileUrl}}>
+                </div>
 
-        <div class="d-inline-flex mt-5 p-1" id="bottom">
-            <div class="shade mt-1 ml-1"> 
-                <img *ngIf="!userData.profileUrl" style="width: 60px; height: 60px; border-radius: 50%;"
-                                    src="assets/icon/tweet/profile.jpeg">
-                                <img *ngIf="userData.profileUrl" style="width: 60px; height: 60px; border-radius: 50%;"
-                                    src={{userData.profileUrl}}>
-            </div>
+                <div class="mt-2 ml-4">
+                    <p class="mb-1">{{userData.name}}</p>
+                    <p class="grey">@{{userData.username}}</p>
+                </div>
 
-            <div class="mt-2 ml-4">
-                <p class="mb-1">{{userData.name}}</p>
-                <p class="grey">@{{userData.username}}</p>
-            </div>
+                <div class="mt-2 p-2 ml-2">
+                    <div class="dropdown">
+                        <i class="fas fa-angle-down" data-toggle="dropdown"></i>
+                        <div class="dropdown-menu right-dropdown">
 
-            <div class="mt-2 p-2 ml-2">
-                <div class="dropdown">
-                    <i class="fas fa-angle-down" data-toggle="dropdown"></i>
-                    <div class="dropdown-menu right-dropdown">
-
-                        <div class="d-inline-flex p-1 bottom-border">
-                            <div class="mt-1 ml-1">
-                                <img *ngIf="!userData.profileUrl" style="width: 60px; height: 60px; border-radius: 50%;"
-                                    src="assets/icon/tweet/profile.jpeg">
-                                <img *ngIf="userData.profileUrl" style="width: 60px; height: 60px; border-radius: 50%;"
-                                    src={{userData.profileUrl}}>
+                            <div class="d-inline-flex p-1 bottom-border">
+                                <div class="mt-1 ml-1">
+                                    <img *ngIf="!userData.profileUrl" style="width: 60px; height: 60px; border-radius: 50%;" src="assets/icon/tweet/profile.jpeg">
+                                    <img *ngIf="userData.profileUrl" style="width: 60px; height: 60px; border-radius: 50%;" src={{userData.profileUrl}}>
+                                </div>
+                                <div class="mt-2 ml-4">
+                                    <p class="mb-1">{{userData.name}}</p>
+                                    <p class="grey">@{{userData.username}}</p>
+                                </div>
+                                <div class="mt-2 p-2 ml-2">
+                                    <i class="fas fa-check twitter"></i>
+                                </div>
                             </div>
-                            <div class="mt-2 ml-4">
-                                <p class="mb-1">{{userData.name}}</p>
-                                <p class="grey">@{{userData.username}}</p>
-                            </div>
-                            <div class="mt-2 p-2 ml-2">
-                                <i class="fas fa-check twitter"></i>
-                            </div>
+                            <a class="dropdown-item bottom-border">Add an existing Account</a>
+                            <a class="dropdown-item" routerLink="/logout">Log out @{{userData.username}}</a>
                         </div>
-                        <a class="dropdown-item bottom-border">Add an existing Account</a>
-                        <a class="dropdown-item" routerLink="/logout">Log out @{{userData.username}}</a>
                     </div>
                 </div>
             </div>
         </div>
+
     </div>
 </div>
 
@@ -80,8 +78,7 @@
                     <div class="shade"> <i class="fas fa-user-alt profile dark-grey" style="font-size:35px;"></i></div>
 
                     <div class="mt-2 ml-4">
-                        <textarea class="mb-1 dark-grey textareaSize" style="font-size:25px"
-                            placeholder="What's Happening?" [(ngModel)]="tweetText"></textarea>
+                        <textarea class="mb-1 dark-grey textareaSize" style="font-size:25px" placeholder="What's Happening?" [(ngModel)]="tweetText"></textarea>
                     </div>
                 </div>
                 <div *ngIf="imageUrls.length>=1" class="row mb-3">
@@ -92,8 +89,7 @@
                     </div>
                 </div>
 
-                <div class="ml-2" id="iconStyle"><i class="fas fa-globe-americas"
-                        style="font-size:20px;color: var(--twitterColor);"><span class="ml-2">Everyone can
+                <div class="ml-2" id="iconStyle"><i class="fas fa-globe-americas" style="font-size:20px;color: var(--twitterColor);"><span class="ml-2">Everyone can
                             reply</span></i></div>
             </div>
 
@@ -102,11 +98,8 @@
             <!-- Modal footer -->
             <div class="modal-footer">
                 <div class="mr-auto">
-                    <input (change)="onChangeFiles($event)" style="visibility: hidden; position: absolute;"
-                        accept="image/*" #file class="form-control modalIcon mr-2 p-1" type="file" name="files"
-                        multiple>
-                    <img class="modalIcon mr-2 p-1" (click)="file.click()" id="modalIcon"
-                        src="/assets/icon/tweet/1.png">
+                    <input (change)="onChangeFiles($event)" style="visibility: hidden; position: absolute;" accept="image/*" #file class="form-control modalIcon mr-2 p-1" type="file" name="files" multiple>
+                    <img class="modalIcon mr-2 p-1" (click)="file.click()" id="modalIcon" src="/assets/icon/tweet/1.png">
                     <img class="modalIcon mr-2 p-1" id="modalIcon" src="/assets/icon/tweet/2.png">
                     <img class="modalIcon mr-2 p-1" id="modalIcon" src="/assets/icon/tweet/3.png">
                     <img class="modalIcon mr-2 p-1" id="modalIcon" src="/assets/icon/tweet/4.png">
