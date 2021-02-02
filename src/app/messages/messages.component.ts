@@ -29,6 +29,9 @@ export class MessagesComponent implements OnInit, AfterViewChecked {
   chats = [];
   allMessages = [];
   chat = new iChat();
+  latestTimestamp;
+  newMessages: any = [];
+  counter: number = 0;
   conversation: iMessage = {
     image: '',
     text: '',
@@ -55,11 +58,11 @@ export class MessagesComponent implements OnInit, AfterViewChecked {
   }
 
   ngOnInit(): void {
-    this.scrollToBottom();
+
   }
 
   ngAfterViewChecked() {
-    this.scrollToBottom();
+
   }
 
   scrollToBottom(): void {
@@ -139,11 +142,21 @@ export class MessagesComponent implements OnInit, AfterViewChecked {
   }
 
   detailsOfChatUser(user, i) {
+    debugger;
     this.chatUser = user;
     this.selectedIndex = i;
     this.getChatFromFirebase(user, i);
-    console.log(this.chatUser);
+  }
 
+  decrement(chatUser, index) {
+    this.zone.run(() => {
+      var selectedChatKey = this.chatUser.key;
+      this.counter = 0;
+      firebase.database().ref().child(`/chat/${selectedChatKey}/${this.person1}`).
+        set(this.counter).then(() => {
+          this.allChats[index][this.person1] = this.counter;
+        })
+    })
   }
 
   getChatFromFirebase(user, i) {
@@ -156,7 +169,9 @@ export class MessagesComponent implements OnInit, AfterViewChecked {
           data.key = snapshot.key;
           self.allMessages.push(data);
           self.user.allChats[i].messages = self.allMessages
-
+          setTimeout(() => {
+            this.scrollToBottom();
+          }, 2000);
         })
         this.sortingTimestampToMoveChatQ();
       })
@@ -175,11 +190,6 @@ export class MessagesComponent implements OnInit, AfterViewChecked {
         });
     }
     const self = this;
-
-    // conversation.text = this.message;
-    // converstaion.image = '';
-    // converstaion.timestamp = Number(new Date());
-    // converstaion.uid = self.user.localUser.uid;
 
     if (this.imageUrl) {
       this.uploadImage()
@@ -210,20 +220,27 @@ export class MessagesComponent implements OnInit, AfterViewChecked {
 
   uploadChat() {
     const self = this;
-    var selectedChatKey = self.chatUser.key;
-    this.conversation.uid = JSON.parse(localStorage.getItem('userObj')).uid;
-    this.conversation.timestamp = Number(new Date()),
 
-      firebase.database().ref().child(`/chat/${selectedChatKey}/messages/`).
-        push(this.conversation).then(() => {
-          self.toastr.success('success', 'message sent Successfully');
-          this.imageUrl = '';
+    if (self.conversation.text || self.conversation.image) {
+      var selectedChatKey = self.chatUser.key;
+      self.conversation.uid = JSON.parse(localStorage.getItem('userObj')).uid;
+      self.conversation.timestamp = Number(new Date()),
+        firebase.database().ref().child(`/chat/${selectedChatKey}/messages/`).
+          push(self.conversation).then(() => {
+            self.toastr.success('success', 'message sent Successfully');
+            self.imageUrl = '';
+            self.latestTimestamp = self.conversation.timestamp;
 
-        })
-        .catch((e) => {
-          self.toastr.error('error', e.message);
-        });
-    this.uploadLatestTimestamp(selectedChatKey);
+          })
+          .catch((e) => {
+            self.toastr.error('error', e.message);
+          });
+      self.uploadLatestTimestamp(selectedChatKey);
+    }
+    else {
+      self.toastr.error('error', 'Please send a message or pic');
+    }
+
   }
 
 
@@ -231,8 +248,28 @@ export class MessagesComponent implements OnInit, AfterViewChecked {
     firebase.database().ref().child(`/chat/${selectedChatKey}/lastChatTimestamp`).
       set(this.conversation.timestamp).then(() => {
         this.allChats[this.selectedIndex].lastChatTimestamp = this.conversation.timestamp;
-        this.getChatFromFirebase(this.getChatofThatUser, this.selectedIndex);
+        this.getUnreadMessage(selectedChatKey)
+
       })
+  }
+  getUnreadMessage(selectedChatKey) {
+    firebase.database().ref().child(`/chat/${selectedChatKey}/${this.getChatofThatUser.recipent.uid}`).
+      once('value', (snapshot) => {
+        this.counter = snapshot.val();
+        this.uploadUnreadMessage(selectedChatKey);
+      })
+
+  }
+
+  uploadUnreadMessage(selectedChatKey) {
+    this.increment();
+    firebase.database().ref().child(`/chat/${selectedChatKey}/${this.getChatofThatUser.recipent.uid}`).
+      set(this.counter).then(() => {
+        this.allChats[this.selectedIndex][this.getChatofThatUser.recipent.uid] = this.counter;
+        this.getChatFromFirebase(this.getChatofThatUser, this.selectedIndex);
+
+      })
+
   }
 
 
@@ -240,7 +277,7 @@ export class MessagesComponent implements OnInit, AfterViewChecked {
     this.allChats.sort((a, b) => b.lastChatTimestamp - a.lastChatTimestamp);
     this.conversation.text = '';
     this.conversation.image = '';
-    this.scrollToBottom();
+    this.getUnreadMessageCount();
   }
 
   public isEmojiPickerVisible: boolean;
@@ -252,4 +289,31 @@ export class MessagesComponent implements OnInit, AfterViewChecked {
   onActivate(event) {
     window.scrollTo(0, document.body.scrollHeight);
   }
+
+  increment() {
+    this.counter += 1;
+  }
+
+
+  getUnreadMessageCount() {
+    var selectedChatKey = this.chatUser.key;
+    firebase.database().ref().child(`/chat/${selectedChatKey}/${this.chatUser.recipent.uid}`).
+      once('value', (snapshot) => {
+        this.counter = snapshot.val();
+      })
+
+  }
+
+  getUnreadCount(chat) {
+    return chat[this.person1];
+  }
+
+
 }
+
+
+
+
+
+
+

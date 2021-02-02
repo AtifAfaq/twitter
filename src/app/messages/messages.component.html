@@ -21,7 +21,7 @@
             </div>
             <hr>
             <div *ngFor="let user of allChats;index as i">
-                <div [class.iconStyle]="user.recipent.uid==chatUser.recipent.uid" class="row mb-3" (click)="detailsOfChatUser(user,i)">
+                <div [class.iconStyle]="user.recipent.uid==chatUser.recipent.uid" class="row mb-3" (click)="detailsOfChatUser(user,i); decrement(user,i);">
                     <div class="col-md-2">
                         <img *ngIf="user.recipent.profileUrl" class="tweetProfile" src={{user.recipent.profileUrl}}>
                         <img *ngIf="!user.recipent.profileUrl" class="tweetProfile" src="/assets/icon/tweetProfile.jpg">
@@ -30,6 +30,7 @@
                         <div class="mt-1">
                             <h4 class="mb-0">
                                 {{user.recipent.name}}
+                                <span *ngIf="getUnreadCount(user)" class="badge badge-secondary float-right">{{getUnreadCount(user)}}</span>
                             </h4>
                             <p class="dark-grey m-0">@{{user.recipent.username}}</p>
                         </div>

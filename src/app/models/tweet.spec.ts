@@ -1,7 +1,8 @@
-import { Tweet } from './tweet';
+import { iTweet } from './tweet';
 
 describe('Tweet', () => {
   it('should create an instance', () => {
-    expect(new Tweet()).toBeTruthy();
+    expect(new iTweet()).toBeTruthy();
   });
 });
+

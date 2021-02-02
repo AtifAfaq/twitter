@@ -46,10 +46,12 @@ export class UserService {
             if (temp.person1 == this.localUser.uid) {
               var rec = this.allUsers.filter(user => user.uid == temp.person2)
               temp.recipent = rec[0];
+              temp.recipent.counter = data[key][temp.recipent.uid];
             }
             else {
               var rec = this.allUsers.filter(user => user.uid == temp.person1)
               temp.recipent = rec[0];
+              temp.recipent.counter = data[key][temp.recipent.uid];
             }
             self.allChats.push(temp);
           }
